@@ -1,0 +1,24 @@
+{
+  "name": "live-stream-socket",
+  "author": {
+    "name": "Nazim",
+    "email": "nazim27294@gmail.com"
+  },
+  "description": "WebRTC Experiment uses",
+  "scripts": {
+    "start": "nodemon server.js",
+    "debug": "nodemon --inspect server.js"
+  },
+  "main": "server.js",
+  "engines": {
+    "node": ">=0.6"
+  },
+  "dependencies": {
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
+    "socket.io": "0.9.x"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
