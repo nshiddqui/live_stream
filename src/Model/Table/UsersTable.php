@@ -35,7 +35,7 @@ class UsersTable extends Table {
         parent::initialize($config);
 
         $this->setTable('users');
-        $this->setDisplayField('email');
+        $this->setDisplayField('username');
         $this->setPrimaryKey('id');
 
         $this->hasMany('UserFriends', [
@@ -67,19 +67,21 @@ class UsersTable extends Table {
                 ->notEmptyString('name');
 
         $validator
+                ->alphaNumeric('username')
+                ->requirePresence('username', 'create')
+                ->notEmptyString('username')
+                ->add('username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 'message' => 'Provided username already registered.']);
+
+        $validator
                 ->email('email')
-                ->requirePresence('email', 'create')
-                ->notEmptyString('email')
-                ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 'message' => 'Provided email already registered.']);
+                ->allowEmptyString('email');
 
         $validator
                 ->add('mobile_number', 'custom_phone_validate', [
                     'rule' => 'numeric',
                     'message' => 'Phone number should be number'
                 ])
-                ->requirePresence('mobile_number', 'create')
-                ->notEmptyString('mobile_number')
-                ->add('mobile_number', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 'message' => 'Provided mobile number already registered.']);
+                ->allowEmptyString('mobile_number');
 
         $validator
                 ->scalar('password')
@@ -137,7 +139,7 @@ class UsersTable extends Table {
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules) {
-        $rules->add($rules->isUnique(['email']));
+        $rules->add($rules->isUnique(['username']));
 
         return $rules;
     }
@@ -149,13 +151,13 @@ class UsersTable extends Table {
         return $query;
     }
 
-    public function tokenUpdate($emailId) {
+    public function tokenUpdate($username) {
         $token = (new DefaultPasswordHasher)->hash(date('Y-m-d'));
         $this->updateAll([
             'token' => $token,
             'token_expire' => date('Y-m-d h:i:s')
                 ], [
-            'email' => $emailId
+            'username' => $username
         ]);
         return $token;
     }
@@ -170,8 +172,10 @@ class UsersTable extends Table {
 
     public function onRegistration($event, $entity, $options) {
         if ($entity->isNew()) {
-            $entity->token = $this->tokenUpdate($entity->email);
-            $this->getMailer('User')->send('welcome', [$entity]);
+            $entity->token = $this->tokenUpdate($entity->username);
+            if (!empty($entity->email)) {
+                $this->getMailer('User')->send('welcome', [$entity]);
+            }
         }
     }
 
@@ -181,7 +185,6 @@ class UsersTable extends Table {
     }
 
     protected function _update($entity, $data) {
-//        $data['stream_token'] = (new DefaultPasswordHasher)->hash(date('Y-m-d'));
         return parent::_update($entity, $data);
     }
 

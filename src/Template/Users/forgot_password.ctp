@@ -18,7 +18,7 @@ $this->Form->setTemplates($myTemplates);
             <!-- Forgot Password form start here -->
             <?= $this->Form->create(null, ['class' => 'user']) ?>
             <!-- Enter Email ID -->
-            <?= $this->Form->control('email', ['label' => false, 'placeholder' => 'Enter Email Address...', 'required' => true]) ?>
+            <?= $this->Form->control('username', ['label' => false, 'placeholder' => 'Enter Username', 'required' => true]) ?>
             <!-- Trigger to Send Password -->
             <?= $this->Form->button('Reset Password', ['class' => 'btn btn-primary btn-user btn-block']) ?>
             <!-- End Form Element -->

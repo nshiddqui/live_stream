@@ -13,7 +13,7 @@
     var CurrentRoom = [];
     var config = {
         openSocket: function (config) {
-            var SIGNALING_SERVER = 'https://localhost:9559/';
+            var SIGNALING_SERVER = 'https://yuserver.in:9559/';
 
             config.channel = config.channel || '<?= $stream_data->request_token ?>';
             var sender = '<?= $current_user['stream_token'] ?>';

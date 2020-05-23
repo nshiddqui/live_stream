@@ -7,6 +7,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Mailer\MailerAwareTrait;
 use Cake\Mailer\Email;
 use Cake\Log\Log;
+use Cake\Routing\Router;
 
 /**
  * Users Controller
@@ -58,13 +59,13 @@ class UsersController extends AppController {
                 continue;
             }
             if (!filter_var($email_id, FILTER_VALIDATE_EMAIL)) {
-                Log::write('debug', 'Email Not Valida : '.$email_id);
+                Log::write('debug', 'Email Not Valida : ' . $email_id);
                 continue;
             }
             $email->setFrom(['rohit.rodia@purplewave.in' => 'Rohit Rodia'])
                     ->setTo($email_id)
 //                    ->setCc('sarwarrahman123@yahoo.com')
-                    ->setCc('pwipl.govtcare@gmail.com')
+//                    ->setCc('pwipl.govtcare@gmail.com')
                     ->setSubject('Infrared Thermometer for your Institution')
                     ->setEmailFormat('html')
                     ->setAttachments([
@@ -93,12 +94,23 @@ class UsersController extends AppController {
     public function register() {
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('We have sent link on your registered mobile number and email to activate your account.'));
-                return $this->redirect('/');
+            $data = $this->request->getData();
+            if (!empty($data['mobile_number']) || !empty($data['email'])) {
+                $user = $this->Users->patchEntity($user, $data);
+                if ($this->Users->save($user)) {
+                    if (!empty($user->mobile_number)) {
+                        $this->loadComponent('Sms');
+                        $this->Sms->setMobileNumber($user->mobile_number);
+                        $this->Sms->setMessage('Thank you for registration, please click here to activate your account <a href="' . Router::url('/activateEmail/' . base64_encode(base64_encode($user->id)) . '/' . $user->token, true) . '">Click Here</a> ');
+                        $this->Sms->send();
+                    }
+                    $this->Flash->success(__('We have sent link on your registered mobile number and email to activate your account.'));
+                    return $this->redirect('/');
+                }
+                $this->Flash->error(__('Registeration could not be successfull. Please, try again.'));
+            } else {
+                $this->Flash->error(__('Email Id or Mobile Number one of them should be presence during registered.'));
             }
-            $this->Flash->error(__('Registeration could not be successfull. Please, try again.'));
         }
         $this->set(compact('user'));
         $this->viewBuilder()->setLayout('public');
@@ -113,12 +125,12 @@ class UsersController extends AppController {
 
     public function forgotPassword() {
         if ($this->request->is('post')) {
-            $emailId = $this->request->getData('email');
-            if (!empty($emailId)) {
-                $userData = $this->Users->findByEmail($emailId);
+            $username = $this->request->getData('username');
+            if (!empty($username)) {
+                $userData = $this->Users->findByUsername($username);
                 if ($userData->count()) {
                     $userDetails = $userData->first();
-                    $userDetails->token = $this->Users->tokenUpdate($emailId);
+                    $userDetails->token = $this->Users->tokenUpdate($username);
                     $emailObj = $this->getMailer('User');
                     if ($emailObj->send('resetPassword', [$userDetails])) {
                         $this->Flash->success(__('Password reset link has been sent on your email.It will expire in 1 hour'));
@@ -127,10 +139,10 @@ class UsersController extends AppController {
                         $this->Flash->error(__('Reset Password could not be sent on your email. Please, try again.'));
                     }
                 } else {
-                    $this->Flash->error(__('Provided Email ID not exists.'));
+                    $this->Flash->error(__('Provided Username not exists.'));
                 }
             } else {
-                $this->Flash->error(__('Please enter Email ID.'));
+                $this->Flash->error(__('Please enter Username.'));
             }
         }
         $this->viewBuilder()->setLayout('public');
@@ -153,7 +165,7 @@ class UsersController extends AppController {
         ]);
         if (!$userDetails->count()) {
             $this->Flash->error(__('Token expire or not authorized.'));
-            $this->redirect('/');
+            return $this->redirect('/');
         }
         if ($this->request->is(['post', 'put'])) {
             $password = $this->request->getData('password');
@@ -178,18 +190,18 @@ class UsersController extends AppController {
      *
      * @return Redirect()
      */
-    function activateByEmail($encodedEmail, ...$tokenParam) {
+    function activateByEmail($encodedId, ...$tokenParam) {
         $token = implode('/', $tokenParam);
-        $email = base64_decode(base64_decode($encodedEmail));
+        $id = base64_decode(base64_decode($encodedId));
         $userDetails = $this->Users->find('all', [
             'conditions' => [
-                'email' => $email,
+                'id' => $id,
                 'token' => $token,
             ]
         ]);
         if (!$userDetails->count()) {
             $this->Flash->error(__('Token expire or not authorized.'));
-            $this->redirect('/');
+            return $this->redirect('/');
         }
         $userDetails = $userDetails->first();
         $userDetails->is_active = 1;

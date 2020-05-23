@@ -20,6 +20,9 @@ $this->Form->setTemplates($myTemplates);
                 <?= $this->Form->control('name', ['label' => false, 'placeholder' => 'Full Name']) ?>
             </div>
             <div class="form-group">
+                <?= $this->Form->control('username', ['label' => false, 'placeholder' => 'Username']) ?>
+            </div>
+            <div class="form-group">
                 <?= $this->Form->control('email', ['label' => false, 'placeholder' => 'Email Address']) ?>
             </div>
             <div class="form-group">

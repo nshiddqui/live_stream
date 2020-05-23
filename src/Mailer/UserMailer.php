@@ -12,7 +12,7 @@ class UserMailer extends Mailer {
                 ->emailFormat('html')
                 ->subject(sprintf('Welcome %s', $user->name))
                 ->template('welcome_mail')
-                ->set(['token' => $user->token, 'email' => $user->email]);
+                ->set(['token' => $user->token, 'id' => $user->id]);
     }
 
     public function resetPassword($user) {

@@ -57,7 +57,7 @@ class AppController extends Controller {
             ],
             'authenticate' => [
                 'Form' => [
-                    'fields' => ['username' => 'email', 'password' => 'password'],
+                    'fields' => ['username' => 'username', 'password' => 'password'],
                     'finder' => 'auth'
                 ]
             ]
@@ -104,7 +104,7 @@ class AppController extends Controller {
                         'conditions' => [
                             'id' => $this->Auth->user('id')
                         ],
-                        'contain' => ['UserFriends']
+                        'contain' => ['UserFriends' => ['Friends']]
                     ])->first(); //Get the user's data
             $this->Auth->setUser($user); //Must have user data at top level of array that is passed to login method
         }

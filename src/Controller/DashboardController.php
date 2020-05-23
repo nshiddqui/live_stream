@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Controller\AppController;
 use DataTables\Controller\DataTablesAjaxRequestTrait;
 use Cake\Utility\Hash;
-use Cake\I18n\Time;
 
 //use Cake\Utility\Security;
 //use Cake\Core\Configure;
@@ -21,19 +20,16 @@ class DashboardController extends AppController {
         parent::initialize();
         $this->loadComponent('DataTables.DataTables');
         $auth_user_id = $this->request->getSession()->read('Auth.User.id');
-        $this->DataTables->createConfig('Streams')
+        $this->DataTables->createConfig('StreamDetails')
                 ->queryOptions([
-                    'contain' => ['Users', 'StreamDetails'],
+                    'contain' => ['Streams' => 'Users'],
                     'conditions' => [
-                        'or' => [
-                            'Streams.user_id' => $auth_user_id,
-                            'StreamDetails.user_id' => $auth_user_id
-                        ],
-                        'Streams.end_time >=' => date('Y-m-d h:i:s')
+                        'StreamDetails.user_id' => $auth_user_id,
+                        'Streams.end_time >= ' => date('Y-m-d h:i:s')
                     ]
                 ])
                 ->databaseColumn('Users.id')
-                ->databaseColumn('StreamDetails.id')
+                ->databaseColumn('StreamDetails.stream_id')
                 ->databaseColumn('Streams.is_active')
                 ->column('Streams.title', ['label' => 'Title', 'orderable' => false])
                 ->column('Streams.start_time', ['label' => 'Start Time'])
@@ -61,6 +57,9 @@ class DashboardController extends AppController {
                 if ($this->Streams->save($streamData)) {
                     $this->loadModel('StreamDetails');
                     $streamDetails = ['stream_id' => $streamData->id];
+                    $streamDetails['user_id'] = $this->Auth->user('id');
+                    $EntityStreamDetails = $this->StreamDetails->newEntity($streamDetails);
+                    $this->StreamDetails->save($EntityStreamDetails);
                     foreach ($data['emails'] as $userId) {
                         if (!in_array($userId, $user_ids)) {
                             continue;
@@ -80,29 +79,25 @@ class DashboardController extends AppController {
         $emails = array();
         if (!empty($user_ids)) {
             foreach ($this->Auth->user('user_friends') as $user_id) {
-                $emails[$user_id['group']][$user_id['id']] = $user_id['friend']['email'];
+                $emails[$user_id['group']][$user_id['friend']['id']] = $user_id['friend']['email'];
             }
         }
         $this->set(compact('stream', 'emails'));
-        $this->DataTables->setViewVars('Streams');
+        $this->DataTables->setViewVars('StreamDetails');
     }
 
     public function stream($joinKey) {
         $secureId = base64_decode($joinKey);
-//        $secureId = Security::decrypt($joinKey, Configure::read('SECURITY_KEY'));
-        $this->loadModel('Streams');
+        $this->loadModel('StreamDetails');
         $current_user = $this->Auth->user();
-        $streamData = $this->Streams->find('all', [
+        $streamData = $this->StreamDetails->find('all', [
             'conditions' => [
-                'Streams.id' => $secureId,
-                'or' => [
-                    'Streams.user_id' => $current_user['id'],
-                    'StreamDetails.user_id' => $current_user['id']
-                ],
-                'Streams.start_time <=' => date('Y-m-d h:i:s'),
+                'StreamDetails.stream_id' => $secureId,
+                'StreamDetails.user_id' => $current_user['id'],
+//                'Streams.start_time <=' => date('Y-m-d h:i:s'),
                 'Streams.end_time >=' => date('Y-m-d h:i:s')
             ],
-            'contain' => 'StreamDetails'
+            'contain' => 'Streams'
         ]);
         if ($streamData->count() === 0) {
             $this->Flash->error('Stream not exists.');

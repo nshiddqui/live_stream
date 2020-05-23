@@ -43,9 +43,9 @@ class UserFriendsController extends AppController {
      */
     public function index() {
         if ($this->request->is('post')) {
-            $email = $this->request->getData('email');
-            if (!empty($email)) {
-                $this->initializeFrind($email);
+            $username = $this->request->getData('username');
+            if (!empty($username)) {
+                $this->initializeFrind($username);
             }
         }
         $this->DataTables->setViewVars('UserFriends');
@@ -57,13 +57,13 @@ class UserFriendsController extends AppController {
      * @param string|null $email User Friend email.
      * @return null| Redirects to index.
      */
-    protected function initializeFrind($email) {
+    protected function initializeFrind($username) {
         $this->loadModel('Users');
-        $friendEmail = $this->Users->findByEmail($email);
-        if ($friendEmail->count()) {
-            $friendEmail = $friendEmail->first();
-            if ($friendEmail->id !== $this->Auth->user('id')) {
-                $this->addFrind($friendEmail);
+        $friendUsername = $this->Users->findByUsername($username);
+        if ($friendUsername->count()) {
+            $friendUsername = $friendUsername->first();
+            if ($friendUsername->id !== $this->Auth->user('id')) {
+                $this->addFrind($friendUsername);
             } else {
                 $this->Flash->error(__('You cant set your email as your friend.'));
             }
@@ -78,11 +78,11 @@ class UserFriendsController extends AppController {
      * @param string|null $friendEmail User Friend Object.
      * @return null| Redirects to index.
      */
-    protected function addFrind($friendEmail) {
+    protected function addFrind($friendUsername) {
         $alreadyExists = $this->UserFriends->find('all', [
             'conditions' => [
                 'user_id' => $this->Auth->user('id'),
-                'friend_id' => $friendEmail->id
+                'friend_id' => $friendUsername->id
             ]
         ]);
         if (!$alreadyExists->count()) {
@@ -90,7 +90,7 @@ class UserFriendsController extends AppController {
             $data = [
                 'user_id' => $this->Auth->user('id'),
                 'group' => $this->request->getData('group'),
-                'friend_id' => $friendEmail->id
+                'friend_id' => $friendUsername->id
             ];
             $UserFriends = $this->UserFriends->patchEntity($UserFriend, $data);
             $this->UserFriends->save($UserFriends);

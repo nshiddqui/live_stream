@@ -17,7 +17,7 @@ $this->Form->setTemplates($myTemplates);
             <!-- Login Form Start Here -->
             <?= $this->Form->create(null, ['class' => 'user']) ?>
             <!-- Login Email ID -->
-            <?= $this->Form->control('email', ['label' => false, 'required' => true, 'placeholder' => 'Enter Email Address...']) ?>
+            <?= $this->Form->control('username', ['label' => false, 'required' => true, 'placeholder' => 'Enter Username']) ?>
             <!-- Login Password -->
             <?= $this->Form->control('password', ['label' => false, 'required' => true, 'placeholder' => 'Password']) ?>
             <!-- Trigger to Login -->

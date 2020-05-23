@@ -15,7 +15,7 @@
             <!-- Card Content - Collapse -->
             <div class="collapse border-bottom-primary show" id="collapseCardJoin" style="">
                 <div class="card-body table-responsive">
-                    <?= $this->DataTables->render('Streams') ?>
+                    <?= $this->DataTables->render('StreamDetails') ?>
                 </div>
             </div>
         </div>

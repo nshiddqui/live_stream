@@ -13,7 +13,7 @@
                     <?= $this->Form->create(null) ?>
                     <div class="col-8 d-inline-block">
                         <!-- Scheduled time for stream -->
-                        <?= $this->Form->control('email') ?>
+                        <?= $this->Form->control('username') ?>
                     </div>
                     <div class="col-2 d-inline-block">
                         <!-- Scheduled time for stream -->
