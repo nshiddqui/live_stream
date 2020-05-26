@@ -15,7 +15,7 @@
         openSocket: function (config) {
             var SIGNALING_SERVER = 'https://yuserver.in:9559/';
 
-            config.channel = config.channel || '<?= $stream_data->request_token ?>';
+            config.channel = config.channel || '<?= $stream_data['stream']->request_token ?>';
             var sender = '<?= $current_user['stream_token'] ?>';
 
             io.connect(SIGNALING_SERVER).emit('new-channel', {
@@ -67,15 +67,15 @@
         onReady: function () {
             if (notExecute) {
                 notExecute = false;
-<?php if ($current_user['id'] === $stream_data->user_id) { ?>
+<?php if ($current_user['id'] === $stream_data['stream']->user_id) { ?>
                     captureUserMedia(function () {
                         conferenceUI.createRoom({
-                            roomName: '<?= $stream_data->verify_token ?>' || 'Anonymous'
+                            roomName: '<?= $stream_data['stream']->verify_token ?>' || 'Anonymous'
                         });
                     }, function () {
                         //do later
                     });
-<?php } else if ($current_user['id'] === $stream_data['stream_detail']->user_id) { ?>
+<?php } else if ($current_user['id'] === $stream_data->user_id) { ?>
                     setTimeout(function () {
                         if (CurrentRoom.broadcaster && CurrentRoom.roomToken) {
                             var broadcaster = CurrentRoom.broadcaster;

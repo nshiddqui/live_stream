@@ -17,7 +17,7 @@ return [
      * Development Mode:
      * true: Errors and warnings shown.
      */
-    'debug' => filter_var(env('DEBUG', false), FILTER_VALIDATE_BOOLEAN),
+    'debug' => filter_var(env('DEBUG', true), FILTER_VALIDATE_BOOLEAN),
     /**
      * Configure basic information about the application.
      *
@@ -170,7 +170,7 @@ return [
      *   breathing room to complete logging or error handling.
      */
     'Error' => [
-        'errorLevel' => E_ALL,
+        'errorLevel' => E_ALL ^ E_USER_DEPRECATED,
         'exceptionRenderer' => ExceptionRenderer::class,
         'skipLog' => [],
         'log' => true,
@@ -201,11 +201,11 @@ return [
             /*
              * The following keys are used in SMTP transports:
              */
-            'host' => 'ssl://smtp.gmail.com',
-            'port' => 465,
+            'host' => 'smtp.mailgun.org',
+            'port' => 587,
             'timeout' => 30,
-            'username' => 'rohit.rodia@purplewave.in',
-            'password' => 'Rohit@595',
+            'username' => 'no-reply@stream.yuserver.in',
+            'password' => '5da73b4a234b26aceaa7d2c5632a0173-e5e67e3e-5fb9bb8a',
             'client' => null,
             'tls' => null,
             'log' => true,
@@ -247,23 +247,23 @@ return [
             'className' => Connection::class,
             'driver' => Mysql::class,
             'persistent' => true,
-            'host' => 'localhost',
+            'host' => 'yuserver.in',
             /*
              * CakePHP will use the default DB port based on the driver selected
              * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
              * the following line and set the port accordingly
              */
             //'port' => 'non_standard_port_number',
-            'username' => 'root',
-            'password' => '',
-            'database' => 'live_stream',
+            'username' => 'yuserver_yuserver',
+            'password' => 'nazim@123',
+            'database' => 'yuserver_stream',
             /*
              * You do not need to set this flag to use full utf-8 encoding (internal default since CakePHP 3.6).
              */
             //'encoding' => 'utf8mb4',
             'timezone' => 'UTC',
             'flags' => [],
-            'cacheMetadata' => true,
+            'cacheMetadata' => false,
             'log' => false,
             /**
              * Set identifier quoting to true if you are using reserved words or

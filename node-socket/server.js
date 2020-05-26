@@ -4,8 +4,10 @@ const stream = require('./stream');
 var streamSql = new stream;
 // don't forget to use your own keys!
 var options = {
-    key: fs.readFileSync('keys/privatekey.pem'),
-    cert: fs.readFileSync('keys/certificate.pem')
+    key: fs.readFileSync("keys/keys/bec0a_534df_6e5c5b8983794f644de16088823d373a.key"),
+    cert: fs.readFileSync("keys/certs/yuserver_in_bec0a_534df_1597881599_06dd75f36b1d1a70af1d4ea63c88b73c.crt"),
+    // key: fs.readFileSync('keys/privatekey.pem'),
+    // cert: fs.readFileSync('keys/certificate.pem')
 };
 
 // HTTPs server
@@ -118,7 +120,7 @@ function onNewNamespace(channel, sender, streamDetails) {
 app.listen(process.env.PORT || 9559);
 
 process.on('unhandledRejection', (reason, promise) => {
-    process.exit(1);
+    console.log(reason);
 });
 
-console.log('Please open SSL URL: https://localhost:' + (process.env.PORT || 9559) + '/');
+console.log('Please open SSL URL: https://yuserver.in:' + (process.env.PORT || 9559) + '/');

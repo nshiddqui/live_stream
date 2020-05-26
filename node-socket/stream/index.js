@@ -14,10 +14,10 @@ module.exports = class Stream {
 
     async setupMysql() {
         this.connection = await  mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: 'live_stream'
+            host: 'yuserver.in',
+            user: 'yuserver_yuserver',
+            password: 'nazim@123',
+            database: 'yuserver_stream'
         });
     }
 
