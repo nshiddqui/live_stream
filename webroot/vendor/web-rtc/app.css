@@ -188,6 +188,7 @@
     position: fixed;
     left: calc(50% - 106px);
     bottom: 50px;
+    z-index: 99999;
 }
 
 
