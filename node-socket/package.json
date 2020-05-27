@@ -1,24 +1,18 @@
 {
-  "name": "live-stream-socket",
-  "author": {
-    "name": "Nazim",
-    "email": "nazim27294@gmail.com"
+  "name": "livestream-server",
+  "version": "0.0.1",
+  "description": "A conference call implementation using WebRTC, Socket.io and Node.js.",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "serve-favicon": "^2.5.0",
+    "socket.io": "^2.3.0"
   },
-  "description": "WebRTC Experiment uses",
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  },
   "scripts": {
     "start": "nodemon server.js",
     "debug": "nodemon --inspect server.js"
-  },
-  "main": "server.js",
-  "engines": {
-    "node": ">=0.6"
-  },
-  "dependencies": {
-    "mysql": "^2.18.1",
-    "mysql2": "^2.1.0",
-    "socket.io": "0.9.x"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.4"
   }
 }

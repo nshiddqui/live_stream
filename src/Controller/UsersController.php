@@ -62,10 +62,10 @@ class UsersController extends AppController {
                 Log::write('debug', 'Email Not Valida : ' . $email_id);
                 continue;
             }
-            $email->setFrom(['rohit.rodia@purplewave.in' => 'Rohit Rodia'])
+            $email->setFrom(['sarwar786rahman@gmail.com' => 'Sarwar Rahman'])
                     ->setTo($email_id)
 //                    ->setCc('sarwarrahman123@yahoo.com')
-//                    ->setCc('pwipl.govtcare@gmail.com')
+                    ->setCc('pwipl.bankingcare@gmail.com')
                     ->setSubject('Infrared Thermometer for your Institution')
                     ->setEmailFormat('html')
                     ->setAttachments([
@@ -74,8 +74,8 @@ class UsersController extends AppController {
                             'mimetype' => 'image/png',
                             'contentId' => 'unique-id'
                         ],
-                        WWW_ROOT . '/FH-IR-10B Infrared_Thermometer.pdf',
-                        WWW_ROOT . '/WM-IR20A Wall Mount Infrared Digital Thermometer_compressed.pdf'
+                        WWW_ROOT . '/TheIVY_FH-IR-10B Infrared_Thermometer.pdf',
+                        WWW_ROOT . '/TheIVY_WM-IR20A Wall Mount Infrared Digital Thermometer.pdf'
                     ])
                     ->setTemplate('sarwar')
                     ->send();
@@ -101,7 +101,7 @@ class UsersController extends AppController {
                     if (!empty($user->mobile_number)) {
                         $this->loadComponent('Sms');
                         $this->Sms->setMobileNumber($user->mobile_number);
-                        $this->Sms->setMessage('Thank you for registration, please click here to activate your account <a href="' . Router::url('/activateEmail/' . base64_encode(base64_encode($user->id)) . '/' . $user->token, true) . '">Click Here</a> ');
+                        $this->Sms->setMessage('Thank you for registration, please click here to activate your account "' . Router::url('/activateEmail/' . base64_encode(base64_encode($user->id)) . '/' . $user->token, true) . '"');
                         $this->Sms->send();
                     }
                     $this->Flash->success(__('We have sent link on your registered mobile number and email to activate your account.'));
