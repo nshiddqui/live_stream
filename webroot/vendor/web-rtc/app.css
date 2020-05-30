@@ -13,6 +13,7 @@
 }
 .room-comm{
     position: absolute;
+    width: 90%;
 }
 
 .chat-col.chat-opened {
@@ -101,6 +102,7 @@
     position: fixed;
     width:15vw;
     border-radius: 10px;
+    z-index: 99999;
 }
 
 
@@ -170,7 +172,7 @@
 .custom-modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 99999;
     left: 0;
     top: 0;
     width: 100%;

@@ -23,8 +23,8 @@ foreach ($results as $result) {
         $result['stream']->end_time->i18nFormat('MMM dd, yyyy h:mm:ss a'),
         h($result['stream']['user']->name),
         ($text ? $this->Html->link($text, ['controller' => 'stream', 'action' => 'index', $secureId], ['escape' => false]) : 'Not Started' ) .
-        ($allow ? $this->Html->link('<i class="btn-primary btn-sm fas fa-pencil-alt mx-1"></i>', ['action' => 'edit', $result->id], ['escape' => false]) .
-                $this->Form->postLink('<i class="btn-danger btn-sm fas fa-trash mx-1"></i>', ['action' => 'delete', $result->id], ['confirm' => __('Are you sure you want to delete # {0}?', $result['stream']->title), 'escape' => false]) : '')
+        ($allow ? $this->Html->link('<i class="btn-primary btn-sm fas fa-pencil-alt mx-1"></i>', ['action' => 'edit', $result->stream_id], ['escape' => false]) .
+                $this->Form->postLink('<i class="btn-danger btn-sm fas fa-trash mx-1"></i>', ['action' => 'delete', $result->stream_id], ['confirm' => __('Are you sure you want to delete # {0}?', $result['stream']->title), 'escape' => false]) : '')
     ]);
 }
 echo $this->DataTables->response();
