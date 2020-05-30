@@ -25,7 +25,7 @@ class DashboardController extends AppController {
                     'contain' => ['Streams' => 'Users'],
                     'conditions' => [
                         'StreamDetails.user_id' => $auth_user_id,
-                        'Streams.end_time >= ' => date('Y-m-d h:i:s')
+                        'Streams.end_time >= NOW()'
                     ]
                 ])
                 ->databaseColumn('Users.id')
@@ -94,8 +94,8 @@ class DashboardController extends AppController {
             'conditions' => [
                 'StreamDetails.stream_id' => $secureId,
                 'StreamDetails.user_id' => $current_user['id'],
-//                'Streams.start_time <=' => date('Y-m-d h:i:s'),
-                'Streams.end_time >=' => date('Y-m-d h:i:s')
+                'Streams.start_time <= NOW()',
+                'Streams.end_time >= NOW()'
             ],
             'contain' => 'Streams'
         ]);
@@ -104,7 +104,8 @@ class DashboardController extends AppController {
             return $this->redirect(['action' => 'index']);
         }
         $stream_data = $streamData->first();
-        $this->set(compact('stream_data', 'current_user'));
+        $toggled = true;
+        $this->set(compact('stream_data', 'current_user', 'toggled'));
     }
 
 }

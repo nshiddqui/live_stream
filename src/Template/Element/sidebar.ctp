@@ -1,5 +1,5 @@
 <!-- Side bar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion <?= isset($toggled) && $toggled ? 'toggled' : '' ?>" id="accordionSidebar">
 
     <!-- Side bar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" style="background: #ffffff66;" href="<?= $this->Url->build(['controller' => 'Dashboard', 'action' => 'index']) ?>">
@@ -25,6 +25,36 @@
         )
         ?>
     </li>
+
+    <!-- Navigation Item - Upcoming Meetings -->
+    <li class="nav-item">
+
+        <?=
+        $this->Html->link('<i class="fas fa-fw fa-handshake"></i>
+            <span>Upcoming Meetings</span></a>', [
+            'controller' => 'Streams',
+            'action' => 'index'
+                ], [
+            'class' => 'nav-link',
+            'escape' => false]
+        )
+        ?>
+    </li>
+    <!-- Navigation Item - Friend List -->
+    <li class="nav-item">
+
+        <?=
+        $this->Html->link('<i class="fas fa-fw fa-handshake"></i>
+            <span>Previous Meetings</span></a>', [
+            'controller' => 'Streams',
+            'action' => 'previous'
+                ], [
+            'class' => 'nav-link',
+            'escape' => false]
+        )
+        ?>
+    </li>
+
     <!-- Navigation Item - Friend List -->
     <li class="nav-item">
 

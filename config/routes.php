@@ -68,6 +68,8 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/logout', ['controller' => 'Users', 'action' => 'logout']);
 
     $routes->connect('/register', ['controller' => 'Users', 'action' => 'register']);
+    
+    $routes->connect('/profile', ['controller' => 'Users', 'action' => 'index']);
 
     $routes->connect('/forgot-password', ['controller' => 'Users', 'action' => 'forgotPassword']);
 

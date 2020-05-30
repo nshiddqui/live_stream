@@ -11,6 +11,9 @@
     padding-top: 15px;
     min-height: 100vh;
 }
+.room-comm{
+    position: absolute;
+}
 
 .chat-col.chat-opened {
     right: 0;

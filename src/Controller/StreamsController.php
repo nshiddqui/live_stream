@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use DataTables\Controller\DataTablesAjaxRequestTrait;
 
 /**
  * Streams Controller
@@ -19,24 +20,39 @@ class StreamsController extends AppController {
         parent::initialize();
         $this->loadComponent('DataTables.DataTables');
         $auth_user_id = $this->request->getSession()->read('Auth.User.id');
-        $this->DataTables->createConfig('Streams')
+        $this->DataTables->createConfig('StreamDetails')
                 ->queryOptions([
-                    'contain' => ['Users', 'StreamDetails'],
+                    'contain' => ['Streams' => 'Users'],
                     'conditions' => [
-                        'or' => [
-                            'Streams.user_id' => $auth_user_id,
-                            'StreamDetails.user_id' => $auth_user_id
-                        ],
-                        'Streams.end_time > NOW()'
+                        'StreamDetails.user_id' => $auth_user_id,
+                        'Streams.end_time >= NOW()'
                     ]
                 ])
                 ->databaseColumn('Users.id')
-                ->databaseColumn('StreamDetails.id')
+                ->databaseColumn('StreamDetails.stream_id')
+                ->databaseColumn('Streams.is_active')
                 ->column('Streams.title', ['label' => 'Title', 'orderable' => false])
                 ->column('Streams.start_time', ['label' => 'Start Time'])
                 ->column('Streams.end_time', ['label' => 'End Time'])
                 ->column('Users.name', ['label' => 'Schedule By', 'orderable' => false])
                 ->column('actions', ['label' => 'Actions', 'database' => false]);
+
+        $this->DataTables->createConfig('PreviousStreamDetails')
+                ->queryOptions([
+                    'contain' => ['Streams' => 'Users'],
+                    'conditions' => [
+                        'StreamDetails.user_id' => $auth_user_id,
+                        'Streams.end_time <= NOW()'
+                    ]
+                ])
+                ->table('StreamDetails')
+                ->databaseColumn('Users.id')
+                ->databaseColumn('StreamDetails.stream_id')
+                ->databaseColumn('Streams.is_active')
+                ->column('Streams.title', ['label' => 'Title', 'orderable' => false])
+                ->column('Streams.start_time', ['label' => 'Start Time'])
+                ->column('Streams.end_time', ['label' => 'End Time'])
+                ->column('Users.name', ['label' => 'Schedule By', 'orderable' => false]);
     }
 
     /**
@@ -45,12 +61,11 @@ class StreamsController extends AppController {
      * @return \Cake\Http\Response|null
      */
     public function index() {
-        $this->paginate = [
-            'contain' => ['Users', 'StreamDetails'],
-        ];
-        $streams = $this->paginate($this->Streams);
+        $this->DataTables->setViewVars('StreamDetails');
+    }
 
-        $this->set(compact('streams'));
+    public function previous() {
+        $this->DataTables->setViewVars('PreviousStreamDetails');
     }
 
     /**

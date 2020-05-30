@@ -31,20 +31,24 @@
 
 
 <div class="pull-right room-comm stream-setting" hidden>
-    <button class="btn btn-sm rounded-0 btn-no-effect fa fa-2x fa-video text-primary" id='toggle-video' title="Hide Video">
+    <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-video' title="Hide Video">
+        <i class="fa fa-2x fa-video text-primary"></i>
     </button>
 
-    <button class="btn btn-sm rounded-0 btn-no-effect fa fa-2x fa-microphone text-primary" id='toggle-mute' title="Mute">
+    <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute' title="Mute">
+        <i class="fa fa-2x fa-microphone text-primary"></i>
     </button>
 
-    <button class="btn btn-sm rounded-0 btn-no-effect fa fa-2x fa-desktop text-primary" id='share-screen' title="Share screen">
+    <button class="btn btn-sm rounded-0 btn-no-effect" id='share-screen' title="Share screen">
+        <i class="fa fa-2x fa-desktop text-primary"></i>
     </button>
 
-    <button class="btn btn-sm rounded-0 btn-no-effect fa fa-2x fa-dot-circle text-primary" id='record' title="Record">
+    <button class="btn btn-sm rounded-0 btn-no-effect" id='record' title="Record">
+        <i class="fa fa-2x fa-dot-circle text-primary"></i>
     </button>
 
-    <button class="btn btn-sm text-primary pull-right btn-no-effect fa fa-2x fa-comment text-primary" id='toggle-chat-pane'>
-        <span class="badge badge-danger very-small font-weight-lighter" id='new-chat-notification' hidden>New</span>
+    <button class="btn btn-sm text-primary pull-right btn-no-effect" id='toggle-chat-pane'>
+        <span class="badge badge-danger very-small font-weight-lighter" id='new-chat-notification' hidden>New</span><i class="fa fa-2x fa-comment text-primary"></i>
     </button>
 
     <button class="btn btn-sm rounded-0 btn-no-effect text-primary">

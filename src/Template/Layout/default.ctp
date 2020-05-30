@@ -26,7 +26,7 @@ $description = 'Stream';
         <script>
             /* Setup Gloabal Variables */
             var baseUrl = '<?= $this->Url->build('/', true) ?>';
-            var limitUser = <?= isset($limitUser) ? $limitUser : 10 ?>
+            var limitUser = <?= isset($limitUser) ? $limitUser : 30 ?>
         </script>
     </head>
     <body id="page-top">

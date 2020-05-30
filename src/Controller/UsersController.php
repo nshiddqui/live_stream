@@ -24,11 +24,45 @@ class UsersController extends AppController {
     }
 
     /**
+     * View method
+     *
+     * @param string|null $id Stream id.
+     * @return \Cake\Http\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function index() {
+        $id = $this->Auth->user('id');
+        $user = $this->Users->get($id, [
+            'contain' => [],
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $data = $this->request->getData();
+            if (empty($data['password'])) {
+                unset($data['password']);
+            }
+            if (isset($data['email'])) {
+                unset($data['email']);
+            }
+            $user = $this->Users->patchEntity($user, $data, ['validate' => false]);
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('The profile has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The profile could not be saved. Please, try again.'));
+        }
+        $this->set(compact('user'));
+    }
+
+    /**
      * Login method
      *
      * @return \Cake\Http\Response|null
      */
     public function login() {
+        if ($this->Auth->user()) {
+            $this->redirect('dashboard');
+        }
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {
