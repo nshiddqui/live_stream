@@ -194,6 +194,8 @@
     left: calc(50% - 106px);
     bottom: 50px;
     z-index: 99999;
+    box-shadow: 0 0 15px 1px #4e73df;
+    width: 305px;
 }
 
 
