@@ -48,9 +48,9 @@ class StreamsTable extends Table {
             'foreignKey' => 'user_id',
             'joinType' => 'INNER',
         ]);
-        $this->belongsTo('StreamDetails', [
-            'foreignKey' => 'id',
-            'joinType' => 'INNER',
+        $this->hasMany('StreamDetails', [
+            'foreignKey' => 'stream_id',
+            'joinType' => 'LEFT',
         ]);
     }
 

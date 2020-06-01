@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use DataTables\Controller\DataTablesAjaxRequestTrait;
+use Cake\Utility\Hash;
 
 /**
  * Streams Controller
@@ -113,20 +114,47 @@ class StreamsController extends AppController {
      */
     public function edit($id = null) {
         $stream = $this->Streams->get($id, [
-            'contain' => [],
+            'contain' => ['StreamDetails'],
         ]);
+        $user_ids = Hash::extract($this->Auth->user('user_friends'), '{n}.friend_id');
+        $selected_users = Hash::extract($stream, 'stream_details.{n}.user_id');
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $stream = $this->Streams->patchEntity($stream, $this->request->getData());
-            if ($this->Streams->save($stream)) {
-                $this->Flash->success(__('The stream has been saved.'));
+            $data = $this->request->getData();
+            if (!empty($data['emails']) && !empty($user_ids)) {
+                $data['start_time'] = $this->dateFormatSql($data['start_time']);
+                $data['end_time'] = $this->dateFormatSql($data['end_time']);
+                $stream = $this->Streams->patchEntity($stream, $data);
+                if ($this->Streams->save($stream)) {
+                    $this->loadModel('StreamDetails');
+                    $this->StreamDetails->deleteAll(['stream_id' => $stream->id]);
+                    $streamDetails = ['stream_id' => $stream->id];
+                    $streamDetails['user_id'] = $this->Auth->user('id');
+                    $EntityStreamDetails = $this->StreamDetails->newEntity($streamDetails);
+                    $this->StreamDetails->save($EntityStreamDetails);
+                    foreach ($data['emails'] as $userId) {
+                        if (!in_array($userId, $user_ids)) {
+                            continue;
+                        }
+                        $streamDetails['user_id'] = $userId;
+                        $EntityStreamDetails = $this->StreamDetails->newEntity($streamDetails);
+                        $this->StreamDetails->save($EntityStreamDetails);
+                    }
+                    $this->Flash->success(__('The stream has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                    return $this->redirect(['action' => 'index']);
+                }
+                $this->Flash->error(__('The stream could not be saved. Please, try again.'));
+            } else {
+                $this->Flash->error(__('Please add emails for schedule stream.'));
             }
-            $this->Flash->error(__('The stream could not be saved. Please, try again.'));
         }
-        $users = $this->Streams->Users->find('list', ['limit' => 200]);
-        $streamDetails = $this->Streams->StreamDetails->find('list', ['limit' => 200]);
-        $this->set(compact('stream', 'users', 'streamDetails'));
+        $emails = array();
+        if (!empty($user_ids)) {
+            foreach ($this->Auth->user('user_friends') as $user_id) {
+                $emails[$user_id['group']][$user_id['friend']['id']] = $user_id['friend']['email'];
+            }
+        }
+        $this->set(compact('stream', 'emails', 'selected_users'));
     }
 
     /**

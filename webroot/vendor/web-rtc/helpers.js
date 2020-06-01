@@ -247,9 +247,9 @@ export default {
 
 
     saveRecordedStream(stream, user){
-        let blob = new Blob(stream, {type:'video/webm'});
+        let blob = new Blob(stream, {type:'video/mp4'});
 
-        let file = new File([blob], `${user}-${moment().unix()}-record.webm`);
+        let file = new File([blob], `${user}-${moment().unix()}-record.mp4`);
 
         saveAs(file);
     },
@@ -298,7 +298,7 @@ export default {
 
 
         for(let i = 0; i < totalRemoteVideosDesktop; i++){
-            elem[i].style.width = newWidth;
+            elem[i].style.width = '50%';
         }
     },
 

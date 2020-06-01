@@ -21,7 +21,7 @@ window.addEventListener('load', () => {
 
         var pc = [];
 
-        let socket = io('localhost:3000/stream');
+        let socket = io('https://localhost:3000/stream');
 
         var socketId = '';
         var myStream = '';
@@ -312,7 +312,7 @@ window.addEventListener('load', () => {
 
         function startRecording(stream) {
             mediaRecorder = new MediaRecorder(stream, {
-                mimeType: 'video/webm;codecs=vp9'
+                mimeType: 'video/webm;codecs=H264'
             });
 
             mediaRecorder.start(1000);
@@ -455,6 +455,19 @@ window.addEventListener('load', () => {
                 }).catch(() => {
                 });
             }
+        });
+        //When user exit
+        document.getElementById('leave-room').addEventListener('click', () => {
+            if (mediaRecorder.state == 'recording') {
+                var ask = window.confirm("Recorind is running, would you want to save it?");
+                if (ask) {
+                    mediaRecorder.stop();
+                    setTimeout(function () {
+                        window.location.href = "/dashboard";
+                    }, 3000);
+                }
+            }
+            window.location.href = "/dashboard";
         });
     }
 });

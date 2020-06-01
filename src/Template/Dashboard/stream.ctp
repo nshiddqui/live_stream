@@ -52,7 +52,7 @@
     </button>
 
     <button class="btn btn-sm rounded-0 btn-no-effect text-primary">
-        <a href="/dashboard" class="text-primary text-decoration-none"><i class="fa fa-2x fa-sign-out-alt text-primary" title="Leave"></i></a>
+        <a href="#" id="leave-room" class="text-primary text-decoration-none"><i class="fa fa-2x fa-sign-out-alt text-primary" title="Leave"></i></a>
     </button>
 </div>
 
