@@ -298,7 +298,8 @@ export default {
 
 
         for(let i = 0; i < totalRemoteVideosDesktop; i++){
-            elem[i].style.width = '50%';
+            elem[i].style.width = newWidth;
+            elem[i].style.height = newWidth;
         }
     },
 
