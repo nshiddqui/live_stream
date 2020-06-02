@@ -96,44 +96,63 @@ export default {
         // "turn:eu-turn4.xirsys.com:3478?transport=udp",
         return {
             iceServers: [
-//                {url: "stun:stun.l.google.com:19302"},
-//                {url:"stun:stun1.l.google.com:19302"},
-//                {url:"stun:stun2.l.google.com:19302"},
-//                {url:"stun:stun3.l.google.com:19302"},
-//                {url:"stun:stun4.l.google.com:19302"},
-//                {url:"stun:stun01.sipphone.com"},
-//                {url:"stun:stun.ekiga.net"},
-//                {url:"stun:stun.fwdnet.net"},
-//                {url:"stun:stun.ideasip.com"},
-//                {url:"stun:stun.iptel.org"},
-//                {url:"stun:stun.rixtelecom.se"},
-//                {url:"stun:stun.schlund.de"},
-//                {url:"stun:stunserver.org"},
-//                {url:"stun:stun.softjoys.com"},
-//                {url:"stun:stun.voiparound.com"},
-//                {url:"stun:stun.voipbuster.com"},
-//                {url:"stun:stun.voipstunt.com"},
-//                {url:"stun:stun.voxgratia.org"},
-//                {url:"stun:stun.xten.com"},
-//                {
-//                    username: "shelty",
-//                    credential: "nazim@123",
-//                    urls: [
-//                        "turn:103.250.186.37:3478",
-//                    ]
-//                }
-                {
-                    urls: ["stun:eu-turn4.xirsys.com"]
-                },
-                {
-                    username: "ml0jh0qMKZKd9P_9C0UIBY2G0nSQMCFBUXGlk6IXDJf8G2uiCymg9WwbEJTMwVeiAAAAAF2__hNSaW5vbGVl",
-                    credential: "4dd454a6-feee-11e9-b185-6adcafebbb45",
+                {   
                     urls: [
-                        "turn:eu-turn4.xirsys.com:80?transport=udp",                         
-                        "turn:eu-turn4.xirsys.com:3478?transport=tcp"
+                        "stun:bn-turn1.xirsys.com"
                     ]
+                },
+                { 
+                    username: "FXnaxpj2KHEH2V2PSh5EKnmKmm7zAN4LiXPb6IrkPrCLFZAztW1bxn9Ft4DehzRhAAAAAF7WpzZuc2hpZGRxdWk=",  
+                    credential: "8d205fba-a506-11ea-8621-0242ac140004", 
+                    urls: [    
+                           "turn:bn-turn1.xirsys.com:80?transport=udp",      
+                        "turn:bn-turn1.xirsys.com:3478?transport=udp",    
+                           "turn:bn-turn1.xirsys.com:80?transport=tcp",   
+                            "turn:bn-turn1.xirsys.com:3478?transport=tcp",    
+                           "turns:bn-turn1.xirsys.com:443?transport=tcp",    
+                           "turns:bn-turn1.xirsys.com:5349?transport=tcp" 
+                      ]
                 }
             ]
+//            iceServers: [
+////                {url: "stun:stun.l.google.com:19302"},
+////                {url:"stun:stun1.l.google.com:19302"},
+////                {url:"stun:stun2.l.google.com:19302"},
+////                {url:"stun:stun3.l.google.com:19302"},
+////                {url:"stun:stun4.l.google.com:19302"},
+////                {url:"stun:stun01.sipphone.com"},
+////                {url:"stun:stun.ekiga.net"},
+////                {url:"stun:stun.fwdnet.net"},
+////                {url:"stun:stun.ideasip.com"},
+////                {url:"stun:stun.iptel.org"},
+////                {url:"stun:stun.rixtelecom.se"},
+////                {url:"stun:stun.schlund.de"},
+////                {url:"stun:stunserver.org"},
+////                {url:"stun:stun.softjoys.com"},
+////                {url:"stun:stun.voiparound.com"},
+////                {url:"stun:stun.voipbuster.com"},
+////                {url:"stun:stun.voipstunt.com"},
+////                {url:"stun:stun.voxgratia.org"},
+////                {url:"stun:stun.xten.com"},
+////                {
+////                    username: "shelty",
+////                    credential: "nazim@123",
+////                    urls: [
+////                        "turn:103.250.186.37:3478",
+////                    ]
+////                }
+//                {
+//                    urls: ["stun:eu-turn4.xirsys.com"]
+//                },
+//                {
+//                    username: "ml0jh0qMKZKd9P_9C0UIBY2G0nSQMCFBUXGlk6IXDJf8G2uiCymg9WwbEJTMwVeiAAAAAF2__hNSaW5vbGVl",
+//                    credential: "4dd454a6-feee-11e9-b185-6adcafebbb45",
+//                    urls: [
+//                        "turn:eu-turn4.xirsys.com:80?transport=udp",                         
+//                        "turn:eu-turn4.xirsys.com:3478?transport=tcp"
+//                    ]
+//                }
+//            ]
         };
     },
 
