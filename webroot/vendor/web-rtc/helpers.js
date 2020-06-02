@@ -113,7 +113,8 @@ export default {
                            "turns:bn-turn1.xirsys.com:5349?transport=tcp" 
                       ]
                 }
-            ]
+            ],
+            iceTransportPolicy: 'relay'
 //            iceServers: [
 ////                {url: "stun:stun.l.google.com:19302"},
 ////                {url:"stun:stun1.l.google.com:19302"},
