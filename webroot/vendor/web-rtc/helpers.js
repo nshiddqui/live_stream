@@ -99,7 +99,7 @@ export default {
         // "turn:eu-turn4.xirsys.com:3478?transport=udp",
         return {
             iceServers: [
-                {url: "stun:stun.l.google.com:19302"},
+//                {url: "stun:stun.l.google.com:19302"},
 //                {url:"stun:stun1.l.google.com:19302"},
 //                {url:"stun:stun2.l.google.com:19302"},
 //                {url:"stun:stun3.l.google.com:19302"},
@@ -118,12 +118,19 @@ export default {
 //                {url:"stun:stun.voipstunt.com"},
 //                {url:"stun:stun.voxgratia.org"},
 //                {url:"stun:stun.xten.com"},
+//                {
+//                    username: "shelty",
+//                    credential: "nazim@123",
+//                    urls: [
+//                        "turn:103.250.186.37:3478",
+//                    ]
+//                }
                 {
-                    username: "shelty",
-                    credential: "nazim@123",
-                    urls: [
-                        "turn:103.250.186.37:3478",
-                    ]
+                    "urls": [
+                        "turn:13.250.13.83:3478?transport=udp"
+                    ],
+                    "username": "YzYNCouZM1mhqhmseWk6",
+                    "credential": "YzYNCouZM1mhqhmseWk6"
                 }
             ]
         };
