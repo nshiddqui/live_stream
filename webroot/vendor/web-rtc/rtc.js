@@ -187,6 +187,7 @@ window.addEventListener('load', () => {
                     newVid.srcObject = str;
                     newVid.autoplay = true;
                     newVid.className = 'remote-video';
+                    newVid.style = '"width:100%; height:100%';
 
                     //video controls elements
                     let controlDiv = document.createElement('div');
