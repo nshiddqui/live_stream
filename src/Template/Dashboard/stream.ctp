@@ -4,7 +4,7 @@
     const room = '<?= $stream_data['stream']['request_token'] ?>';
     const username = '<?= $current_user['username'] ?>';
 </script>
-<?= $this->Html->component('web-rtc/socket.io', 'script') ?>
+<?= $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js') ?>
 <?= $this->Html->component('web-rtc/rtc', 'script', ['type' => 'module']) ?>
 <?= $this->Html->component('web-rtc/events', 'script', ['type' => 'module']) ?>
 <?= $this->Html->component('web-rtc/adapter.min', 'script') ?>
