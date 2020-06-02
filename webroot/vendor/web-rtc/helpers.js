@@ -48,7 +48,7 @@ export default {
     getUserFullMedia() {
         if (this.userMediaAvailable()) {
             return navigator.mediaDevices.getUserMedia({
-                video: true,
+                video: {width: {exact: 320}, height: {exact: 240}},
                 audio: {
                     echoCancellation: true,
                     noiseSuppression: true
