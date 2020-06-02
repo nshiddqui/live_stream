@@ -124,7 +124,7 @@ export default {
 //                }
                 {
                     "urls": [
-                        "turn:13.250.13.83:3478?transport=udp"
+                        "turn:13.250.13.83:3478"
                     ],
                     "username": "YzYNCouZM1mhqhmseWk6",
                     "credential": "YzYNCouZM1mhqhmseWk6"
