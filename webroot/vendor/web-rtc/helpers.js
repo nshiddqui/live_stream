@@ -334,11 +334,17 @@ export default {
         let newWidth = totalRemoteVideosDesktop <= 2 ? '50%' : (
                 totalRemoteVideosDesktop == 3 ? '33.33%' : '25%'
                 );
-
+        var w = window.innerWidth
+                || document.documentElement.clientWidth
+                || document.body.clientWidth;
+        newHeight = newWidth;
+        if(w < 767){
+            newWidth = '100%';
+        }
 
         for (let i = 0; i < totalRemoteVideosDesktop; i++) {
             elem[i].style.width = newWidth;
-            elem[i].style.height = newWidth;
+            elem[i].style.height = newHeight;
         }
     },
 

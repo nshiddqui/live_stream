@@ -23,7 +23,7 @@ window.addEventListener('load', () => {
 
         let socket = io('https://yuserver.in:3000/stream');
 
-        var owner = ''
+        var StreamAdmin;
         var socketId = '';
         var myStream = '';
         var screen = '';
@@ -42,7 +42,8 @@ window.addEventListener('load', () => {
 
             socket.emit('subscribe', {
                 room: room,
-                socketId: socketId
+                socketId: socketId,
+                owner: owner
             });
 
 
@@ -52,8 +53,19 @@ window.addEventListener('load', () => {
                 init(true, data.socketId);
             });
 
-            socket.on('owner socket', (data) => {
-                owner = data.socketId;
+            socket.on('room close', (data) => {
+                alert('Admin has gone.It will redirect in 5 minutesif admin will not come.');
+                let local = document.getElementById('local');
+                local.srcObject.getTracks().forEach(t => t.enabled = false);
+                StreamAdmin = setTimeout(function () {
+                    window.location.href = '/dashboard';
+                }, 30000);
+            });
+
+            socket.on('room enter', (data) => {
+                let local = document.getElementById('local');
+                local.srcObject.getTracks().forEach(t => t.enabled = true);
+                clearTimeout(StreamAdmin);
             });
 
 
@@ -224,23 +236,10 @@ window.addEventListener('load', () => {
                     case 'disconnected':
                     case 'failed':
                         h.closeVideo(partnerName);
-                        if (owner == partnerName) {
-                            alert('Admin has gone.It will redirect in 5 minutes.');
-                            setTimeout(function () {
-                                window.location.href = '/dashboard';
-                            }, 30000);
-                        }
                         break;
 
                     case 'closed':
                         h.closeVideo(partnerName);
-
-                        if (owner == partnerName) {
-                            alert('Admin has gone.It will redirect in 5 minutes.');
-                            setTimeout(function () {
-                                window.location.href = '/dashboard';
-                            }, 30000);
-                        }
                         break;
                 }
             };
@@ -252,12 +251,6 @@ window.addEventListener('load', () => {
                     case 'closed':
                         console.log("Signalling state is 'closed'");
                         h.closeVideo(partnerName);
-                        if (owner == partnerName) {
-                            alert('Admin has gone.It will redirect in 5 minutes.');
-                            setTimeout(function () {
-                                window.location.href = '/dashboard';
-                            }, 5 * 60 * 1000);
-                        }
                         break;
                 }
             };

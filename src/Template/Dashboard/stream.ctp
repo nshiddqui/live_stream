@@ -4,11 +4,11 @@
 <script>
     const room = '<?= $stream_data['stream']['request_token'] ?>';
     const username = '<?= $current_user['username'] ?>';
-//    const owner = '';
+    const owner = '<?= $stream_data->user_id == $current_user['id'] ? '1' : '0' ?>';
     $(document).ready(function () {
         $(".local-video").draggabilly({
             // options...
-        })
+        });
     });
 </script>
 <?= $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js') ?>
