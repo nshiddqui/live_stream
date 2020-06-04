@@ -191,11 +191,13 @@
 
 .stream-setting{
     position: fixed;
-    left: calc(50% - 106px);
+    left: calc(50% - 110px);
     bottom: 50px;
     z-index: 99999;
     box-shadow: 0 0 15px 1px #4e73df;
-    width: 310px;
+    background: #fff;
+    width:unset;
+    text-align: center;
 }
 
 
@@ -236,6 +238,30 @@
     .local-video{
         width:40vw;
     }
+    
+    .stream-setting{
+        position: fixed;
+        height: 36px;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        top: unset;
+        z-index: 0;
+    }
+    .stream-setting button{
+        padding:0 10px;
+        height:20px;
+    }
+    
+    .local-video{
+        right: unset;
+        left: 20px;
+    }
+    
+    #share-screen,record{
+        display: none;
+    }
+    
 }
 
 

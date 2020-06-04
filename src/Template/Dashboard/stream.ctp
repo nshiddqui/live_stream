@@ -1,8 +1,15 @@
 <?= $this->Html->component('web-rtc/app') ?>
 <?= $this->Html->css('https://use.fontawesome.com/releases/v5.7.2/css/all.css') ?>
+<?= $this->Html->script('https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js') ?>
 <script>
     const room = '<?= $stream_data['stream']['request_token'] ?>';
     const username = '<?= $current_user['username'] ?>';
+    const owner = '<?= $stream_data['stream']['user']['username'] ?>';
+    $(document).ready(function () {
+        $(".local-video").draggabilly({
+            // options...
+        })
+    });
 </script>
 <?= $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js') ?>
 <?= $this->Html->component('web-rtc/rtc', 'script', ['type' => 'module']) ?>
@@ -36,6 +43,10 @@
     </button>
 
     <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute' title="Mute">
+        <i class="fa fa-2x fa-microphone text-primary"></i>
+    </button>
+
+    <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute-all' title="Mute All">
         <i class="fa fa-2x fa-microphone text-primary"></i>
     </button>
 

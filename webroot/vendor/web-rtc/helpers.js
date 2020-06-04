@@ -2,6 +2,20 @@ export default {
     generateRandomString() {
         return Math.random().toString(36).slice(2).substring(0, 15);
     },
+    updateBandwidthRestriction(sdp, bandwidth) {
+        let modifier = 'AS';
+        if (adapter.browserDetails.browser === 'firefox') {
+            bandwidth = (bandwidth >>> 0) * 1000;
+            modifier = 'TIAS';
+        }
+        if (sdp.indexOf('b=' + modifier + ':') === -1) {
+            // insert b= after c= line.
+            sdp = sdp.replace(/c=IN (.*)\r\n/, 'c=IN $1\r\nb=' + modifier + ':' + bandwidth + '\r\n');
+        } else {
+            sdp = sdp.replace(new RegExp('b=' + modifier + ':.*\r\n'), 'b=' + modifier + ':' + bandwidth + '\r\n');
+        }
+        return sdp;
+    },
 
     closeVideo(elemId) {
         if (document.getElementById(elemId)) {
@@ -261,6 +275,32 @@ export default {
         }
     },
 
+    remoteStreamToggleMute(e) {
+        let toggleMute = document.getElementById('toggle-mute-all');
+        let elem = document.getElementsByClassName('mute-remote-mic');
+        let totalRemoteVideosDesktop = elem.length;
+        if (e.target.classList.contains('fa-microphone')) {
+            e.target.classList.remove('fa-microphone');
+            e.target.classList.add('fa-microphone-slash');
+            toggleMute.setAttribute('title', 'Unmute All');
+        } else {
+            e.target.classList.add('fa-microphone');
+            e.target.classList.remove('fa-microphone-slash');
+            toggleMute.setAttribute('title', 'Mute All');
+        }
+        for (let i = 0; i < totalRemoteVideosDesktop; i++) {
+            if (elem[i].classList.contains('fa-microphone')) {
+                elem[i].parentElement.previousElementSibling.muted = true;
+                elem[i].classList.add('fa-microphone-slash');
+                elem[i].classList.remove('fa-microphone');
+            } else {
+                elem[i].parentElement.previousElementSibling.muted = false;
+                elem[i].classList.add('fa-microphone');
+                elem[i].classList.remove('fa-microphone-slash');
+            }
+        }
+    },
+
     saveRecordedStream(stream, user) {
         let blob = new Blob(stream, {type: 'video/mp4'});
 
@@ -292,17 +332,7 @@ export default {
         let elem = document.getElementsByClassName('card');
         let totalRemoteVideosDesktop = elem.length;
         let newWidth = totalRemoteVideosDesktop <= 2 ? '50%' : (
-                totalRemoteVideosDesktop == 3 ? '33.33%' : (
-                        totalRemoteVideosDesktop <= 8 ? '25%' : (
-                                totalRemoteVideosDesktop <= 15 ? '20%' : (
-                                        totalRemoteVideosDesktop <= 18 ? '16%' : (
-                                                totalRemoteVideosDesktop <= 23 ? '15%' : (
-                                                        totalRemoteVideosDesktop <= 32 ? '12%' : '10%'
-                                                        )
-                                                )
-                                        )
-                                )
-                        )
+                totalRemoteVideosDesktop == 3 ? '33.33%' : '25%'
                 );
 
 

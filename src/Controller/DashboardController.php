@@ -97,7 +97,7 @@ class DashboardController extends AppController {
                 'Streams.start_time <= NOW()',
                 'Streams.end_time >= NOW()'
             ],
-            'contain' => 'Streams'
+            'contain' => ['Streams' => 'Users']
         ]);
         if ($streamData->count() === 0) {
             $this->Flash->error('Stream not exists.');

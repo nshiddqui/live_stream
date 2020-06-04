@@ -1,11 +1,12 @@
 const mysql = require('mysql');
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'live_stream'
+    host: 'yuserver.in',
+    user: 'yuserver_yuserver',
+    password: 'nazim@123',
+    database: 'yuserver_stream'
 });
 const stream = (socket) => {
+    let roomOwner = [];
     socket.on('subscribe', (data) => {
         //subscribe/join a room
         socket.join(data.room);
@@ -15,8 +16,15 @@ const stream = (socket) => {
         console.log(updateData);
         // execute the UPDATE statement
         connection.query(sql, updateData);
+        
+        //Assign Room Owner
+        if(!roomOwner[data.room]){
+            roomOwner[data.room] = data.socketId;
+        }
+        
         //Inform other members in the room of new user's arrival
         if (socket.adapter.rooms[data.room].length > 1) {
+            socket.to(data.room).emit('owner socket', {socketId: roomOwner[data.room]});
             socket.to(data.room).emit('new user', {socketId: data.socketId});
         }
 

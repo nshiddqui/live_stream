@@ -30,21 +30,30 @@ window.addEventListener('load', ()=>{
 
 
     //When the video frame is clicked. This will enable picture-in-picture
-    document.getElementById('local').addEventListener('click', ()=>{
-        if (!document.pictureInPictureElement) {
-            document.getElementById('local').requestPictureInPicture()
-            .catch(error => {
-                // Video failed to enter Picture-in-Picture mode.
-                console.error(error);
-            });
+    document.getElementById('local').addEventListener('dblclick', ()=>{
+        if (!document.fullScreen) {
+            var elem = document.getElementById('local')
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { /* Firefox */
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                elem.msRequestFullscreen();
+            }
         } 
           
         else {
-            document.exitPictureInPicture()
-            .catch(error => {
-                // Video failed to leave Picture-in-Picture mode.
-                console.error(error);
-            });
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+              } else if (document.mozCancelFullScreen) { /* Firefox */
+                document.mozCancelFullScreen();
+              } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+                document.webkitExitFullscreen();
+              } else if (document.msExitFullscreen) { /* IE/Edge */
+                document.msExitFullscreen();
+              }
         }
     });
 
@@ -113,9 +122,42 @@ window.addEventListener('load', ()=>{
             helpers.singleStreamToggleMute(e);
         }
     });
+    
+    document.addEventListener('dblclick', (e)=>{
+        if(e.target && e.target.classList.contains('remote-video')){
+            if (!document.fullScreen) {
+            var elem = e.target;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { /* Firefox */
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                elem.msRequestFullscreen();
+            }
+        } 
+          
+        else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+              } else if (document.mozCancelFullScreen) { /* Firefox */
+                document.mozCancelFullScreen();
+              } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+                document.webkitExitFullscreen();
+              } else if (document.msExitFullscreen) { /* IE/Edge */
+                document.msExitFullscreen();
+              }
+        }
+        }
+    });
 
 
     document.getElementById('closeModal').addEventListener('click', ()=>{
         helpers.toggleModal('recording-options-modal', false);
+    });
+    
+    document.getElementById('toggle-mute-all').addEventListener('click', (e)=>{
+        helpers.remoteStreamToggleMute(e);
     });
 })

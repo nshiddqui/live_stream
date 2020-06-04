@@ -22,7 +22,8 @@ window.addEventListener('load', () => {
         var pc = [];
 
         let socket = io('https://yuserver.in:3000/stream');
-
+        
+        var owner = ''
         var socketId = '';
         var myStream = '';
         var screen = '';
@@ -48,6 +49,10 @@ window.addEventListener('load', () => {
                 socket.emit('newUserStart', {to: data.socketId, sender: socketId});
                 pc.push(data.socketId);
                 init(true, data.socketId);
+            });
+            
+            socket.on('owner socket', (data) => {
+                owner = data.socketId;
             });
 
 
@@ -79,6 +84,8 @@ window.addEventListener('load', () => {
                         });
 
                         let answer = await pc[data.sender].createAnswer();
+
+                        answer.sdp = h.updateBandwidthRestriction(answer.sdp, 125);
 
                         await pc[data.sender].setLocalDescription(answer);
 
@@ -159,7 +166,7 @@ window.addEventListener('load', () => {
             if (createOffer) {
                 pc[partnerName].onnegotiationneeded = async () => {
                     let offer = await pc[partnerName].createOffer();
-
+                    offer.sdp = h.updateBandwidthRestriction(offer.sdp, 125);
                     await pc[partnerName].setLocalDescription(offer);
 
                     socket.emit('sdp', {description: pc[partnerName].localDescription, to: partnerName, sender: socketId});
@@ -216,10 +223,19 @@ window.addEventListener('load', () => {
                     case 'disconnected':
                     case 'failed':
                         h.closeVideo(partnerName);
+                        if (owner == partnerName) {
+                            alert('Admin has gone.It will redirect in 5 minutes.');
+                            setTimeout(function () { window.location.href = '/dashboard'; }, 30000);
+                        }
                         break;
 
                     case 'closed':
                         h.closeVideo(partnerName);
+                        
+                        if (owner == partnerName) {
+                            alert('Admin has gone.It will redirect in 5 minutes.');
+                            setTimeout(function () { window.location.href = '/dashboard'; }, 30000);
+                        }
                         break;
                 }
             };
@@ -231,6 +247,10 @@ window.addEventListener('load', () => {
                     case 'closed':
                         console.log("Signalling state is 'closed'");
                         h.closeVideo(partnerName);
+                        if (owner == partnerName) {
+                            alert('Admin has gone.It will redirect in 5 minutes.');
+                            setTimeout(function () { window.location.href = '/dashboard'; }, 5 * 60 * 1000);
+                        }
                         break;
                 }
             };

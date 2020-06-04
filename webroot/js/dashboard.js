@@ -20,3 +20,32 @@ $(function () {
         }
     });
 });
+function makeFullScreen(divObj) {
+  if (!document.fullscreenElement && // alternative standard method
+    !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+    if (divObj.requestFullscreen) {
+      divObj.requestFullscreen();
+    } else if (divObj.msRequestFullscreen) {
+      divObj.msRequestFullscreen();
+    } else if (divObj.mozRequestFullScreen) {
+      divObj.mozRequestFullScreen();
+    } else if (divObj.webkitRequestFullscreen) {
+      divObj.webkitRequestFullscreen();
+    } else {
+      console.log("Fullscreen API is not supported");
+    }
+
+  } else {
+
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.webkitCancelFullScreen) {
+      document.webkitCancelFullScreen();
+    }
+
+  }
+}
