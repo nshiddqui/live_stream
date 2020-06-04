@@ -2,7 +2,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion <?= isset($toggled) && $toggled ? 'toggled' : '' ?>" id="accordionSidebar">
 
     <!-- Side bar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" style="background: #ffffff66;" href="<?= $this->Url->build(['controller' => 'Dashboard', 'action' => 'index']) ?>">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= $this->Url->build(['controller' => 'Dashboard', 'action' => 'index']) ?>">
         <div class="sidebar-brand-icon">
             <?= $this->Html->image('logo.png', ['height' => '100']) ?>
         </div>
