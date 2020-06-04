@@ -193,7 +193,7 @@
     position: fixed;
     left: calc(50% - 110px);
     bottom: 50px;
-    z-index: 99999;
+    z-index: 999999;
     box-shadow: 0 0 15px 1px #4e73df;
     background: #fff;
     width:unset;
@@ -246,7 +246,6 @@
         right: 0;
         left: 0;
         top: unset;
-        z-index: 0;
     }
     .stream-setting button{
         padding:0 10px;

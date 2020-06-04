@@ -22,13 +22,14 @@ window.addEventListener('load', () => {
         var pc = [];
 
         let socket = io('https://yuserver.in:3000/stream');
-        
+
         var owner = ''
         var socketId = '';
         var myStream = '';
         var screen = '';
         var recordedStream = [];
         var mediaRecorder = '';
+        var closePromt = 'Are you sure you want to close this meeting.';
 
         //Get user video by default
         getAndSetUserStream();
@@ -50,7 +51,7 @@ window.addEventListener('load', () => {
                 pc.push(data.socketId);
                 init(true, data.socketId);
             });
-            
+
             socket.on('owner socket', (data) => {
                 owner = data.socketId;
             });
@@ -225,16 +226,20 @@ window.addEventListener('load', () => {
                         h.closeVideo(partnerName);
                         if (owner == partnerName) {
                             alert('Admin has gone.It will redirect in 5 minutes.');
-                            setTimeout(function () { window.location.href = '/dashboard'; }, 30000);
+                            setTimeout(function () {
+                                window.location.href = '/dashboard';
+                            }, 30000);
                         }
                         break;
 
                     case 'closed':
                         h.closeVideo(partnerName);
-                        
+
                         if (owner == partnerName) {
                             alert('Admin has gone.It will redirect in 5 minutes.');
-                            setTimeout(function () { window.location.href = '/dashboard'; }, 30000);
+                            setTimeout(function () {
+                                window.location.href = '/dashboard';
+                            }, 30000);
                         }
                         break;
                 }
@@ -249,7 +254,9 @@ window.addEventListener('load', () => {
                         h.closeVideo(partnerName);
                         if (owner == partnerName) {
                             alert('Admin has gone.It will redirect in 5 minutes.');
-                            setTimeout(function () { window.location.href = '/dashboard'; }, 5 * 60 * 1000);
+                            setTimeout(function () {
+                                window.location.href = '/dashboard';
+                            }, 5 * 60 * 1000);
                         }
                         break;
                 }
@@ -482,6 +489,7 @@ window.addEventListener('load', () => {
             if (mediaRecorder.state == 'recording') {
                 var ask = window.confirm("Recorind is running, would you want to save it?");
                 if (ask) {
+                    closePromt = false;
                     mediaRecorder.stop();
                     setTimeout(function () {
                         window.location.href = "/dashboard";
@@ -489,6 +497,12 @@ window.addEventListener('load', () => {
                 }
             }
             window.location.href = "/dashboard";
+        });
+
+
+        window.addEventListener('beforeunload', function (e) {
+            e.preventDefault();
+            e.returnValue = 'Are you sure you want to close this meeting.';
         });
     }
 });
