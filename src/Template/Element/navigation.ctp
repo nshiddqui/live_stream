@@ -19,7 +19,7 @@
                 <?= $this->Html->image('login-img.png',['height'=>'70']) ?>
             </a>
             <!-- Drop down - User Information -->
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" style="z-index: 99999999;" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="/profile">
                     <?= $Auth->user('name') ?>
                     <br>

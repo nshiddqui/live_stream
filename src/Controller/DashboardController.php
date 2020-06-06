@@ -94,7 +94,6 @@ class DashboardController extends AppController {
             'conditions' => [
                 'StreamDetails.stream_id' => $secureId,
                 'StreamDetails.user_id' => $current_user['id'],
-                'Streams.start_time <= NOW()',
                 'Streams.end_time >= NOW()'
             ],
             'contain' => ['Streams' => 'Users']
@@ -104,6 +103,10 @@ class DashboardController extends AppController {
             return $this->redirect(['action' => 'index']);
         }
         $stream_data = $streamData->first();
+        if($stream_data['stream']->start_time < date('Y-m-d h:i:s')){
+            $this->Flash->error('We are unable to start the meeting because meeting starting time is not matching.');
+            return $this->redirect(['action' => 'index']);
+        }
         $toggled = true;
         $this->set(compact('stream_data', 'current_user', 'toggled'));
     }

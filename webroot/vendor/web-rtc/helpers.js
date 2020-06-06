@@ -337,7 +337,7 @@ export default {
         var w = window.innerWidth
                 || document.documentElement.clientWidth
                 || document.body.clientWidth;
-        newHeight = newWidth;
+        var newHeight = newWidth;
         if(w < 767){
             newWidth = '100%';
         }

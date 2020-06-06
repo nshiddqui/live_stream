@@ -54,7 +54,7 @@ window.addEventListener('load', () => {
             });
 
             socket.on('room close', (data) => {
-                alert('Admin has gone.It will redirect in 5 minutesif admin will not come.');
+                alert('Host is logged out. He will be back in 5 minutes else the meeting will automatically end.');
                 let local = document.getElementById('local');
                 local.srcObject.getTracks().forEach(t => t.enabled = false);
                 StreamAdmin = setTimeout(function () {
