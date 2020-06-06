@@ -38,6 +38,20 @@
                     <?= $this->Form->control('start_time', ['type' => 'text']) ?>
                     <!-- End time for stream -->
                     <?= $this->Form->control('end_time', ['type' => 'text']) ?>
+                    Meeting Settings
+                    <hr>
+                    <div class="form-inline">
+                        <span class="mr-3 ml-2">
+                            <?= $this->Form->control('video', ['type' => 'checkbox', 'checked' => true]) ?>
+                        </span>      
+                        <span class="mr-3">
+                            <?= $this->Form->control('audio', ['type' => 'checkbox', 'checked' => true]) ?>
+                        </span>
+                        <div class="mr-3"> 
+                            <?= $this->Form->control('screen_share', ['type' => 'checkbox', 'checked' => true]) ?>
+                        </div>
+                    </div>
+                    <hr>
                     <!-- List of email's for stream -->
                     <?= $this->Form->label('emails') ?>
                     <?= $this->Form->select('emails', $emails, ['data-placeholder' => 'Please select...', 'class' => 'group-result chosen-search-input default', 'multiple' => true]) ?>

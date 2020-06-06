@@ -43,14 +43,15 @@ window.addEventListener('load', () => {
             socket.emit('subscribe', {
                 room: room,
                 socketId: socketId,
-                owner: owner
+                owner: owner,
+                username: username
             });
 
 
             socket.on('new user', (data) => {
                 socket.emit('newUserStart', {to: data.socketId, sender: socketId});
                 pc.push(data.socketId);
-                init(true, data.socketId);
+                init(true, data.socketId, data.username);
             });
 
             socket.on('room close', (data) => {
@@ -71,7 +72,7 @@ window.addEventListener('load', () => {
 
             socket.on('newUserStart', (data) => {
                 pc.push(data.sender);
-                init(false, data.sender);
+                init(false, data.sender, data.username);
             });
 
 
@@ -147,7 +148,7 @@ window.addEventListener('load', () => {
 
 
 
-        function init(createOffer, partnerName) {
+        function init(createOffer, partnerName, username = false) {
             pc[partnerName] = new RTCPeerConnection(h.getIceServer());
 
             if (screen && screen.getTracks().length) {
@@ -221,6 +222,13 @@ window.addEventListener('load', () => {
                     cardDiv.id = partnerName;
                     cardDiv.appendChild(newVid);
                     cardDiv.appendChild(controlDiv);
+                    if (username) {
+                        let controlDiv = document.createElement('div');
+                        controlDiv.className = 'remote-video-names';
+                        controlDiv.innerHTML = username;
+                        cardDiv.appendChild(controlDiv);
+
+                    }
 
                     //put div in main-section elem
                     document.getElementById('videos').appendChild(cardDiv);

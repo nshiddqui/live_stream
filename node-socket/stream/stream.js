@@ -21,14 +21,15 @@ const stream = (socket) => {
             setSocket = {
                 socketId: data.socketId,
                 owner: data.owner,
-                room: data.room
+                room: data.room,
+                username: data.username
             };
         }
 
         //Inform other members in the room of new user's arrival
         if (socket.adapter.rooms[data.room].length > 1) {
             socket.to(data.room).emit('room enter', {socketId: data.socketId});
-            socket.to(data.room).emit('new user', {socketId: data.socketId});
+            socket.to(data.room).emit('new user', {socketId: data.socketId, username: data.username});
         }
 
         console.log(socket.rooms);
@@ -36,7 +37,7 @@ const stream = (socket) => {
 
 
     socket.on('newUserStart', (data) => {
-        socket.to(data.to).emit('newUserStart', {sender: data.sender});
+        socket.to(data.to).emit('newUserStart', {sender: data.sender,username: setSocket.username});
     });
 
 

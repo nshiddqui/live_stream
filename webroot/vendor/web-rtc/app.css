@@ -90,6 +90,15 @@
     visibility: hidden;
 }
 
+.remote-video-names{
+    position:absolute;
+    top: 0;
+    background-color:rgba(0, 0, 0, 0.5);
+    z-index:300000;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+}
 
 .remote-video:hover + .remote-video-controls,
 .remote-video-controls:hover{
@@ -203,13 +212,19 @@
 
 #videos .card {
     border: 4px solid blue;
-    background: #000;videos
+    background: #000;
 }
 
 
 @keyframes animatetop {
-    from {top: -300px; opacity: 0}
-    to {top: 0; opacity: 1}
+    from {
+        top: -300px;
+        opacity: 0;
+    }
+    to {
+        top: 0;
+        opacity: 1;
+    }
 }
 
 

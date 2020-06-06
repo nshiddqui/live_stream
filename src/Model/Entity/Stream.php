@@ -41,6 +41,9 @@ class Stream extends Entity {
         'broadcaster' => true,
         'created' => true,
         'ip_address' => true,
+        'video' => true,
+        'audio' => true,
+        'screen_share' => true,
         'user' => true,
         'stream_details' => true,
     ];
