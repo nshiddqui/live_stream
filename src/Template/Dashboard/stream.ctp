@@ -3,7 +3,7 @@
 <?= $this->Html->script('https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js') ?>
 <script>
     const room = '<?= $stream_data['stream']['request_token'] ?>';
-    const username = '<?= $current_user['username'] ?>';
+    const username = '<?= $current_user['name'] ?>';
     const owner = '<?= $stream_data['stream']->user_id == $current_user['id'] ? '1' : '0' ?>';
     const video = '<?= $stream_data['stream']->video ?>';
     $(document).ready(function () {
