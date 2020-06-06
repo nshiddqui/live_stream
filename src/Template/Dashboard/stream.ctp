@@ -4,7 +4,7 @@
 <script>
     const room = '<?= $stream_data['stream']['request_token'] ?>';
     const username = '<?= $current_user['username'] ?>';
-    const owner = '<?= $stream_data->user_id == $current_user['id'] ? '1' : '0' ?>';
+    const owner = '<?= $stream_data['stream']->user_id == $current_user['id'] ? '1' : '0' ?>';
     $(document).ready(function () {
         $(".local-video").draggabilly({
             // options...
