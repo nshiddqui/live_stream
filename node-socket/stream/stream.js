@@ -85,7 +85,7 @@ const stream = (socket) => {
         console.log('disconnect');
         console.log(setSocket);
         if (setSocket.owner && setSocket.owner == 1) {
-            let sql = "UPDATE `streams` SET `is_active` = 0 WHERE `request_token` = ?";
+            let sql = "UPDATE `streams` SET `is_active` = '0' WHERE `request_token` = ?";
             let updateData = [setSocket.room];
             // execute the UPDATE statement
             connection.query(sql, updateData);
