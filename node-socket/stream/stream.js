@@ -55,13 +55,13 @@ const stream = (socket) => {
     });
 
     socket.on('screen sharing off', (data) => {
-        updateData('screen_setting', '0');
+        updateDataStream('screen_setting', '0');
         console.log('screen off');
         socket.to(setSocket.room).emit('screen sharing off', data);
     });
 
     socket.on('screen sharing on', (data) => {
-        updateData('screen_setting', '1');
+        updateDataStream('screen_setting', '1');
         console.log('screen on');
         socket.to(setSocket.room).emit('screen sharing on', data);
     });
@@ -93,7 +93,7 @@ const stream = (socket) => {
         }
     });
 
-    function updateData(key, value) {
+    function updateDataStream(key, value) {
         initializeData();
         streamData[setSocket.room][key] = value;
         var streamDataJson = JSON.stringify(streamData);
