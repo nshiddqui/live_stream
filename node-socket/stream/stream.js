@@ -96,6 +96,16 @@ const stream = (socket) => {
     function updateData(key, value) {
         initializeData();
         streamData[setSocket.room][key] = value;
+        var streamDataJson = JSON.stringify(streamData);
+
+        fs.writeFile('stream/stream_data.json', streamDataJson, function (err) {
+            if (err) {
+                console.log('There has been an error saving your configuration data.');
+                console.log(err.message);
+                return;
+            }
+            console.log('Configuration saved successfully.')
+        });
     }
 
     function geData(key = false) {
