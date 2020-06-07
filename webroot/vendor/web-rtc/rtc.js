@@ -30,6 +30,7 @@ window.addEventListener('load', () => {
         var recordedStream = [];
         var mediaRecorder = '';
         var closePromt = 'Are you sure you want to close this meeting.';
+        var screenSharing = true;
 
         //Get user video by default
         getAndSetUserStream();
@@ -63,10 +64,16 @@ window.addEventListener('load', () => {
                 }, 30000);
             });
 
-            socket.on('room enter', (data) => {
-                let local = document.getElementById('local');
-                local.srcObject.getTracks().forEach(t => t.enabled = true);
-                clearTimeout(StreamAdmin);
+            socket.on('screen sharing off', (data) => {
+                console.log('screen close');
+                screenSharing = true;
+                document.getElementById('share-screen').disabled = false;
+            });
+
+            socket.on('screen sharing on', (data) => {
+                console.log('screen on');
+                screenSharing = false;
+                document.getElementById('share-screen').disabled = true;
             });
 
 
@@ -280,6 +287,8 @@ window.addEventListener('load', () => {
                 //share the new stream with all partners
                 broadcastNewTracks(stream, 'video', false);
 
+                socket.emit('screen sharing on', {to: socketId, socketId: socketId, });
+
                 //When the stop sharing button shown by the browser is clicked
                 screen.getVideoTracks()[0].addEventListener('ended', () => {
                     stopSharingScreen();
@@ -435,8 +444,14 @@ window.addEventListener('load', () => {
 
             if (screen && screen.getVideoTracks().length && screen.getVideoTracks()[0].readyState != 'ended') {
                 stopSharingScreen();
+                socket.emit('screen sharing off', {to: socketId, socketId: socketId});
             } else {
-                shareScreen();
+                if (screenSharing) {
+                    console.log('screen emit on');
+                    shareScreen();
+                } else {
+                    alert('Some one already using screen sharing');
+                }
             }
         });
 

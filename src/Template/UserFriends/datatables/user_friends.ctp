@@ -9,7 +9,8 @@ foreach ($results as $result) {
         $result['friend']->name,
         $result['friend']->email,
         $result->group,
-        $this->Form->postLink(__('Delete'), ['action' => 'delete', $secureId], ['class' => 'btn btn-danger', 'confirm' => __('Are you sure you want to delete # {0}?', $result['friend']->email)])
+        $this->Html->link('<i class="btn-primary btn-sm fas fa-pencil-alt mx-1"></i>', ['action' => 'edit', $result->id], ['escape' => false]) .
+        $this->Form->postLink('<i class="btn-danger btn-sm fas fa-trash mx-1"></i>', ['action' => 'delete', $secureId], ['escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $result['friend']->email)])
     ]);
 }
 echo $this->DataTables->response();

@@ -34,6 +34,7 @@
                     <?= $this->Form->create($stream) ?>
                     <!-- Title for stream -->
                     <?= $this->Form->control('title') ?>
+                    <?= $this->Form->control('description') ?>
                     <!-- Scheduled time for stream -->
                     <?= $this->Form->control('start_time', ['type' => 'text']) ?>
                     <!-- End time for stream -->
@@ -44,9 +45,6 @@
                         <span class="mr-3 ml-2">
                             <?= $this->Form->control('video', ['type' => 'checkbox', 'checked' => true]) ?>
                         </span>      
-                        <span class="mr-3">
-                            <?= $this->Form->control('audio', ['type' => 'checkbox', 'checked' => true]) ?>
-                        </span>
                         <div class="mr-3"> 
                             <?= $this->Form->control('screen_share', ['type' => 'checkbox', 'checked' => true]) ?>
                         </div>

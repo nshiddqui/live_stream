@@ -41,6 +41,7 @@ class User extends Entity {
         'ip_address' => true,
         'is_active' => true,
         'last_update' => true,
+        'profile_image' => true,
         'created' => true,
         'modified' => true,
     ];

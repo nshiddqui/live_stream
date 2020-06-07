@@ -39,11 +39,17 @@ class UsersController extends AppController {
             $data = $this->request->getData();
             if (empty($data['password'])) {
                 unset($data['password']);
+                unset($data['confirm_password']);
             }
             if (isset($data['email'])) {
                 unset($data['email']);
             }
-            $user = $this->Users->patchEntity($user, $data, ['validate' => false]);
+            if ($imagePath = $this->upload_image($data['profile_image'],'img/profile_image')) {
+                $data['profile_image'] = $imagePath;
+            } else {
+                unset($data['profile_image']);
+            }
+            $user = $this->Users->patchEntity($user, $data);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The profile has been saved.'));
 
@@ -52,6 +58,37 @@ class UsersController extends AppController {
             $this->Flash->error(__('The profile could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
+    }
+
+    //Upload image on given path in parameter
+//@image= give image
+//$path = give path where need to store image
+    private function upload_image($image, $path) {
+//check image is valid
+        $isImage = @getimagesize($image['tmp_name']);
+        if ($isImage == false) {
+//if not valid return false
+            return $this->Flash->error(__('Invalid image.'));
+        }
+//set image extension
+        $ext = pathinfo($image['name'], PATHINFO_EXTENSION);
+        $imageName = time();
+//set file name with time for unique file name
+        $fileName = $imageName . '.' . $ext;
+//set file path for server disk
+        $uploadPath = WWW_ROOT . $path;
+        if (!is_dir($uploadPath)) {
+//if folder not exist, creat efolder
+            mkdir($uploadPath, 0777, true);
+        }
+        if (!move_uploaded_file($image['tmp_name'], $uploadPath . DS . $fileName)) {
+//if file not upload on path, return with flash error
+            $this->Flash->error(__('Fail to upload image.'));
+            return false;
+        } else {
+//return file name
+            return $fileName;
+        }
     }
 
     /**

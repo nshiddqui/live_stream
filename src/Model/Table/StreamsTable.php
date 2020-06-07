@@ -70,6 +70,11 @@ class StreamsTable extends Table {
                 ->maxLength('title', 255)
                 ->requirePresence('title', 'create')
                 ->notEmptyString('title');
+        
+        $validator
+                ->scalar('description')
+                ->requirePresence('description', 'create')
+                ->notEmptyString('description');
 
         $validator
                 ->dateTime('start_time')

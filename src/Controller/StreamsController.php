@@ -90,19 +90,45 @@ class StreamsController extends AppController {
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function add() {
+        $this->loadModel('Streams');
+        $this->loadModel('Users');
         $stream = $this->Streams->newEntity();
+        $user_ids = Hash::extract($this->Auth->user('user_friends'), '{n}.friend_id');
         if ($this->request->is('post')) {
-            $stream = $this->Streams->patchEntity($stream, $this->request->getData());
-            if ($this->Streams->save($stream)) {
-                $this->Flash->success(__('The stream has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+            $data = $this->request->getData();
+            if (!empty($data['emails']) && !empty($user_ids)) {
+                $data['start_time'] = $this->dateFormatSql($data['start_time']);
+                $data['end_time'] = $this->dateFormatSql($data['end_time']);
+                $streamData = $this->Streams->patchEntity($stream, $data);
+                if ($this->Streams->save($streamData)) {
+                    $this->loadModel('StreamDetails');
+                    $streamDetails = ['stream_id' => $streamData->id];
+                    $streamDetails['user_id'] = $this->Auth->user('id');
+                    $EntityStreamDetails = $this->StreamDetails->newEntity($streamDetails);
+                    $this->StreamDetails->save($EntityStreamDetails);
+                    foreach ($data['emails'] as $userId) {
+                        if (!in_array($userId, $user_ids)) {
+                            continue;
+                        }
+                        $streamDetails['user_id'] = $userId;
+                        $EntityStreamDetails = $this->StreamDetails->newEntity($streamDetails);
+                        $this->StreamDetails->save($EntityStreamDetails);
+                    }
+                    $this->Flash->success(__('Your stream scheduled successfull.'));
+                    return $this->redirect($this->referer());
+                }
+                $this->Flash->error(__('Unable to scheduled stream. Please, try again.'));
+            } else {
+                $this->Flash->error(__('Please add emails for schedule stream.'));
             }
-            $this->Flash->error(__('The stream could not be saved. Please, try again.'));
         }
-        $users = $this->Streams->Users->find('list', ['limit' => 200]);
-        $streamDetails = $this->Streams->StreamDetails->find('list', ['limit' => 200]);
-        $this->set(compact('stream', 'users', 'streamDetails'));
+        $emails = array();
+        if (!empty($user_ids)) {
+            foreach ($this->Auth->user('user_friends') as $user_id) {
+                $emails[$user_id['group']][$user_id['friend']['id']] = $user_id['friend']['email'];
+            }
+        }
+        $this->set(compact('stream', 'emails'));
     }
 
     /**

@@ -32,6 +32,7 @@ class Stream extends Entity {
      */
     protected $_accessible = [
         'title' => true,
+        'description' => true,
         'start_time' => true,
         'end_time' => true,
         'user_id' => true,

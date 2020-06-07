@@ -1,10 +1,20 @@
 const mysql = require('mysql');
+const fs = require('fs');
 const connection = mysql.createConnection({
     host: 'yuserver.in',
     user: 'yuserver_yuserver',
     password: 'nazim@123',
     database: 'yuserver_stream'
 });
+var data = fs.readFileSync('stream/stream_data.json'),
+        streamData;
+try {
+    streamData = JSON.parse(data);
+    console.dir(streamData);
+} catch (err) {
+    console.log('There has been an error parsing your JSON.')
+    console.log(err);
+}
 const stream = (socket) => {
     let setSocket;
     socket.on('subscribe', (data) => {
@@ -28,6 +38,10 @@ const stream = (socket) => {
 
         //Inform other members in the room of new user's arrival
         if (socket.adapter.rooms[data.room].length > 1) {
+            if (geData('screen_setting') && geData('screen_setting') == '1') {
+                console.log('screen setting cheked');
+                socket.emit('screen sharing on', {socketId: data.socketId});
+            }
             socket.to(data.room).emit('room enter', {socketId: data.socketId});
             socket.to(data.room).emit('new user', {socketId: data.socketId, username: data.username});
         }
@@ -37,7 +51,19 @@ const stream = (socket) => {
 
 
     socket.on('newUserStart', (data) => {
-        socket.to(data.to).emit('newUserStart', {sender: data.sender,username: setSocket.username});
+        socket.to(data.to).emit('newUserStart', {sender: data.sender, username: setSocket.username});
+    });
+
+    socket.on('screen sharing off', (data) => {
+        updateData('screen_setting', '0');
+        console.log('screen off');
+        socket.to(setSocket.room).emit('screen sharing off', data);
+    });
+
+    socket.on('screen sharing on', (data) => {
+        updateData('screen_setting', '1');
+        console.log('screen on');
+        socket.to(setSocket.room).emit('screen sharing on', data);
     });
 
 
@@ -56,15 +82,50 @@ const stream = (socket) => {
     });
 
     socket.on('disconnect', (data) => {
+        console.log('disconnect');
         console.log(setSocket);
         if (setSocket.owner && setSocket.owner == 1) {
-            let sql = "UPDATE `streams` SET `is_active` = 0 WHERE `broadcaster` = ?";
-            let updateData = [setSocket.socketId];
+            let sql = "UPDATE `streams` SET `is_active` = 0 WHERE `request_token` = ?";
+            let updateData = [setSocket.room];
             // execute the UPDATE statement
             connection.query(sql, updateData);
             socket.to(setSocket.room).emit('room close', {socketId: setSocket.socketId});
         }
     });
+
+    function updateData(key, value) {
+        setSocket.room;
+        streamData[setSocket.room][key] = value;
+    }
+
+    function geData(key = false) {
+        initializeData();
+        if (key) {
+            return streamData[setSocket.room][key];
+        }
+        return streamData[setSocket.room];
+    }
+
+    function initializeData() {
+        if (!streamData[setSocket.room]) {
+            connection.query("SELECT * FROM streams WHERE request_token = ?", [setSocket.room], function (err, result, fields) {
+                if (err)
+                    throw err;
+                console.log(result);
+                streamData[data.room] = result;
+                var streamDataJson = JSON.stringify(streamData);
+
+                fs.writeFile('stream/stream_data.json', streamDataJson, function (err) {
+                    if (err) {
+                        console.log('There has been an error saving your configuration data.');
+                        console.log(err.message);
+                        return;
+                    }
+                    console.log('Configuration saved successfully.')
+                });
+            });
+        }
+    }
 }
 
 module.exports = stream;

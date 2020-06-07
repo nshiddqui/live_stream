@@ -50,7 +50,7 @@ $description = 'Stream';
                 <footer class="sticky-footer bg-white">
                     <div class="container my-auto">
                         <div class="copyright text-left my-auto">
-                            <span>Copyright &copy; <?= $description ?>  2020</span>
+                            <span>Copyright &copy; <?= $description ?>  2020 Developed by Dizaart Systems</span>
                         </div>
                     </div>
                 </footer>

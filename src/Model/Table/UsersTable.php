@@ -115,6 +115,15 @@ class UsersTable extends Table {
         ]);
 
         $validator
+                ->allowEmpty('profile_image')
+                ->add('profile_image', [
+                    'validExtension' => [
+                        'rule' => ['extension', ['jpeg', 'png', 'jpg']], // default  ['gif', 'jpeg', 'png', 'jpg']
+                        'message' => __('These files extension are allowed: .png .jpeg .jpg')
+                    ]
+        ]);
+
+        $validator
                 ->scalar('token')
                 ->maxLength('token', 255)
                 ->allowEmptyString('token');

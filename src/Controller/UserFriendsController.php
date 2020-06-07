@@ -41,7 +41,7 @@ class UserFriendsController extends AppController {
      *
      * @return \Cake\Http\Response|null
      */
-    public function index() {
+    public function index($id = null) {
         if ($this->request->is('post')) {
             $username = $this->request->getData('username');
             if (!empty($username)) {
@@ -100,6 +100,25 @@ class UserFriendsController extends AppController {
         } else {
             $this->Flash->error(__('This user already in your friend list.'));
         }
+    }
+
+    public function edit($id = null) {
+        $user_friend = $this->UserFriends->get($id, [
+            'contain' => ['Friends'],
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $data = $this->request->getData();
+            unset($data['friend']);
+            $user_friend = $this->UserFriends->patchEntity($user_friend, $data);
+            if ($this->UserFriends->save($user_friend)) {
+
+                $this->Flash->success(__('Your friend has been updated.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('Your friend could not be updated. Please, try again.'));
+        }
+        $this->set(compact('user_friend'));
     }
 
     /**
