@@ -94,7 +94,7 @@ const stream = (socket) => {
     });
 
     function updateData(key, value) {
-        setSocket.room;
+        initializeData();
         streamData[setSocket.room][key] = value;
     }
 
