@@ -38,7 +38,7 @@ const stream = (socket) => {
 
         //Inform other members in the room of new user's arrival
         if (socket.adapter.rooms[data.room].length > 1) {
-            if (geData('screen_setting') && geData('screen_setting') == '1') {
+            if (getScreenSetting() && getScreenSetting() == '1') {
                 console.log('screen setting cheked');
                 socket.emit('screen sharing on', {socketId: data.socketId});
             }
@@ -55,13 +55,13 @@ const stream = (socket) => {
     });
 
     socket.on('screen sharing off', (data) => {
-        updateDataStream('screen_setting', '0');
+        updateScreenSetting('0');
         console.log('screen off');
         socket.to(setSocket.room).emit('screen sharing off', data);
     });
 
     socket.on('screen sharing on', (data) => {
-        updateDataStream('screen_setting', '1');
+        updateScreenSetting('1');
         console.log('screen on');
         socket.to(setSocket.room).emit('screen sharing on', data);
     });
@@ -93,9 +93,30 @@ const stream = (socket) => {
         }
     });
 
-    function updateDataStream(key, value) {
+    function updateScreenSetting(value) {
         initializeData();
-        streamData[setSocket.room][key] = value;
+        streamData[setSocket.room].screen_setting = value;
+        modifyData();
+    }
+
+    function getScreenSetting() {
+        initializeData();
+        return streamData[setSocket.room].screen_setting;
+    }
+
+    function initializeData() {
+        if (!streamData[setSocket.room]) {
+            connection.query("SELECT * FROM streams WHERE request_token = ?", [setSocket.room], function (err, result, fields) {
+                if (err)
+                    throw err;
+                console.log(result);
+                streamData[data.room] = result;
+                modifyData();
+            });
+        }
+    }
+
+    function modifyData() {
         var streamDataJson = JSON.stringify(streamData);
 
         fs.writeFile('stream/stream_data.json', streamDataJson, function (err) {
@@ -106,35 +127,6 @@ const stream = (socket) => {
             }
             console.log('Configuration saved successfully.')
         });
-    }
-
-    function geData(key = false) {
-        initializeData();
-        if (key) {
-            return streamData[setSocket.room][key];
-        }
-        return streamData[setSocket.room];
-    }
-
-    function initializeData() {
-        if (!streamData[setSocket.room]) {
-            connection.query("SELECT * FROM streams WHERE request_token = ?", [setSocket.room], function (err, result, fields) {
-                if (err)
-                    throw err;
-                console.log(result);
-                streamData[data.room] = result;
-                var streamDataJson = JSON.stringify(streamData);
-
-                fs.writeFile('stream/stream_data.json', streamDataJson, function (err) {
-                    if (err) {
-                        console.log('There has been an error saving your configuration data.');
-                        console.log(err.message);
-                        return;
-                    }
-                    console.log('Configuration saved successfully.')
-                });
-            });
-        }
     }
 }
 
