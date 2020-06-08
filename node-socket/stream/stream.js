@@ -44,6 +44,8 @@ const stream = (socket) => {
             }
             socket.to(data.room).emit('room enter', {socketId: data.socketId});
             socket.to(data.room).emit('new user', {socketId: data.socketId, username: data.username});
+        } else {
+            initializeData(true);
         }
 
         console.log(socket.rooms);
@@ -95,8 +97,6 @@ const stream = (socket) => {
 
     function updateScreenSetting(value) {
         initializeData();
-        console.log(streamData[setSocket.room]);
-        console.log(streamData[setSocket.room][0]);
         streamData[setSocket.room].screen_setting = value;
         modifyData();
     }
@@ -106,8 +106,8 @@ const stream = (socket) => {
         return streamData[setSocket.room].screen_setting;
     }
 
-    function initializeData() {
-        if (!streamData[setSocket.room]) {
+    function initializeData(force = false) {
+        if (!streamData[setSocket.room] || force) {
             connection.query("SELECT * FROM streams WHERE request_token = ?", [setSocket.room], function (err, result, fields) {
                 if (err)
                     throw err;
