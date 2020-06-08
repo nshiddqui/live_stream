@@ -38,7 +38,7 @@ const stream = (socket) => {
 
         //Inform other members in the room of new user's arrival
         if (socket.adapter.rooms[data.room].length > 1) {
-            if (getScreenSetting() && getScreenSetting() == '1') {
+            if (getScreenSetting() && getScreenSetting() == 'on') {
                 console.log('screen setting cheked');
                 socket.emit('screen sharing on', {socketId: data.socketId});
             }
@@ -55,13 +55,13 @@ const stream = (socket) => {
     });
 
     socket.on('screen sharing off', (data) => {
-        updateScreenSetting('0');
+        updateScreenSetting('off');
         console.log('screen off');
         socket.to(setSocket.room).emit('screen sharing off', data);
     });
 
     socket.on('screen sharing on', (data) => {
-        updateScreenSetting('1');
+        updateScreenSetting('on');
         console.log('screen on');
         socket.to(setSocket.room).emit('screen sharing on', data);
     });
