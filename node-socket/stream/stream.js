@@ -95,6 +95,8 @@ const stream = (socket) => {
 
     function updateScreenSetting(value) {
         initializeData();
+        console.log(streamData[setSocket.room]);
+        console.log(streamData[setSocket.room][0]);
         streamData[setSocket.room].screen_setting = value;
         modifyData();
     }
