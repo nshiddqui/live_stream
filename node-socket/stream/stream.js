@@ -112,7 +112,7 @@ const stream = (socket) => {
                 if (err)
                     throw err;
                 console.log(result);
-                streamData[data.room] = result;
+                streamData[setSocket.room] = result;
                 modifyData();
             });
         }
