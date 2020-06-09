@@ -40,27 +40,12 @@ window.addEventListener('load', () => {
             //set socketId
             socketId = socket.io.engine.id;
 
-            if (owner == '1') {
-                socket.emit('subscribe', {
-                    room: room,
-                    socketId: socketId,
-                    owner: owner,
-                    username: username
-                });
-            } else {
-                document.getElementById('stream-setting').style.display = 'none';
-                waitingDialog.show('Please wait for admin to start meeting.');
-                socket.on('admin join', (data) => {
-                    socket.emit('subscribe', {
-                        room: room,
-                        socketId: socketId,
-                        owner: owner,
-                        username: username
-                    });
-                    document.getElementById('stream-setting').style.display = 'block';
-                    waitingDialog.hide();
-                });
-            }
+            socket.emit('subscribe', {
+                room: room,
+                socketId: socketId,
+                owner: owner,
+                username: username
+            });
 
 
             socket.on('new user', (data) => {
