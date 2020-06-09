@@ -103,8 +103,12 @@ class DashboardController extends AppController {
             return $this->redirect(['action' => 'index']);
         }
         $stream_data = $streamData->first();
-        if($stream_data['stream']->start_time < date('Y-m-d h:i:s')){
+        if ($stream_data['stream']->start_time < date('Y-m-d h:i:s')) {
             $this->Flash->error('We are unable to start the meeting because meeting starting time is not matching.');
+            return $this->redirect(['action' => 'index']);
+        }
+        if ($stream_data['stream']->is_active == '0' && $stream_data['stream']->user_id !== $current_user['id']) {
+            $this->Flash->error('You cannot join this meeting until admin will start it.');
             return $this->redirect(['action' => 'index']);
         }
         $toggled = true;
