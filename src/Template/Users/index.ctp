@@ -31,7 +31,7 @@
                             </fieldset>
                         </div>
                         <div class="col-md-4 col-sm-4">
-                            <label for="profile-image" class="rounded-circle">
+                            <label for="profile-image" class="rounded-circle col-12">
                                 <?= $this->Html->image('profile_image/' . $user->profile_image, ['class' => 'col-12', 'id' => 'profile-image-file']) ?>
                             </label>
                         </div>

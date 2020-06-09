@@ -26,6 +26,35 @@
         ?>
     </li>
 
+    <li class="nav-item">
+
+        <?=
+        $this->Html->link('<i class="fas fa-fw fa-user-alt"></i>
+            <span>Profile</span></a>', [
+            'controller' => 'Profile',
+            'action' => 'index'
+                ], [
+            'class' => 'nav-link',
+            'escape' => false]
+        )
+        ?>
+    </li>
+
+
+    <li class="nav-item">
+
+        <?=
+        $this->Html->link('<i class="fas fa-fw fa-handshake"></i>
+            <span>Schedule New Meeting</span></a>', [
+            'controller' => 'Streams',
+            'action' => 'add'
+                ], [
+            'class' => 'nav-link',
+            'escape' => false]
+        )
+        ?>
+    </li>
+
     <!-- Navigation Item - Upcoming Meetings -->
     <li class="nav-item">
 
@@ -40,21 +69,7 @@
         )
         ?>
     </li>
-    
-    <li class="nav-item">
 
-        <?=
-        $this->Html->link('<i class="fas fa-fw fa-handshake"></i>
-            <span>Schedule New Meeting</span></a>', [
-            'controller' => 'Streams',
-            'action' => 'add'
-                ], [
-            'class' => 'nav-link',
-            'escape' => false]
-        )
-        ?>
-    </li>
-    
     <!-- Navigation Item - Friend List -->
     <li class="nav-item">
 

@@ -111,7 +111,7 @@ class UserFriendsController extends AppController {
             unset($data['friend']);
             $user_friend = $this->UserFriends->patchEntity($user_friend, $data);
             if ($this->UserFriends->save($user_friend)) {
-
+                $this->_refreshAuth();
                 $this->Flash->success(__('Your friend has been updated.'));
 
                 return $this->redirect(['action' => 'index']);

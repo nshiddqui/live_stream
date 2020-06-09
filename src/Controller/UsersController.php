@@ -51,6 +51,7 @@ class UsersController extends AppController {
             }
             $user = $this->Users->patchEntity($user, $data);
             if ($this->Users->save($user)) {
+                $this->_refreshAuth();
                 $this->Flash->success(__('The profile has been saved.'));
 
                 return $this->redirect(['action' => 'index']);

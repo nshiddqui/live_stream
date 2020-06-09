@@ -40,13 +40,27 @@ window.addEventListener('load', () => {
             //set socketId
             socketId = socket.io.engine.id;
 
-
-            socket.emit('subscribe', {
-                room: room,
-                socketId: socketId,
-                owner: owner,
-                username: username
-            });
+            if (owner == '1') {
+                socket.emit('subscribe', {
+                    room: room,
+                    socketId: socketId,
+                    owner: owner,
+                    username: username
+                });
+            } else {
+                document.getElementById('stream-setting').style.display = 'none';
+                waitingDialog.show('Please wait for admin to start meeting.');
+                socket.on('admin join', (data) => {
+                    socket.emit('subscribe', {
+                        room: room,
+                        socketId: socketId,
+                        owner: owner,
+                        username: username
+                    });
+                    document.getElementById('stream-setting').style.display = 'block';
+                    waitingDialog.hide();
+                });
+            }
 
 
             socket.on('new user', (data) => {
@@ -66,14 +80,18 @@ window.addEventListener('load', () => {
 
             socket.on('screen sharing off', (data) => {
                 console.log('screen close');
-                screenSharing = true;
-                document.getElementById('share-screen').disabled = false;
+                if (data.socketId !== socketId) {
+                    screenSharing = true;
+                    document.getElementById('share-screen').disabled = false;
+                }
             });
 
             socket.on('screen sharing on', (data) => {
                 console.log('screen on');
-                screenSharing = false;
-                document.getElementById('share-screen').disabled = true;
+                if (data.socketId !== socketId) {
+                    screenSharing = false;
+                    document.getElementById('share-screen').disabled = true;
+                }
             });
 
 
@@ -389,29 +407,30 @@ window.addEventListener('load', () => {
             }
         });
 
+        if (video == '1' || owner == '1') {
+            //When the video icon is clicked
+            document.getElementById('toggle-video').addEventListener('click', (e) => {
+                e.preventDefault();
 
-        //When the video icon is clicked
-        document.getElementById('toggle-video').addEventListener('click', (e) => {
-            e.preventDefault();
+                let elem = document.getElementById('toggle-video');
 
-            let elem = document.getElementById('toggle-video');
+                if (myStream.getVideoTracks()[0].enabled) {
+                    e.target.classList.remove('fa-video');
+                    e.target.classList.add('fa-video-slash');
+                    elem.setAttribute('title', 'Show Video');
 
-            if (myStream.getVideoTracks()[0].enabled) {
-                e.target.classList.remove('fa-video');
-                e.target.classList.add('fa-video-slash');
-                elem.setAttribute('title', 'Show Video');
+                    myStream.getVideoTracks()[0].enabled = false;
+                } else {
+                    e.target.classList.remove('fa-video-slash');
+                    e.target.classList.add('fa-video');
+                    elem.setAttribute('title', 'Hide Video');
 
-                myStream.getVideoTracks()[0].enabled = false;
-            } else {
-                e.target.classList.remove('fa-video-slash');
-                e.target.classList.add('fa-video');
-                elem.setAttribute('title', 'Hide Video');
+                    myStream.getVideoTracks()[0].enabled = true;
+                }
 
-                myStream.getVideoTracks()[0].enabled = true;
-            }
-
-            broadcastNewTracks(myStream, 'video');
-        });
+                broadcastNewTracks(myStream, 'video');
+            });
+        }
 
 
         //When the mute icon is clicked
@@ -439,22 +458,23 @@ window.addEventListener('load', () => {
 
 
         //When user clicks the 'Share screen' button
-        document.getElementById('share-screen').addEventListener('click', (e) => {
-            e.preventDefault();
+        if (screen_share == '1' || owner == '1') {
+            document.getElementById('share-screen').addEventListener('click', (e) => {
+                e.preventDefault();
 
-            if (screen && screen.getVideoTracks().length && screen.getVideoTracks()[0].readyState != 'ended') {
-                stopSharingScreen();
-                socket.emit('screen sharing off', {to: socketId, socketId: socketId});
-            } else {
-                if (screenSharing) {
-                    console.log('screen emit on');
-                    shareScreen();
+                if (screen && screen.getVideoTracks().length && screen.getVideoTracks()[0].readyState != 'ended') {
+                    stopSharingScreen();
+                    socket.emit('screen sharing off', {to: socketId, socketId: socketId});
                 } else {
-                    alert('Some one already using screen sharing');
+                    if (screenSharing) {
+                        console.log('screen emit on');
+                        shareScreen();
+                    } else {
+                        alert('Some one already using screen sharing');
+                    }
                 }
-            }
-        });
-
+            });
+        }
 
         //When record button is clicked
         document.getElementById('record').addEventListener('click', (e) => {
@@ -467,7 +487,10 @@ window.addEventListener('load', () => {
             } else if (mediaRecorder.state == 'paused') {
                 mediaRecorder.resume();
             } else if (mediaRecorder.state == 'recording') {
-                mediaRecorder.stop();
+                var ask = window.confirm("Are you sure to Stop and Save Recording?");
+                if (ask) {
+                    mediaRecorder.stop();
+                }
             }
         });
 
@@ -510,6 +533,12 @@ window.addEventListener('load', () => {
                     setTimeout(function () {
                         window.location.href = "/dashboard";
                     }, 3000);
+                }
+            } else {
+                var ask = window.confirm("Are you sure to exit from this meeting?");
+                if (ask) {
+                    closePromt = false;
+                    window.location.href = "/dashboard";
                 }
             }
             window.location.href = "/dashboard";

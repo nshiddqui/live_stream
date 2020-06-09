@@ -39,7 +39,7 @@
                 <?= $this->Form->select('emails', $emails, ['data-placeholder' => 'Please select...', 'class' => 'group-result chosen-search-input default', 'multiple' => true]) ?>
                 <hr>
                 <!-- Trigger to start stream -->
-                <?= $this->Form->button('Schedule Stream') ?>
+                <?= $this->Form->button('Schedule Meeting') ?>
                 <!-- End Form Element -->
                 <?= $this->Form->end() ?>
             </div>

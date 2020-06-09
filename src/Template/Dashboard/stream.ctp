@@ -1,11 +1,13 @@
 <?= $this->Html->component('web-rtc/app') ?>
 <?= $this->Html->css('https://use.fontawesome.com/releases/v5.7.2/css/all.css') ?>
 <?= $this->Html->script('https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js') ?>
+<?= $this->Html->script('waitng-modal') ?>
 <script>
     const room = '<?= $stream_data['stream']['request_token'] ?>';
     const username = '<?= $current_user['name'] ?>';
     const owner = '<?= $stream_data['stream']->user_id == $current_user['id'] ? '1' : '0' ?>';
     const video = '<?= $stream_data['stream']->video ?>';
+    const screen_share = '<?= $stream_data['stream']->screen_share ?>';
     $(document).ready(function () {
         $(".local-video").draggabilly({
             // options...
@@ -21,10 +23,10 @@
 <div class="custom-modal" id='recording-options-modal'>
     <div class="custom-modal-content">
         <div class="row text-center">
-            <div class="col-md-6 mb-2">
+            <div class="col-md-6 col-sm-6 mb-4">
                 <span class="record-option" id='record-video'>Record video</span>
             </div>
-            <div class="col-md-6 mb-2">
+            <div class="col-md-6 col-sm-6 mb-4">
                 <span class="record-option" id='record-screen'>Record screen</span>
             </div>
         </div>
@@ -38,15 +40,15 @@
 </div>
 
 
-<div class="pull-right room-comm stream-setting" hidden>
+<div class="pull-right room-comm stream-setting" id="stream-setting" hidden>
     <?php if ($stream_data['stream']->video || $stream_data['stream']->user_id == $current_user['id']) { ?>
         <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-video' title="Hide Video">
             <i class="fa fa-2x fa-video text-primary"></i>
         </button>
     <?php } ?>
-        <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute' title="Mute">
-            <i class="fa fa-2x fa-microphone text-primary"></i>
-        </button>
+    <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute' title="Mute">
+        <i class="fa fa-2x fa-microphone text-primary"></i>
+    </button>
 
     <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute-all' title="Mute All">
         <i class="fa fa-2x fa-microphone text-primary"></i>

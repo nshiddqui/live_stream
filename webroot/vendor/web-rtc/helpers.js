@@ -62,7 +62,7 @@ export default {
     getUserFullMedia() {
         if (this.userMediaAvailable()) {
             return navigator.mediaDevices.getUserMedia({
-                video: (video || owner ? {width: {exact: 320}, height: {exact: 240}} : false),
+                video: (video == '1' || owner == '1' ? {width: {exact: 320}, height: {exact: 240}} : false),
                 audio: {
                     echoCancellation: true,
                     noiseSuppression: true
@@ -338,7 +338,7 @@ export default {
                 || document.documentElement.clientWidth
                 || document.body.clientWidth;
         var newHeight = newWidth;
-        if(w < 767){
+        if (w < 767) {
             newWidth = '100%';
         }
 

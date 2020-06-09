@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use DataTables\Controller\DataTablesAjaxRequestTrait;
 use Cake\Utility\Hash;
+use Cake\Mailer\Email;
 
 /**
  * Streams Controller
@@ -144,7 +145,8 @@ class StreamsController extends AppController {
         ]);
         $user_ids = Hash::extract($this->Auth->user('user_friends'), '{n}.friend_id');
         $selected_users = Hash::extract($stream, 'stream_details.{n}.user_id');
-        if ($this->request->is(['patch', 'post', 'put'])) {
+        $editable = ($this->Auth->user('id') === $stream->user_id ?: false);
+        if ($this->request->is(['patch', 'post', 'put']) && $editable) {
             $data = $this->request->getData();
             if (!empty($data['emails']) && !empty($user_ids)) {
                 $data['start_time'] = $this->dateFormatSql($data['start_time']);
@@ -175,12 +177,23 @@ class StreamsController extends AppController {
             }
         }
         $emails = array();
-        if (!empty($user_ids)) {
-            foreach ($this->Auth->user('user_friends') as $user_id) {
+        if ($editable) {
+            $user_friends = $this->Auth->user('user_friends');
+        } else {
+            $this->loadModel('UserFriends');
+            $user_friends = $this->UserFriends->find('all', [
+                'conditions' => [
+                    'user_id' => $stream->user_id
+                ],
+                'contain' => ['Friends']
+            ]);
+        }
+        if (!empty($user_friends)) {
+            foreach ($user_friends as $user_id) {
                 $emails[$user_id['group']][$user_id['friend']['id']] = $user_id['friend']['email'];
             }
         }
-        $this->set(compact('stream', 'emails', 'selected_users'));
+        $this->set(compact('stream', 'emails', 'selected_users', 'editable'));
     }
 
     /**
@@ -200,6 +213,40 @@ class StreamsController extends AppController {
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function send() {
+        $secureId = base64_decode($this->request->getData('id'));
+        $stream = $this->Streams->get($secureId, [
+            'contain' => ['StreamDetails' => 'Users'],
+        ]);
+        $editable = ($this->Auth->user('id') === $stream->user_id ?: false);
+        if ($this->request->is(['patch', 'post', 'put']) && $editable) {
+            $message = $this->request->getData('message');
+            if (!empty($message)) {
+                $this->loadComponent('Sms');
+                $email = new Email('default');
+                foreach ($stream['stream_details'] as $stream_details) {
+                    if (!empty($stream_details['user']->email)) {
+                        $email->setTo($stream_details['user']->email)
+                                ->setSubject($message)
+                                ->setEmailFormat('html')
+                                ->setTemplate('default')
+                                ->setViewVars(['content' => $message])
+                                ->send();
+                    }
+                    if (!empty($stream_details['user']->mobile_number)) {
+                        $this->Sms->setMobileNumber($stream_details['user']->mobile_number);
+                        $this->Sms->setMessage($message);
+                        $this->Sms->send();
+                    }
+                }
+                $this->Flash->success(__('Message Sent Successfully.'));
+            } else {
+                $this->Flash->error(__('Message cannot be empty. Please, try again.'));
+            }
+        }
+        $this->redirect($this->referer());
     }
 
 }
