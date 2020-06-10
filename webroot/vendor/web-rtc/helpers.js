@@ -1,5 +1,5 @@
 export default {
-    audio = false
+    audio: false,
     generateRandomString() {
         return Math.random().toString(36).slice(2).substring(0, 15);
     },
@@ -284,12 +284,12 @@ export default {
             e.target.classList.remove('fa-microphone');
             e.target.classList.add('fa-microphone-slash');
             toggleMute.setAttribute('title', 'Unmute All');
-            audio = false;
+            this.audio = false;
         } else {
             e.target.classList.add('fa-microphone');
             e.target.classList.remove('fa-microphone-slash');
             toggleMute.setAttribute('title', 'Mute All');
-            audio = true;
+            this.audio = true;
         }
         for (let i = 0; i < totalRemoteVideosDesktop; i++) {
             if (elem[i].classList.contains('fa-microphone')) {
