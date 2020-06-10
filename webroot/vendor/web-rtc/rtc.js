@@ -292,7 +292,9 @@ window.addEventListener('load', () => {
 
                 //disable the video toggle btns while sharing screen. This is to ensure clicking on the btn does not interfere with the screen sharing
                 //It will be enabled was user stopped sharing screen
-                h.toggleVideoBtnDisabled(true);
+                if(video == '1' || owner == '1'){
+                    h.toggleVideoBtnDisabled(true);
+                }
 
                 //save my screen stream
                 screen = stream;
@@ -315,7 +317,9 @@ window.addEventListener('load', () => {
 
         function stopSharingScreen() {
             //enable video toggle btn
-            h.toggleVideoBtnDisabled(false);
+            if(video == '1' || owner == '1'){
+                h.toggleVideoBtnDisabled(false);
+            }
 
             return new Promise((res, rej) => {
                 screen.getTracks().length ? screen.getTracks().forEach(track => track.stop()) : '';
@@ -323,7 +327,9 @@ window.addEventListener('load', () => {
                 res();
             }).then(() => {
                 h.toggleShareIcons(false);
-                broadcastNewTracks(myStream, 'video');
+                if(video == '1' || owner == '1'){
+                    broadcastNewTracks(myStream, 'video');
+                }
             }).catch((e) => {
                 console.error(e);
             });
