@@ -1,4 +1,5 @@
 export default {
+    audio = false,
     generateRandomString() {
         return Math.random().toString(36).slice(2).substring(0, 15);
     },
@@ -283,10 +284,12 @@ export default {
             e.target.classList.remove('fa-microphone');
             e.target.classList.add('fa-microphone-slash');
             toggleMute.setAttribute('title', 'Unmute All');
+            audio = false;
         } else {
             e.target.classList.add('fa-microphone');
             e.target.classList.remove('fa-microphone-slash');
             toggleMute.setAttribute('title', 'Mute All');
+            audio = true;
         }
         for (let i = 0; i < totalRemoteVideosDesktop; i++) {
             if (elem[i].classList.contains('fa-microphone')) {
@@ -382,5 +385,13 @@ export default {
                 clearInterval(testInterval);
             }
         }, 2000);
+    },
+    pauseStream() {
+        document.getElementsByClassName('modal-backdrop')[0].style.zIndex = '99999999';
+        document.getElementsByClassName('modal')[1].style.zIndex = '99999999999999';
+    },
+    continueStream() {
+        document.getElementsByClassName('modal-backdrop').style.zIndex = '1050';
+        document.getElementsByClassName('modal')[1].style.zIndex = '1050';
     }
 };

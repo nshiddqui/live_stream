@@ -36,7 +36,7 @@
                     </div>
                     <hr>
                     <!-- List of email's for stream -->
-                    <?= $this->Form->label('emails') ?>
+                    <?= $this->Form->label('participants') ?>
                     <?= $this->Form->select('emails', $emails, ['data-placeholder' => 'Please select...', 'class' => 'group-result chosen-search-input default', 'multiple' => true, 'value' => $selected_users]) ?>
                 </fieldset>
                 <hr>

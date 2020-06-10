@@ -62,8 +62,8 @@ class SmsComponent extends Component {
         $this->genratedUrl = $this->base_url . http_build_query($this->_defaultConfig);
     }
 
-    public function send() {
-        if (empty($this->genratedUrl)) {
+    public function send($multiple = true) {
+        if (empty($this->genratedUrl) || $multiple) {
             $this->genrateUrl();
         }
         return file_get_contents($this->genratedUrl);

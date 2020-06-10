@@ -1,5 +1,5 @@
 <?php
-$description = 'Stream';
+$description = 'Meeting';
 ?>
 <!DOCTYPE html>
 <html>

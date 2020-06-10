@@ -44,7 +44,7 @@ class UsersController extends AppController {
             if (isset($data['email'])) {
                 unset($data['email']);
             }
-            if ($imagePath = $this->upload_image($data['profile_image'],'img/profile_image')) {
+            if ((!empty($data['profile_image']['tmp_name'])) && $imagePath = $this->upload_image($data['profile_image'], 'img/profile_image')) {
                 $data['profile_image'] = $imagePath;
             } else {
                 unset($data['profile_image']);

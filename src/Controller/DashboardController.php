@@ -68,12 +68,12 @@ class DashboardController extends AppController {
                         $EntityStreamDetails = $this->StreamDetails->newEntity($streamDetails);
                         $this->StreamDetails->save($EntityStreamDetails);
                     }
-                    $this->Flash->success(__('Your stream scheduled successfull.'));
+                    $this->Flash->success(__('Your meeting scheduled successfull.'));
                     return $this->redirect($this->referer());
                 }
-                $this->Flash->error(__('Unable to scheduled stream. Please, try again.'));
+                $this->Flash->error(__('Unable to scheduled meeting. Please, try again.'));
             } else {
-                $this->Flash->error(__('Please add emails for schedule stream.'));
+                $this->Flash->error(__('Please add emails for schedule meeting.'));
             }
         }
         $emails = array();
@@ -99,7 +99,7 @@ class DashboardController extends AppController {
             'contain' => ['Streams' => 'Users']
         ]);
         if ($streamData->count() === 0) {
-            $this->Flash->error('Stream not exists.');
+            $this->Flash->error('Meeting not exists.');
             return $this->redirect(['action' => 'index']);
         }
         $stream_data = $streamData->first();

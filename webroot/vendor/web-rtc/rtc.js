@@ -55,12 +55,21 @@ window.addEventListener('load', () => {
             });
 
             socket.on('room close', (data) => {
-                alert('Host is logged out. He will be back in 5 minutes else the meeting will automatically end.');
+                waitingDialog.show('Host is logged out. He will be back in 5 minutes else the meeting will automatically end.');
+                h.pauseStream();
                 let local = document.getElementById('local');
                 local.srcObject.getTracks().forEach(t => t.enabled = false);
                 StreamAdmin = setTimeout(function () {
                     window.location.href = '/dashboard';
-                }, 30000);
+                }, 300000);
+            });
+
+            socket.on('room enter', (data) => {
+                waitingDialog.hide();
+                h.continueStream();
+                let local = document.getElementById('local');
+                local.srcObject.getTracks().forEach(t => t.enabled = true);
+                clearTimeout(StreamAdmin);
             });
 
             socket.on('screen sharing off', (data) => {
@@ -219,6 +228,7 @@ window.addEventListener('load', () => {
                     newVid.autoplay = true;
                     newVid.className = 'remote-video';
                     newVid.style = '"width:100%; height:100%';
+                    newVid.muted = h.audio;
 
                     //video controls elements
                     let controlDiv = document.createElement('div');
@@ -515,10 +525,10 @@ window.addEventListener('load', () => {
                 if (ask) {
                     closePromt = false;
                     mediaRecorder.stop();
-                    setTimeout(function () {
+                }
+                setTimeout(function () {
                         window.location.href = "/dashboard";
                     }, 3000);
-                }
             } else {
                 var ask = window.confirm("Are you sure to exit from this meeting?");
                 if (ask) {
@@ -526,13 +536,13 @@ window.addEventListener('load', () => {
                     window.location.href = "/dashboard";
                 }
             }
-            window.location.href = "/dashboard";
         });
 
 
         window.addEventListener('beforeunload', function (e) {
-            e.preventDefault();
-            e.returnValue = 'Are you sure you want to close this meeting.';
+            if(closePromt){
+                return 'Are you sure you want to close this meeting.';
+            }
         });
     }
 });

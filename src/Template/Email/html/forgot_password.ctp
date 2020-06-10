@@ -7,7 +7,7 @@ $resetUrl = $this->Url->build('/reset/' . base64_encode(base64_encode($id)) . '/
 
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Live Stream: Password Reset</title>
+        <title>Live Meeting: Password Reset</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style type="text/css">
             /**
@@ -123,7 +123,7 @@ $resetUrl = $this->Url->build('/reset/' . base64_encode(base64_encode($id)) . '/
                             <td align="center" valign="top" style="padding: 36px 24px;">
                                 <a href="<?= $this->Url->build('/', true) ?>" target="_blank" style="display: flex;justify-content: center;text-decoration: none;">
                                     <?= $this->Html->image('http://ijyaweb.com/logo.png', ['alt' => 'Logo', 'border' => '0', 'width' => '93', 'style' => 'display: block; width: 93px; max-width: 93px; min-width: 93px;']) ?>
-                                    <h3 style="display: block;font-size: 45px;margin: auto 0px;padding: 0px 25px;">Stream</h3>
+                                    <h3 style="display: block;font-size: 45px;margin: auto 0px;padding: 0px 25px;">Meeting</h3>
                                 </a>
                             </td>
                         </tr>
@@ -216,7 +216,7 @@ $resetUrl = $this->Url->build('/reset/' . base64_encode(base64_encode($id)) . '/
                         <!-- start copy -->
                         <tr>
                             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
-                                <p style="margin: 0;">Nazim,<br> Live Stream</p>
+                                <p style="margin: 0;">Nazim,<br> Live Meeting</p>
                             </td>
                         </tr>
                         <!-- end copy -->

@@ -7,7 +7,7 @@ $base_url = $this->Url->build('/activateEmail/' . base64_encode(base64_encode($i
 
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Live Stream: Activate Account</title>
+        <title>Live Meeting: Activate Account</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style type="text/css">
             /**
@@ -123,7 +123,7 @@ $base_url = $this->Url->build('/activateEmail/' . base64_encode(base64_encode($i
                             <td align="center" valign="top" style="padding: 36px 24px;">
                                 <a href="<?= $this->Url->build('/', true) ?>" target="_blank" style="display: flex;justify-content: center;text-decoration: none;">
                                     <?= $this->Html->image('https://yuserver.in/img/logo.png', ['alt' => 'Logo', 'border' => '0', 'width' => '93', 'style' => 'display: block; width: 93px; max-width: 93px; min-width: 93px;']) ?>
-                                    <h3 style="display: block;font-size: 45px;margin: auto 0px;padding: 0px 25px;">Stream</h3>
+                                    <h3 style="display: block;font-size: 45px;margin: auto 0px;padding: 0px 25px;">Meeting</h3>
                                 </a>
                             </td>
                         </tr>
@@ -174,7 +174,7 @@ $base_url = $this->Url->build('/activateEmail/' . base64_encode(base64_encode($i
                         <!-- start copy -->
                         <tr>
                             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-                                <p style="margin: 0;">Tap the button below to activate your account and use streaming functionality. If you didn't registered with us, you can safely delete this email or contact us for appeal to delete account.</p>
+                                <p style="margin: 0;">Tap the button below to activate your account and use meeting functionality. If you didn't registered with us, you can safely delete this email or contact us for appeal to delete account.</p>
                             </td>
                         </tr>
                         <!-- end copy -->
@@ -216,7 +216,7 @@ $base_url = $this->Url->build('/activateEmail/' . base64_encode(base64_encode($i
                         <!-- start copy -->
                         <tr>
                             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
-                                <p style="margin: 0;">Nazim,<br> Live Stream</p>
+                                <p style="margin: 0;">Nazim,<br> Live Meeting</p>
                             </td>
                         </tr>
                         <!-- end copy -->

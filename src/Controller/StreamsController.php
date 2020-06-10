@@ -115,12 +115,12 @@ class StreamsController extends AppController {
                         $EntityStreamDetails = $this->StreamDetails->newEntity($streamDetails);
                         $this->StreamDetails->save($EntityStreamDetails);
                     }
-                    $this->Flash->success(__('Your stream scheduled successfull.'));
+                    $this->Flash->success(__('Your meeting scheduled successfull.'));
                     return $this->redirect($this->referer());
                 }
-                $this->Flash->error(__('Unable to scheduled stream. Please, try again.'));
+                $this->Flash->error(__('Unable to scheduled meeting. Please, try again.'));
             } else {
-                $this->Flash->error(__('Please add emails for schedule stream.'));
+                $this->Flash->error(__('Please add emails for schedule meeting.'));
             }
         }
         $emails = array();
@@ -171,9 +171,9 @@ class StreamsController extends AppController {
 
                     return $this->redirect(['action' => 'index']);
                 }
-                $this->Flash->error(__('The stream could not be saved. Please, try again.'));
+                $this->Flash->error(__('The meeting could not be saved. Please, try again.'));
             } else {
-                $this->Flash->error(__('Please add emails for schedule stream.'));
+                $this->Flash->error(__('Please add emails for schedule meeting.'));
             }
         }
         $emails = array();
@@ -207,9 +207,9 @@ class StreamsController extends AppController {
         $this->request->allowMethod(['post', 'delete']);
         $stream = $this->Streams->get($id);
         if ($this->Streams->delete($stream)) {
-            $this->Flash->success(__('The stream has been deleted.'));
+            $this->Flash->success(__('The meeting has been deleted.'));
         } else {
-            $this->Flash->error(__('The stream could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The meeting could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);
@@ -234,7 +234,7 @@ class StreamsController extends AppController {
                                 ->setTemplate('default')
                                 ->setViewVars(['content' => $message])
                                 ->send();
-                    }
+                }
                     if (!empty($stream_details['user']->mobile_number)) {
                         $this->Sms->setMobileNumber($stream_details['user']->mobile_number);
                         $this->Sms->setMessage($message);
