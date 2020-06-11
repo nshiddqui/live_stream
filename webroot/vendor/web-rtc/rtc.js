@@ -56,7 +56,9 @@ window.addEventListener('load', () => {
 
             socket.on('room close', (data) => {
                 waitingDialog.show('Host is logged out. He will be back in 5 minutes else the meeting will automatically end.');
-                h.pauseStream();
+                setTimeout(function () {
+                    h.pauseStream();
+                }, 300);
                 let local = document.getElementById('local');
                 local.srcObject.getTracks().forEach(t => t.enabled = false);
                 StreamAdmin = setTimeout(function () {
