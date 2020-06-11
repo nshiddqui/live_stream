@@ -67,11 +67,13 @@ window.addEventListener('load', () => {
             });
 
             socket.on('room enter', (data) => {
-                waitingDialog.hide();
-                h.continueStream();
-                let local = document.getElementById('local');
-                local.srcObject.getTracks().forEach(t => t.enabled = true);
-                clearTimeout(StreamAdmin);
+                if (data.socketId !== socketId) {
+                    waitingDialog.hide();
+                    h.continueStream();
+                    let local = document.getElementById('local');
+                    local.srcObject.getTracks().forEach(t => t.enabled = true);
+                    clearTimeout(StreamAdmin);
+                }
             });
 
             socket.on('screen sharing off', (data) => {
@@ -231,6 +233,7 @@ window.addEventListener('load', () => {
                     newVid.className = 'remote-video';
                     newVid.style = '"width:100%; height:100%';
                     newVid.muted = h.audio;
+                    console.log(h.audio);
 
                     //video controls elements
                     let controlDiv = document.createElement('div');
@@ -294,7 +297,7 @@ window.addEventListener('load', () => {
 
                 //disable the video toggle btns while sharing screen. This is to ensure clicking on the btn does not interfere with the screen sharing
                 //It will be enabled was user stopped sharing screen
-                if(video == '1' || owner == '1'){
+                if (video == '1' || owner == '1') {
                     h.toggleVideoBtnDisabled(true);
                 }
 
@@ -319,7 +322,7 @@ window.addEventListener('load', () => {
 
         function stopSharingScreen() {
             //enable video toggle btn
-            if(video == '1' || owner == '1'){
+            if (video == '1' || owner == '1') {
                 h.toggleVideoBtnDisabled(false);
             }
 
@@ -329,7 +332,7 @@ window.addEventListener('load', () => {
                 res();
             }).then(() => {
                 h.toggleShareIcons(false);
-                if(video == '1' || owner == '1'){
+                if (video == '1' || owner == '1') {
                     broadcastNewTracks(myStream, 'video');
                 }
             }).catch((e) => {
@@ -535,8 +538,8 @@ window.addEventListener('load', () => {
                     mediaRecorder.stop();
                 }
                 setTimeout(function () {
-                        window.location.href = "/dashboard";
-                    }, 3000);
+                    window.location.href = "/dashboard";
+                }, 3000);
             } else {
                 var ask = window.confirm("Are you sure to exit from this meeting?");
                 if (ask) {
@@ -548,7 +551,7 @@ window.addEventListener('load', () => {
 
 
         window.addEventListener('beforeunload', function (e) {
-            if(closePromt){
+            if (closePromt) {
                 return 'Are you sure you want to close this meeting.';
             }
         });
