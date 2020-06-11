@@ -35,7 +35,7 @@
                 </div>
                 <hr>
                 <!-- List of email's for stream -->
-                <?= $this->Form->label('emails') ?>
+                <?= $this->Form->label('participants') ?>
                 <?= $this->Form->select('emails', $emails, ['data-placeholder' => 'Please select...', 'class' => 'group-result chosen-search-input default', 'multiple' => true]) ?>
                 <hr>
                 <!-- Trigger to start stream -->

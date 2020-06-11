@@ -48,6 +48,10 @@ class StreamsTable extends Table {
             'foreignKey' => 'user_id',
             'joinType' => 'INNER',
         ]);
+        $this->hasOne('Notifications', [
+            'foreignKey' => 'stream_id',
+            'joinType' => 'LEFT',
+        ]);
         $this->hasMany('StreamDetails', [
             'foreignKey' => 'stream_id',
             'joinType' => 'LEFT',

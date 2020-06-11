@@ -22,13 +22,15 @@ class DashboardController extends AppController {
         $auth_user_id = $this->request->getSession()->read('Auth.User.id');
         $this->DataTables->createConfig('StreamDetails')
                 ->queryOptions([
-                    'contain' => ['Streams' => 'Users'],
+                    'contain' => ['Streams' => ['Notifications', 'Users']],
                     'conditions' => [
                         'StreamDetails.user_id' => $auth_user_id,
                         'Streams.end_time >= NOW()'
-                    ]
+                    ],
+                    'group'=>'Streams.id'
                 ])
                 ->databaseColumn('Users.id')
+                ->databaseColumn('Notifications.id')
                 ->databaseColumn('StreamDetails.stream_id')
                 ->databaseColumn('Streams.is_active')
                 ->column('Streams.title', ['label' => 'Title', 'orderable' => false])
@@ -68,7 +70,7 @@ class DashboardController extends AppController {
                         $EntityStreamDetails = $this->StreamDetails->newEntity($streamDetails);
                         $this->StreamDetails->save($EntityStreamDetails);
                     }
-                    $this->Flash->success(__('Your meeting scheduled successfull.'));
+                    $this->Flash->success(__('Your meeting has been scheduled successfully.'));
                     return $this->redirect($this->referer());
                 }
                 $this->Flash->error(__('Unable to scheduled meeting. Please, try again.'));

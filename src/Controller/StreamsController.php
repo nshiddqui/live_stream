@@ -70,6 +70,18 @@ class StreamsController extends AppController {
         $this->DataTables->setViewVars('PreviousStreamDetails');
     }
 
+    public function getMessage($streamId) {
+        $id = base64_decode($streamId);
+        $this->loadModel('Notifications');
+        $notifications = $this->Notifications->find('all', [
+                    'conditions' => [
+                        'stream_id' => $id
+                    ]
+                ])->toArray();
+        return $this->response->withType('application/json')
+                        ->withStringBody(json_encode($notifications));
+    }
+
     /**
      * View method
      *
@@ -115,7 +127,7 @@ class StreamsController extends AppController {
                         $EntityStreamDetails = $this->StreamDetails->newEntity($streamDetails);
                         $this->StreamDetails->save($EntityStreamDetails);
                     }
-                    $this->Flash->success(__('Your meeting scheduled successfull.'));
+                    $this->Flash->success(__('Your meeting has been scheduled successfully.'));
                     return $this->redirect($this->referer());
                 }
                 $this->Flash->error(__('Unable to scheduled meeting. Please, try again.'));
@@ -222,8 +234,12 @@ class StreamsController extends AppController {
         ]);
         $editable = ($this->Auth->user('id') === $stream->user_id ?: false);
         if ($this->request->is(['patch', 'post', 'put']) && $editable) {
-            $message = $this->request->getData('message');
+            $predfine = "Meating Title : {$stream->title}\nMeating Start Time : {$stream->start_time}\nMeating End Time : {$stream->end_time}\n\n";
+            $message = $predfine . $this->request->getData('message');
             if (!empty($message)) {
+                $this->loadModel('Notifications');
+                $EntityNotifications = $this->Notifications->newEntity(['stream_id' => $secureId, 'message' => $this->request->getData('message')]);
+                $this->Notifications->save($EntityNotifications);
                 $this->loadComponent('Sms');
                 $email = new Email('default');
                 foreach ($stream['stream_details'] as $stream_details) {
@@ -234,7 +250,7 @@ class StreamsController extends AppController {
                                 ->setTemplate('default')
                                 ->setViewVars(['content' => $message])
                                 ->send();
-                }
+                    }
                     if (!empty($stream_details['user']->mobile_number)) {
                         $this->Sms->setMobileNumber($stream_details['user']->mobile_number);
                         $this->Sms->setMessage($message);

@@ -63,3 +63,34 @@
         </div>
     </div>
 </div>
+
+<div style="display: none;" id="send-message" class="modal fade" tabindex="-1" role="dialog" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Notifications</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card-body" id="notifications-meeting">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+// Set custom style, close if clicked, change title type and overlay color
+    $(document).ready(function () {
+        $('#send-message').on('shown.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var form_url = button.data('url');
+            $('#notifications-meeting').html('');
+            $.get(form_url, function (data, status) {
+                $.each(data, function (key, value) {
+                    $('#notifications-meeting').append($("<p></p>").text(value.message));
+                });
+            });
+        })
+    });
+</script>

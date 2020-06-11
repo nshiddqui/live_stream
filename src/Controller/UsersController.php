@@ -8,6 +8,8 @@ use Cake\Mailer\MailerAwareTrait;
 use Cake\Mailer\Email;
 use Cake\Log\Log;
 use Cake\Routing\Router;
+use Cake\Utility\Hash;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * Users Controller
@@ -37,24 +39,43 @@ class UsersController extends AppController {
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->getData();
+            $countinue = true;
             if (empty($data['password'])) {
                 unset($data['password']);
                 unset($data['confirm_password']);
-            }
-            if (isset($data['email'])) {
-                unset($data['email']);
-            }
-            if ((!empty($data['profile_image']['tmp_name'])) && $imagePath = $this->upload_image($data['profile_image'], 'img/profile_image')) {
-                $data['profile_image'] = $imagePath;
             } else {
-                unset($data['profile_image']);
+                $this->loadModel('PasswordRecords');
+                $previosPasswords = $this->PasswordRecords->find('all', [
+                    'conditions' => [
+                        'user_id' => $id
+                    ],
+                    'limit' => 3
+                ]);
+                $passwordHasher = new DefaultPasswordHasher();
+                foreach ($previosPasswords as $previosPassword) {
+                    if ($passwordHasher->check($data['password'], $previosPassword->password)) {
+                        $countinue = false;
+                        $this->Flash->error(__('Please use another password, this password already used in last three times.'));
+                        break;
+                    }
+                }
             }
-            $user = $this->Users->patchEntity($user, $data);
-            if ($this->Users->save($user)) {
-                $this->_refreshAuth();
-                $this->Flash->success(__('The profile has been saved.'));
+            if ($countinue) {
+                if (isset($data['email'])) {
+                    unset($data['email']);
+                }
+                if ((!empty($data['profile_image']['tmp_name'])) && $imagePath = $this->upload_image($data['profile_image'], 'img/profile_image')) {
+                    $data['profile_image'] = $imagePath;
+                } else {
+                    unset($data['profile_image']);
+                }
+                $user = $this->Users->patchEntity($user, $data);
+                if ($this->Users->save($user)) {
+                    $this->_refreshAuth();
+                    $this->Flash->success(__('The profile has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                    return $this->redirect(['action' => 'index']);
+                }
             }
             $this->Flash->error(__('The profile could not be saved. Please, try again.'));
         }
@@ -242,6 +263,14 @@ class UsersController extends AppController {
         if ($this->request->is(['post', 'put'])) {
             $password = $this->request->getData('password');
             if (strlen($password) > 5) {
+                $this->loadModel('PasswordRecords');
+                $previosPasswords = $this->PasswordRecords->find('all', [
+                            'conditions' => [
+                                'user_id' => $id
+                            ],
+                            'limit' => 3
+                        ])->toArray();
+                Hash::extract($previosPasswords, '{n}.friend_id');
                 $userDetails = $userDetails->first();
                 $userDetails->password = $password;
                 $userDetails->token = null;
