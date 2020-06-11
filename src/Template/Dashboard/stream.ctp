@@ -50,7 +50,7 @@
         <i class="fa fa-2x fa-microphone text-primary"></i>
     </button>
 
-    <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute-all' title="Mute All">
+    <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute-all' onclick="muteAll(this)" title="Mute All">
         <i class="fa fa-2x fa-microphone text-primary"></i>
     </button>
     <?php if ($stream_data['stream']->screen_share || $stream_data['stream']->user_id == $current_user['id']) { ?>

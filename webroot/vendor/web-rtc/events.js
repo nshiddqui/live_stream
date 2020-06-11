@@ -157,7 +157,7 @@ window.addEventListener('load', ()=>{
         helpers.toggleModal('recording-options-modal', false);
     });
     
-    document.getElementById('toggle-mute-all').addEventListener('click', (e)=>{
+    function muteAll(e){
         helpers.remoteStreamToggleMute(e);
-    });
+    };
 })
