@@ -356,7 +356,7 @@ export default {
         for (let i = 0; i < totalRemoteVideosDesktop; i++) {
             elem[i].style.width = newWidth;
             elem[i].style.height = newHeight;
-            elem[i].querySelector('video').style.width = newWidth;
+            elem[i].querySelector('video').style.width = '100%';
             elem[i].querySelector('video').style.height = newHeight;
         }
     },
