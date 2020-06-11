@@ -340,14 +340,24 @@ export default {
         var w = window.innerWidth
                 || document.documentElement.clientWidth
                 || document.body.clientWidth;
-        var newHeight = newWidth;
+        var newHeight;
+        if (newWidth == '50%') {
+            newHeight = window.outerHeight / 2 + 'px';
+        } else if (newWidth == '33.33%') {
+            newHeight = window.outerHeight / 3 + 'px';
+        } else {
+            newHeight = window.outerHeight / 4 + 'px';
+        }
         if (w < 767) {
             newWidth = '100%';
+            newHeight = window.outerHeight / 2 + 'px';
         }
 
         for (let i = 0; i < totalRemoteVideosDesktop; i++) {
             elem[i].style.width = newWidth;
             elem[i].style.height = newHeight;
+            elem[i].querySelector('video').style.width = newWidth;
+            elem[i].querySelector('video').style.height = newHeight;
         }
     },
 
