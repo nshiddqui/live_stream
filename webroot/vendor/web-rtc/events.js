@@ -1,28 +1,26 @@
 import helpers from './helpers.js';
 
-window.addEventListener('load', ()=>{
+window.addEventListener('load', () => {
     //When the chat icon is clicked
-    document.querySelector('#toggle-chat-pane').addEventListener('click', (e)=>{
+    document.querySelector('#toggle-chat-pane').addEventListener('click', (e) => {
         let chatElem = document.querySelector('#chat-pane');
         let mainSecElem = document.querySelector('#main-section');
 
-        if(chatElem.classList.contains('chat-opened')){
+        if (chatElem.classList.contains('chat-opened')) {
             chatElem.setAttribute('hidden', true);
             mainSecElem.classList.remove('col-md-9');
             mainSecElem.classList.add('col-md-12');
             chatElem.classList.remove('chat-opened');
-        }
-
-        else{
+        } else {
             chatElem.attributes.removeNamedItem('hidden');
             mainSecElem.classList.remove('col-md-12');
             mainSecElem.classList.add('col-md-9');
-            chatElem.classList.add('chat-opened');          
+            chatElem.classList.add('chat-opened');
         }
 
         //remove the 'New' badge on chat icon (if any) once chat is opened.
-        setTimeout(()=>{
-            if(document.querySelector('#chat-pane').classList.contains('chat-opened')){
+        setTimeout(() => {
+            if (document.querySelector('#chat-pane').classList.contains('chat-opened')) {
                 helpers.toggleChatNotificationBadge();
             }
         }, 300);
@@ -30,7 +28,7 @@ window.addEventListener('load', ()=>{
 
 
     //When the video frame is clicked. This will enable picture-in-picture
-    document.getElementById('local').addEventListener('dblclick', ()=>{
+    document.getElementById('local').addEventListener('dblclick', () => {
         if (!document.fullScreen) {
             var elem = document.getElementById('local')
             if (elem.requestFullscreen) {
@@ -42,30 +40,28 @@ window.addEventListener('load', ()=>{
             } else if (elem.msRequestFullscreen) { /* IE/Edge */
                 elem.msRequestFullscreen();
             }
-        } 
-          
-        else {
+        } else {
             if (document.exitFullscreen) {
                 document.exitFullscreen();
-              } else if (document.mozCancelFullScreen) { /* Firefox */
+            } else if (document.mozCancelFullScreen) { /* Firefox */
                 document.mozCancelFullScreen();
-              } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+            } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
                 document.webkitExitFullscreen();
-              } else if (document.msExitFullscreen) { /* IE/Edge */
+            } else if (document.msExitFullscreen) { /* IE/Edge */
                 document.msExitFullscreen();
-              }
+            }
         }
     });
 
 
     //When the 'Create room" is button is clicked
-    document.getElementById('create-room').addEventListener('click', (e)=>{
+    document.getElementById('create-room').addEventListener('click', (e) => {
         e.preventDefault();
 
         let roomName = document.querySelector('#room-name').value;
         let yourName = document.querySelector('#your-name').value;
 
-        if(roomName && yourName){
+        if (roomName && yourName) {
             //remove error message, if any
             document.querySelector('#err-msg').innerHTML = "";
 
@@ -82,21 +78,19 @@ window.addEventListener('load', ()=>{
             //empty the values
             document.querySelector('#room-name').value = '';
             document.querySelector('#your-name').value = '';
-        }
-
-        else{
+        } else {
             document.querySelector('#err-msg').innerHTML = "All fields are required";
         }
     });
 
 
     //When the 'Enter room' button is clicked.
-    document.getElementById('enter-room').addEventListener('click', (e)=>{
+    document.getElementById('enter-room').addEventListener('click', (e) => {
         e.preventDefault();
 
         let name = document.querySelector('#username').value;
 
-        if(name){
+        if (name) {
             //remove error message, if any
             document.querySelector('#err-msg-username').innerHTML = "";
 
@@ -105,59 +99,54 @@ window.addEventListener('load', ()=>{
 
             //reload room
             location.reload();
-        }
-
-        else{
+        } else {
             document.querySelector('#err-msg-username').innerHTML = "Please input your name";
         }
     });
 
 
-    document.addEventListener('click', (e)=>{
-        if(e.target && e.target.classList.contains('expand-remote-video')){
+    document.addEventListener('click', (e) => {
+        if (e.target && e.target.classList.contains('expand-remote-video')) {
             helpers.maximiseStream(e);
-        }
-
-        else if(e.target && e.target.classList.contains('mute-remote-mic')){
+        } else if (e.target && e.target.classList.contains('mute-remote-mic')) {
             helpers.singleStreamToggleMute(e);
         }
     });
-    
-    document.addEventListener('dblclick', (e)=>{
-        if(e.target && e.target.classList.contains('remote-video')){
+
+    document.addEventListener('dblclick', (e) => {
+        if (e.target && e.target.classList.contains('remote-video')) {
             if (!document.fullScreen) {
-            var elem = e.target;
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.mozRequestFullScreen) { /* Firefox */
-                elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { /* IE/Edge */
-                elem.msRequestFullscreen();
+                var elem = e.target;
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.mozRequestFullScreen) { /* Firefox */
+                    elem.mozRequestFullScreen();
+                } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                    elem.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { /* Firefox */
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE/Edge */
+                    document.msExitFullscreen();
+                }
             }
-        } 
-          
-        else {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-              } else if (document.mozCancelFullScreen) { /* Firefox */
-                document.mozCancelFullScreen();
-              } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-                document.webkitExitFullscreen();
-              } else if (document.msExitFullscreen) { /* IE/Edge */
-                document.msExitFullscreen();
-              }
-        }
         }
     });
 
 
-    document.getElementById('closeModal').addEventListener('click', ()=>{
+    document.getElementById('closeModal').addEventListener('click', () => {
         helpers.toggleModal('recording-options-modal', false);
     });
-    
-    function muteAll(e){
-        helpers.remoteStreamToggleMute(e);
-    };
+
 })
+function muteAll(e) {
+    helpers.remoteStreamToggleMute(e);
+}
+;
