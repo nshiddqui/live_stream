@@ -284,22 +284,22 @@ export default {
             e.target.classList.remove('fa-microphone');
             e.target.classList.add('fa-microphone-slash');
             toggleMute.setAttribute('title', 'Unmute All');
-            this.audio = false;
+            this.audio = true;
         } else {
             e.target.classList.add('fa-microphone');
             e.target.classList.remove('fa-microphone-slash');
             toggleMute.setAttribute('title', 'Mute All');
-            this.audio = true;
+            this.audio = false;
         }
         for (let i = 0; i < totalRemoteVideosDesktop; i++) {
             if (this.audio) {
-                elem[i].parentElement.previousElementSibling.muted = false;
-                elem[i].classList.add('fa-microphone');
-                elem[i].classList.remove('fa-microphone-slash');
-            } else {
                 elem[i].parentElement.previousElementSibling.muted = true;
                 elem[i].classList.add('fa-microphone-slash');
                 elem[i].classList.remove('fa-microphone');
+            } else {
+                elem[i].parentElement.previousElementSibling.muted = false;
+                elem[i].classList.add('fa-microphone');
+                elem[i].classList.remove('fa-microphone-slash');
             }
         }
     },

@@ -67,7 +67,7 @@ window.addEventListener('load', () => {
             });
 
             socket.on('room enter', (data) => {
-                if (data.socketId !== socketId) {
+                if (owner != '1') {
                     waitingDialog.hide();
                     h.continueStream();
                     let local = document.getElementById('local');
@@ -233,7 +233,6 @@ window.addEventListener('load', () => {
                     newVid.className = 'remote-video';
                     newVid.style = '"width:100%; height:100%';
                     newVid.muted = h.audio;
-                    console.log(h.audio);
 
                     //video controls elements
                     let controlDiv = document.createElement('div');
