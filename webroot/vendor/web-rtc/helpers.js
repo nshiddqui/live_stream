@@ -398,10 +398,10 @@ export default {
     },
     pauseStream() {
         document.getElementsByClassName('modal-backdrop')[0].style.zIndex = '99999999';
-        document.getElementsByClassName('modal')[1].style.zIndex = '99999999999999';
+        document.getElementById('waiting-dialog').style.zIndex = '99999999999999';
     },
     continueStream() {
-        document.getElementsByClassName('modal-backdrop').style.zIndex = '1050';
-        document.getElementsByClassName('modal')[1].style.zIndex = '1050';
+        document.getElementsByClassName('modal-backdrop')[0].style.zIndex = '1050';
+        document.getElementById('waiting-dialog').style.zIndex = '1050';
     }
 };
