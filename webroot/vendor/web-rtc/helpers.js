@@ -63,7 +63,7 @@ export default {
     getUserFullMedia() {
         if (this.userMediaAvailable()) {
             return navigator.mediaDevices.getUserMedia({
-                video: (video == '1' || owner == '1' ? {width: {exact: 320}, height: {exact: 240}} : false),
+                video: (video == '1' || owner == '1' ? {width: {exact: 320}, height: {exact: 240, frameRate: {ideal: 10, max: 15}}} : false),
                 audio: {
                     echoCancellation: true,
                     noiseSuppression: true
