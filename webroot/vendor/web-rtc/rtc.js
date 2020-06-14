@@ -21,7 +21,7 @@ window.addEventListener('load', () => {
 
         var pc = [];
 
-        let socket = io('https://yuserver.in:3000/stream');
+        let socket = io('http://yuserver.in:3000/stream');
 
         var StreamAdmin;
         var socketId = '';
