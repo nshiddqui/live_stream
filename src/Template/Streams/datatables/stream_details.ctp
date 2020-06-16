@@ -8,11 +8,8 @@ foreach ($results as $result) {
     if ($Auth->user('id') === $result['stream']['user']->id) {
         $text = '<i class="fas fa-video mx-2"></i>';
         $allow = true;
-    } else if ($result['stream']->is_active == '1') {
-        $text = '<i class="fas fa-video mx-2"></i>';
-        $allow = false;
     } else {
-        $text = false;
+        $text = '<i class="fas fa-video mx-2"></i>';
         $allow = false;
     }
 

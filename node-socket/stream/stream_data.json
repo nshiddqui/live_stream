@@ -1,3 +1,1 @@
-{
-    "name": "Shelty"
-}
+{"name":"Shelty","$2y$10$vz8r0eT7l5ED4MR4iF57cOulwZRshw7c4n7EjDOOeLi6Ng5aJ2nHy":[{"id":4,"title":"Test","description":null,"start_time":"2020-06-01T15:41:00.000Z","end_time":"2020-06-24T15:41:00.000Z","user_id":1,"video":1,"audio":0,"screen_share":0,"request_token":"$2y$10$vz8r0eT7l5ED4MR4iF57cOulwZRshw7c4n7EjDOOeLi6Ng5aJ2nHy","verify_token":"$2y$10$nAqNdapisbG2Sl3USgQtCeKfDRVgOY/yxDONkTg0AhUDBySiC4ILm","room_token":null,"broadcaster":"6HNzcu13mdnm2OseAAAI","is_active":"1","created":"2020-06-01T15:41:32.000Z","ip_address":"::1"}]}

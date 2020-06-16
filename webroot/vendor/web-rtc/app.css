@@ -217,6 +217,14 @@
     background: #000;
 }
 
+.custom-file-upload{
+    position: absolute;
+    right: 0;
+    width: 30px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 30px;
+}
 
 @keyframes animatetop {
     from {

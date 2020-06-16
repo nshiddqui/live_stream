@@ -13,12 +13,14 @@
             // options...
         });
     });
+    const serverUrl = 'http://claymould.com:3000';
 </script>
 <?= $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js') ?>
 <?= $this->Html->component('web-rtc/rtc', 'script', ['type' => 'module']) ?>
 <?= $this->Html->component('web-rtc/events', 'script', ['type' => 'module']) ?>
 <?= $this->Html->component('web-rtc/adapter.min', 'script') ?>
 <?= $this->Html->component('web-rtc/FileSaver.min', 'script') ?>
+<?= $this->Html->component('web-rtc/socket.io-file-client', 'script') ?>
 
 <div class="custom-modal" id='recording-options-modal'>
     <div class="custom-modal-content">
@@ -137,6 +139,8 @@
         <div class="col-md-3 chat-col d-print-none mb-2" style="background: #5a79d4;" id='chat-pane' hidden>
             <div class="row">
                 <div class="col-12 text-center h2 mb-3" style="font-weight: 900;font-family: inherit;">Conversation</div>
+                <label for="file-upload"><i class="fa fa-file custom-file-upload"></i></label>
+                <input type="file" id="file-upload" style="display:none"> 
             </div>
             <hr>
             <div id='chat-messages'></div>

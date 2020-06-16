@@ -1,10 +1,12 @@
+const path = require('path');
 const mysql = require('mysql');
 const fs = require('fs');
+const SocketIOFile = require('socket.io-file');
 const connection = mysql.createConnection({
-    host: 'yuserver.in',
-    user: 'yuserver_yuserver',
+    host: 'localhost',
+    user: 'nazim',
     password: 'nazim@123',
-    database: 'yuserver_stream'
+    database: 'live_stream'
 });
 var data = fs.readFileSync('stream/stream_data.json'),
         streamData;
@@ -17,16 +19,27 @@ try {
 }
 const stream = (socket) => {
     let setSocket;
-    socket.on('subscribe', (data) => {
+
+    var uploader = new SocketIOFile(socket, {
+        uploadDir: 'assets',
+        accepts: ['image/jpeg', 'image/png'],
+        maxFileSize: 4194304,
+        chunkSize: 10240,
+        transmissionDelay: 0,
+        overwrite: false,
+        rename: function (filename, fileInfo) {
+            var file = path.parse(filename);
+            var fname = file.name;
+            var ext = file.ext;
+            return `${fname}_${Date.now()}.${ext}`;
+        },
+    });
+
+
+    socket.on('initial', (data) => {
         //subscribe/join a room
         socket.join(data.room);
         socket.join(data.socketId);
-        let sql = "UPDATE `streams` SET `is_active` = 1 WHERE `streams`.`request_token` = ?";
-        let updateData = [data.room];
-        console.log(updateData);
-        // execute the UPDATE statement
-
-        connection.query(sql, updateData);
         if (!setSocket) {
             setSocket = {
                 socketId: data.socketId,
@@ -35,11 +48,20 @@ const stream = (socket) => {
                 username: data.username
             };
         }
+        if (getAdminJoined()) {
+            socket.emit('admin join', {socketId: data.socketId, username: data.username});
+        }
+    });
+    socket.on('subscribe', (data) => {
+        let sql = "UPDATE `streams` SET `is_active` = 1 WHERE `streams`.`request_token` = ?";
+        let updateData = [data.room];
+        // execute the UPDATE statement
+
+        connection.query(sql, updateData);
 
         //Inform other members in the room of new user's arrival
-        if (socket.adapter.rooms[data.room].length > 1) {
+        if (getAdminJoined()) {
             if (getScreenSetting() && getScreenSetting() == 'on') {
-                console.log('screen setting cheked');
                 socket.emit('screen sharing on', {socketId: data.socketId});
             }
             socket.to(data.room).emit('room enter', {socketId: data.socketId});
@@ -47,8 +69,6 @@ const stream = (socket) => {
         } else {
             initializeData(true);
         }
-
-        console.log(socket.rooms);
     });
 
 
@@ -58,13 +78,11 @@ const stream = (socket) => {
 
     socket.on('screen sharing off', (data) => {
         updateScreenSetting('off');
-        console.log('screen off');
         socket.to(setSocket.room).emit('screen sharing off', data);
     });
 
     socket.on('screen sharing on', (data) => {
         updateScreenSetting('on');
-        console.log('screen on');
         socket.to(setSocket.room).emit('screen sharing on', data);
     });
 
@@ -84,13 +102,12 @@ const stream = (socket) => {
     });
 
     socket.on('disconnect', (data) => {
-        console.log('disconnect');
-        console.log(setSocket);
-        if (setSocket.owner && setSocket.owner == 1) {
+        if (setSocket && setSocket.owner && setSocket.owner == 1) {
             let sql = "UPDATE `streams` SET `is_active` = '0' WHERE `request_token` = ?";
             let updateData = [setSocket.room];
             // execute the UPDATE statement
             connection.query(sql, updateData);
+            updateAdminJoined(false);
             socket.to(setSocket.room).emit('room close', {socketId: setSocket.socketId});
         }
     });
@@ -101,9 +118,20 @@ const stream = (socket) => {
         modifyData();
     }
 
+    function updateAdminJoined(value) {
+        initializeData();
+        streamData[setSocket.room].admin_joined = value;
+        modifyData();
+    }
+
     function getScreenSetting() {
         initializeData();
         return streamData[setSocket.room].screen_setting;
+    }
+
+    function getAdminJoined() {
+        initializeData();
+        return streamData[setSocket.room].admin_joined;
     }
 
     function initializeData(force = false) {
@@ -111,11 +139,14 @@ const stream = (socket) => {
             connection.query("SELECT * FROM streams WHERE request_token = ?", [setSocket.room], function (err, result, fields) {
                 if (err)
                     throw err;
-                console.log(result);
                 streamData[setSocket.room] = result;
                 modifyData();
+                if (setSocket.owner) {
+                    updateAdminJoined(true);
+                    socket.to(setSocket.room).emit('admin join', {socketId: data.socketId, username: data.username});
+                }
             });
-        }
+    }
     }
 
     function modifyData() {
@@ -127,7 +158,6 @@ const stream = (socket) => {
                 console.log(err.message);
                 return;
             }
-            console.log('Configuration saved successfully.')
         });
     }
 }

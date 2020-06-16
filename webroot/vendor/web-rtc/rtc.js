@@ -21,7 +21,7 @@ window.addEventListener('load', () => {
 
         var pc = [];
 
-        let socket = io('http://yuserver.in:3000/stream');
+        let socket = io(serverUrl + '/stream');
 
         var StreamAdmin;
         var socketId = '';
@@ -32,20 +32,46 @@ window.addEventListener('load', () => {
         var closePromt = 'Are you sure you want to close this meeting.';
         var screenSharing = true;
 
-        //Get user video by default
-        getAndSetUserStream();
-
+        let uploader = new SocketIOFileClient(socket);
+        uploader.on('complete', function (fileInfo) {
+            sendMsg('<a href="' + serverUrl + '/assets/' + fileInfo.name + '" target="_BLANK" style="margin-top:10px;" download><i class="fa fa-download fa-lg"></i>Download File</a>')
+        });
 
         socket.on('connect', () => {
             //set socketId
             socketId = socket.io.engine.id;
 
-            socket.emit('subscribe', {
+            socket.emit('initial', {
                 room: room,
                 socketId: socketId,
                 owner: owner,
                 username: username
             });
+            if (owner == '1') {
+                //Get user video by default
+                getAndSetUserStream();
+                socket.emit('subscribe', {
+                    room: room,
+                    socketId: socketId,
+                    owner: owner,
+                    username: username
+                });
+            } else {
+                waitingDialog.show('Please wait for admin to start meating.');
+                socket.on('admin join', (data) => {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 900);
+                    //Get user video by default
+                    getAndSetUserStream();
+                    socket.emit('subscribe', {
+                        room: room,
+                        socketId: socketId,
+                        owner: owner,
+                        username: username
+                    });
+                });
+            }
 
 
             socket.on('new user', (data) => {
@@ -242,7 +268,7 @@ window.addEventListener('load', () => {
 
                     //create a new div for card
                     let cardDiv = document.createElement('div');
-                    cardDiv.className = 'card card-sm';
+                    cardDiv.className = 'card card-sm custom-card-video';
                     cardDiv.id = partnerName;
                     cardDiv.appendChild(newVid);
                     cardDiv.appendChild(controlDiv);
@@ -553,6 +579,38 @@ window.addEventListener('load', () => {
             if (closePromt) {
                 return 'Are you sure you want to close this meeting.';
             }
+        });
+
+        document.querySelector('#file-upload').addEventListener('change', function () {
+            // user has not chosen any file
+            if (document.querySelector('#file-upload').files.length == 0) {
+                alert('Error : No file selected');
+                return;
+            }
+
+            // first file that was chosen
+            var file = document.querySelector('#file-upload').files[0];
+
+            // allowed types
+            var mime_types = ['image/jpeg', 'image/png'];
+
+            // validate MIME type
+            if (mime_types.indexOf(file.type) == -1) {
+                alert('Error : Incorrect file type');
+                return;
+            }
+
+            // max 2 MB size allowed
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Error : Exceeded size 2MB');
+                return;
+            }
+
+
+            var fileEl = document.getElementById('file-upload');
+            var uploadIds = uploader.upload(fileEl, {
+                data: {/* Arbitrary data... */}
+            });
         });
     }
 });

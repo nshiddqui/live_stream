@@ -12,7 +12,7 @@ let server = require('http').createServer(app);
 let io = require('socket.io')(server);
 let stream = require('./stream/stream');
 let path = require('path');
-let favicon = require('serve-favicon')
+let favicon = require('serve-favicon');
 
 app.use(favicon(path.join(__dirname, 'favicon.ico')));
 app.use('/assets', express.static(path.join(__dirname, 'assets')));

@@ -7,10 +7,8 @@ foreach ($results as $result) {
     $secureId = base64_encode($result->stream_id);
     if ($Auth->user('id') === $result['stream']['user']->id) {
         $text = 'Start';
-    } else if ($result['stream']->is_active == '1') {
-        $text = 'Join';
     } else {
-        $text = false;
+        $text = 'Join';
     }
 
 
