@@ -141,7 +141,7 @@ const stream = (socket) => {
 
     function getAdminJoined() {
         initializeData();
-        console.log(streamData[setSocket.room]);
+        console.log(streamData);
         return streamData[setSocket.room].admin_joined;
     }
 
