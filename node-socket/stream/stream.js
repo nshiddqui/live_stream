@@ -54,7 +54,7 @@ const stream = (socket) => {
             }
         } else {
             setTimeout(function () {
-                if (data.owner != '1' && getAdminJoined()) {
+                if (streamData[setSocket.room] && getAdminJoined()) {
                     socket.emit('admin join', {socketId: data.socketId, username: data.username});
                 }
             }, 9000);
