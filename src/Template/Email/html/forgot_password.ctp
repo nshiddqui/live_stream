@@ -122,7 +122,7 @@ $resetUrl = $this->Url->build('/reset/' . base64_encode(base64_encode($id)) . '/
                         <tr>
                             <td align="center" valign="top" style="padding: 36px 24px;">
                                 <a href="<?= $this->Url->build('/', true) ?>" target="_blank" style="display: flex;justify-content: center;text-decoration: none;">
-                                    <?= $this->Html->image('http://ijyaweb.com/logo.png', ['alt' => 'Logo', 'border' => '0', 'width' => '93', 'style' => 'display: block; width: 93px; max-width: 93px; min-width: 93px;']) ?>
+                                    <?= $this->Html->image('logo.png', ['fullBase' => true,'alt' => 'Logo', 'border' => '0', 'width' => '93', 'style' => 'display: block; width: 93px; max-width: 93px; min-width: 93px;']) ?>
                                     <h3 style="display: block;font-size: 45px;margin: auto 0px;padding: 0px 25px;">Meeting</h3>
                                 </a>
                             </td>
