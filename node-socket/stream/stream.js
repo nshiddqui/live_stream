@@ -153,6 +153,7 @@ const stream = (socket) => {
             connection.query("SELECT * FROM streams WHERE request_token = ?", [setSocket.room], function (err, result, fields) {
                 if (err)
                     throw err;
+                console.log('stream sone deon');
                 streamData[setSocket.room] = result;
                 modifyData();
                 if (setSocket.owner) {
