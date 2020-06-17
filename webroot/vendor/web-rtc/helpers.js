@@ -111,37 +111,37 @@ export default {
         // "turn:eu-turn4.xirsys.com:3478?transport=udp",
         return {
             iceServers: [
-                {   
-                    urls: [
-                        "stun:stun.claymould.com:5349"
-                    ]
-                },
-                { 
-                    username: "nazim",  
-                    credential: "nazim@123", 
-                    urls: [    
-                           "turn:turn.claymould.com:5349",
-                      ]
-                }
 //                {   
 //                    urls: [
-//                        "stun:bn-turn1.xirsys.com"
+//                        "stun:stun.claymould.com:5349"
 //                    ]
 //                },
 //                { 
-//                    username: "FXnaxpj2KHEH2V2PSh5EKnmKmm7zAN4LiXPb6IrkPrCLFZAztW1bxn9Ft4DehzRhAAAAAF7WpzZuc2hpZGRxdWk=",  
-//                    credential: "8d205fba-a506-11ea-8621-0242ac140004", 
+//                    username: "nazim",  
+//                    credential: "nazim@123", 
 //                    urls: [    
-//                           "turn:bn-turn1.xirsys.com:80?transport=udp",      
-//                        "turn:bn-turn1.xirsys.com:3478?transport=udp",    
-//                           "turn:bn-turn1.xirsys.com:80?transport=tcp",   
-//                            "turn:bn-turn1.xirsys.com:3478?transport=tcp",    
-//                           "turns:bn-turn1.xirsys.com:443?transport=tcp",    
-//                           "turns:bn-turn1.xirsys.com:5349?transport=tcp" 
+//                           "turn:turn.claymould.com:5349",
 //                      ]
 //                }
+                {   
+                    urls: [
+                        "stun:bn-turn1.xirsys.com"
+                    ]
+                },
+                { 
+                    username: "FXnaxpj2KHEH2V2PSh5EKnmKmm7zAN4LiXPb6IrkPrCLFZAztW1bxn9Ft4DehzRhAAAAAF7WpzZuc2hpZGRxdWk=",  
+                    credential: "8d205fba-a506-11ea-8621-0242ac140004", 
+                    urls: [    
+                           "turn:bn-turn1.xirsys.com:80?transport=udp",      
+                        "turn:bn-turn1.xirsys.com:3478?transport=udp",    
+                           "turn:bn-turn1.xirsys.com:80?transport=tcp",   
+                            "turn:bn-turn1.xirsys.com:3478?transport=tcp",    
+                           "turns:bn-turn1.xirsys.com:443?transport=tcp",    
+                           "turns:bn-turn1.xirsys.com:5349?transport=tcp" 
+                      ]
+                }
             ],
-//            iceTransportPolicy: 'relay'
+            iceTransportPolicy: 'relay'
 //            iceServers: [
 ////                {url: "stun:stun.l.google.com:19302"},
 ////                {url:"stun:stun1.l.google.com:19302"},
