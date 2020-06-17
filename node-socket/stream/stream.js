@@ -49,11 +49,13 @@ const stream = (socket) => {
             };
         }
         if (streamData[setSocket.room]) {
+            console.log('initialing already');
             if (data.owner != '1' && getAdminJoined()) {
                 socket.emit('admin join', {socketId: data.socketId, username: data.username});
             }
         } else {
             setTimeout(function () {
+                console.log('initialise after set time out');
                 if (data.owner != '1' && getAdminJoined()) {
                     socket.emit('admin join', {socketId: data.socketId, username: data.username});
                 }
@@ -139,6 +141,7 @@ const stream = (socket) => {
 
     function getAdminJoined() {
         initializeData();
+        console.log(streamData[setSocket.room]);
         return streamData[setSocket.room].admin_joined;
     }
 
