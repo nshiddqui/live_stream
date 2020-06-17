@@ -136,7 +136,7 @@ const stream = (socket) => {
     }
 
     function initializeData(force = false) {
-        if (!streamData[setSocket.room] || force) {
+        if (streamData[setSocket.room] == undefined || force) {
             connection.query("SELECT * FROM streams WHERE request_token = ?", [setSocket.room], function (err, result, fields) {
                 if (err)
                     throw err;
