@@ -49,17 +49,15 @@ const stream = (socket) => {
             };
         }
         if (streamData[setSocket.room]) {
-            console.log('initialing already');
             if (data.owner != '1' && getAdminJoined()) {
                 socket.emit('admin join', {socketId: data.socketId, username: data.username});
             }
         } else {
             setTimeout(function () {
-                console.log('initialise after set time out');
                 if (data.owner != '1' && getAdminJoined()) {
                     socket.emit('admin join', {socketId: data.socketId, username: data.username});
                 }
-            }, 900);
+            }, 9000);
         }
     });
     socket.on('subscribe', (data) => {
@@ -141,9 +139,7 @@ const stream = (socket) => {
 
     function getAdminJoined() {
         initializeData();
-        console.log(streamData);
-        return false;
-//        return streamData[setSocket.room].admin_joined;
+        return streamData[setSocket.room].admin_joined;
     }
 
     function initializeData(force = false) {
@@ -154,7 +150,6 @@ const stream = (socket) => {
             connection.query("SELECT * FROM streams WHERE request_token = ?", [setSocket.room], function (err, result, fields) {
                 if (err)
                     throw err;
-                console.log('stream sone deon');
                 streamData[setSocket.room] = result;
                 modifyData();
                 if (setSocket.owner) {
