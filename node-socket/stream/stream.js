@@ -48,8 +48,16 @@ const stream = (socket) => {
                 username: data.username
             };
         }
-        if (data.owner != '1' && getAdminJoined()) {
-            socket.emit('admin join', {socketId: data.socketId, username: data.username});
+        if (streamData[setSocket.room]) {
+            if (data.owner != '1' && getAdminJoined()) {
+                socket.emit('admin join', {socketId: data.socketId, username: data.username});
+            }
+        } else {
+            setTimeout(function () {
+                if (data.owner != '1' && getAdminJoined()) {
+                    socket.emit('admin join', {socketId: data.socketId, username: data.username});
+                }
+            }, 500);
         }
     });
     socket.on('subscribe', (data) => {
@@ -131,7 +139,6 @@ const stream = (socket) => {
 
     function getAdminJoined() {
         initializeData();
-        console.log(streamData[setSocket.room]);
         return streamData[setSocket.room].admin_joined;
     }
 
