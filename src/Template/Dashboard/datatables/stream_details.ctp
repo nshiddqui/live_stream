@@ -18,7 +18,7 @@ foreach ($results as $result) {
         $result['stream']->end_time->i18nFormat('MMM dd, yyyy h:mm:ss a'),
         h($result['stream']['user']->name),
         (($text) ? $this->Html->link('<i class="fas fa-video mx-2"></i>', ['controller' => 'stream', 'action' => 'index', $secureId], ['escape' => false]) : '<i class="fas fa-video mx-2"></i>') .
-        ((count($result['stream']['notification'])) ? $this->Html->link('<i class="btn-success btn-sm fas fa-bell mx-1"></i>', 'javascript:;', ['data-target' => '#send-message', 'data-toggle' => 'modal', 'data-url' => $this->Url->build(['controller' => 'Streams', 'action' => 'getMessage', $secureId]), 'escape' => false]) : '')
+        ((count((array)$result['stream']['notification'])) ? $this->Html->link('<i class="btn-success btn-sm fas fa-bell mx-1"></i>', 'javascript:;', ['data-target' => '#send-message', 'data-toggle' => 'modal', 'data-url' => $this->Url->build(['controller' => 'Streams', 'action' => 'getMessage', $secureId]), 'escape' => false]) : '')
     ]);
 }
 echo $this->DataTables->response();
