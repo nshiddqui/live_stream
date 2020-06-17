@@ -59,7 +59,7 @@ const stream = (socket) => {
                 if (data.owner != '1' && getAdminJoined()) {
                     socket.emit('admin join', {socketId: data.socketId, username: data.username});
                 }
-            }, 500);
+            }, 900);
         }
     });
     socket.on('subscribe', (data) => {
