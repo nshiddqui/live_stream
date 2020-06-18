@@ -90,7 +90,7 @@
 
         <?=
         $this->Html->link('<i class="fas fa-fw fa-users"></i>
-            <span>Friend List</span></a>', [
+            <span>My Group</span></a>', [
             'controller' => 'UserFriends',
             'action' => 'index'
                 ], [
