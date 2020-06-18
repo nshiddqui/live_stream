@@ -592,7 +592,7 @@ window.addEventListener('load', () => {
             var file = document.querySelector('#file-upload').files[0];
 
             // allowed types
-            var mime_types = ['image/jpeg', 'image/png'];
+            var mime_types = ['image/jpeg', 'image/png', 'image/gif', 'application/msword', 'application/rtf', 'application/vnd.ms-excel', 'application/vnd.ms-powerpoint', 'application/vnd.oasis.opendocument.text', 'application/vnd.oasis.opendocument.spreadsheet'];
 
             // validate MIME type
             if (mime_types.indexOf(file.type) == -1) {
