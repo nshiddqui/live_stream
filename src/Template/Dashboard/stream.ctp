@@ -53,7 +53,7 @@
     </button>
 
     <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute-all' title="Mute All">
-        <i class="fa fa-2x fa-microphone text-primary"></i>
+        <i class="fa fa-2x fa-microphone text-danger"></i>
     </button>
     <?php if ($stream_data['stream']->screen_share || $stream_data['stream']->user_id == $current_user['id']) { ?>
         <button class="btn btn-sm rounded-0 btn-no-effect" id='share-screen' title="Share screen">
