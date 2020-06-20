@@ -234,7 +234,7 @@ class StreamsController extends AppController {
         ]);
         $editable = ($this->Auth->user('id') === $stream->user_id ?: false);
         if ($this->request->is(['patch', 'post', 'put']) && $editable) {
-            $predfine = "Meating Title : {$stream->title}\nMeating Start Time : {$stream->start_time}\nMeating End Time : {$stream->end_time}\n\n";
+            $predfine = "Meeting Title : {$stream->title}\nMeeting Start Time : {$stream->start_time}\nMeeting End Time : {$stream->end_time}\n\n";
             $message = $predfine . $this->request->getData('message');
             if (!empty($message)) {
                 $this->loadModel('Notifications');
