@@ -97,7 +97,9 @@ window.addEventListener('load', () => {
                     waitingDialog.hide();
                     h.continueStream();
                     let local = document.getElementById('local');
-                    local.srcObject.getTracks().forEach(t => t.enabled = true);
+                    if (local.srcObject) {
+                        local.srcObject.getTracks().forEach(t => t.enabled = true);
+                    }
                     clearTimeout(StreamAdmin);
                 }
             });
