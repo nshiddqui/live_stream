@@ -344,11 +344,15 @@ export default {
         }, 2000);
     },
     pauseStream() {
-        document.getElementsByClassName('modal-backdrop')[0].style.zIndex = '99999999';
+        if (document.getElementsByClassName('modal-backdrop')[0]) {
+            document.getElementsByClassName('modal-backdrop')[0].style.zIndex = '99999999';
+        }
         document.getElementById('waiting-dialog').style.zIndex = '99999999999999';
     },
     continueStream() {
-        document.getElementsByClassName('modal-backdrop')[0].style.zIndex = '1050';
+        if (document.getElementsByClassName('modal-backdrop')[0]) {
+            document.getElementsByClassName('modal-backdrop')[0].style.zIndex = '1050';
+        }
         document.getElementById('waiting-dialog').style.zIndex = '1050';
     }
 };
