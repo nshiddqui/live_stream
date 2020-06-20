@@ -82,10 +82,10 @@ $description = 'Meeting';
                     window.close();
                 }
             });
-            window.onerror = function () {
-                alert('Internet issue found, Need to restart session.');
-                location.reload();
-            }
+//            window.onerror = function () {
+//                alert('Internet issue found, Need to restart session.');
+//                location.reload();
+//            }
         </script>
     </body>
 </html>
