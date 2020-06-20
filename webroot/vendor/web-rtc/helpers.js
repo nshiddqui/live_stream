@@ -107,11 +107,6 @@ export default {
     getIceServer() {
         return {
             iceServers: [
-                {   
-                    urls: [
-                        "stun:103.205.143.42:5349"
-                    ]
-                },
                 { 
                     username: "nazim",  
                     credential: "12345",

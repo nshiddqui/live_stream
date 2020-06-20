@@ -69,9 +69,23 @@ $description = 'Meeting';
         <?= $this->Html->component('datatables/datatables.min', 'script') ?>
         <!-- Custom scripts for all pages-->
         <?= $this->Html->script('stream.min') ?>
+        <!-- Duplicate Tab scripts for all pages-->
+        <?= $this->Html->script('duplicate') ?>
         <!-- Load Data Table Script -->
         <?= $this->DataTables->setJs() ?>
         <!-- Bottom Script -->
         <?= $this->fetch('scriptBottom') ?>
+        <script>
+            $(document).ready(function () {
+                if (window.IsDuplicate()) {
+                    alert("Oops \n This is duplicate window\n\n Closing...");
+                    window.close();
+                }
+            });
+            window.onerror = function () {
+                alert('Internet issue found, Need to restart session.');
+                location.reload();
+            }
+        </script>
     </body>
 </html>
