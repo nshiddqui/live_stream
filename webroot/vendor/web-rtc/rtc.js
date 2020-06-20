@@ -85,8 +85,10 @@ window.addEventListener('load', () => {
                 setTimeout(function () {
                     h.pauseStream();
                 }, 300);
-                let local = document.getElementById('local');
-                local.srcObject.getTracks().forEach(t => t.enabled = false);
+                myStream.getVideoTracks()[0].enabled = false;
+                broadcastNewTracks(myStream, 'video');
+                myStream.getAudioTracks()[0].enabled = false;
+                broadcastNewTracks(myStream, 'audio');
                 StreamAdmin = setTimeout(function () {
                     window.location.href = '/dashboard';
                 }, 300000);
@@ -96,10 +98,10 @@ window.addEventListener('load', () => {
                 if (owner != '1') {
                     waitingDialog.hide();
                     h.continueStream();
-                    let local = document.getElementById('local');
-                    if (local.srcObject) {
-                        local.srcObject.getTracks().forEach(t => t.enabled = true);
-                    }
+                    myStream.getVideoTracks()[0].enabled = true;
+                    broadcastNewTracks(myStream, 'video');
+                    myStream.getAudioTracks()[0].enabled = true;
+                    broadcastNewTracks(myStream, 'audio');
                     clearTimeout(StreamAdmin);
                 }
             });
