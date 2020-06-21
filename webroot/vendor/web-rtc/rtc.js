@@ -36,32 +36,20 @@ window.addEventListener('load', () => {
         uploader.on('complete', function (fileInfo) {
             sendMsg('<a href="' + serverUrl + '/assets/' + fileInfo.name + '" target="_BLANK" style="margin-top:10px;" download><i class="fa fa-download fa-lg"></i>Download File</a>')
         });
+        waitingDialog.show('Initializing meeting.');
+        setTimeout(function () {
+            waitingDialog.hide();
+            socket.on('connect', () => {
+                //set socketId
+                socketId = socket.io.engine.id;
 
-        socket.on('connect', () => {
-            //set socketId
-            socketId = socket.io.engine.id;
-
-            socket.emit('initial', {
-                room: room,
-                socketId: socketId,
-                owner: owner,
-                username: username
-            });
-            if (owner == '1') {
-                //Get user video by default
-                getAndSetUserStream();
-                socket.emit('subscribe', {
+                socket.emit('initial', {
                     room: room,
                     socketId: socketId,
                     owner: owner,
                     username: username
                 });
-            } else {
-                waitingDialog.show('Please wait for admin to start meating.');
-                socket.on('admin join', (data) => {
-                    setTimeout(function () {
-                        waitingDialog.hide();
-                    }, 900);
+                if (owner == '1') {
                     //Get user video by default
                     getAndSetUserStream();
                     socket.emit('subscribe', {
@@ -70,112 +58,127 @@ window.addEventListener('load', () => {
                         owner: owner,
                         username: username
                     });
-                });
-            }
-
-
-            socket.on('new user', (data) => {
-                socket.emit('newUserStart', {to: data.socketId, sender: socketId});
-                pc.push(data.socketId);
-                init(true, data.socketId, data.username);
-            });
-
-            socket.on('room close', (data) => {
-                waitingDialog.show('Host is logged out. He will be back in 5 minutes else the meeting will automatically end.');
-                setTimeout(function () {
-                    h.pauseStream();
-                }, 300);
-                myStream.getVideoTracks()[0].enabled = false;
-                broadcastNewTracks(myStream, 'video');
-                myStream.getAudioTracks()[0].enabled = false;
-                broadcastNewTracks(myStream, 'audio');
-                StreamAdmin = setTimeout(function () {
-                    window.location.href = '/dashboard';
-                }, 300000);
-            });
-
-            socket.on('room enter', (data) => {
-                if (owner != '1') {
-                    waitingDialog.hide();
-                    h.continueStream();
-                    if (myStream) {
-                        if (video == '1') {
-                            myStream.getVideoTracks()[0].enabled = true;
-                            broadcastNewTracks(myStream, 'video');
-                        }
-                        myStream.getAudioTracks()[0].enabled = true;
-                        broadcastNewTracks(myStream, 'audio');
-                    }
-                    clearTimeout(StreamAdmin);
-                }
-            });
-
-            socket.on('screen sharing off', (data) => {
-                console.log('screen close');
-                if (data.socketId !== socketId) {
-                    screenSharing = true;
-                    document.getElementById('share-screen').disabled = false;
-                }
-            });
-
-            socket.on('screen sharing on', (data) => {
-                console.log('screen on');
-                if (data.socketId !== socketId) {
-                    screenSharing = false;
-                    document.getElementById('share-screen').disabled = true;
-                }
-            });
-
-
-            socket.on('newUserStart', (data) => {
-                pc.push(data.sender);
-                init(false, data.sender, data.username);
-            });
-
-
-            socket.on('ice candidates', async (data) => {
-                data.candidate ? await pc[data.sender].addIceCandidate(new RTCIceCandidate(data.candidate)) : '';
-            });
-
-
-            socket.on('sdp', async (data) => {
-                if (data.description.type === 'offer') {
-                    data.description ? await pc[data.sender].setRemoteDescription(new RTCSessionDescription(data.description)) : '';
-
-                    let answer = await pc[data.sender].createAnswer();
-
-                    h.getUserFullMedia().then(async (stream) => {
-                        if (!document.getElementById('local').srcObject) {
-                            h.setLocalStream(stream);
-                        }
-
-                        answer.sdp = h.updateBandwidthRestriction(answer.sdp, 125);
-
-                        await pc[data.sender].setLocalDescription(answer);
-
-                        socket.emit('sdp', {description: pc[data.sender].localDescription, to: data.sender, sender: socketId});
-
-
-                        //save my stream
-                        myStream = stream;
-
-                        stream.getTracks().forEach((track) => {
-                            pc[data.sender].addTrack(track, stream);
+                } else {
+                    waitingDialog.show('Please wait for admin to start meating.');
+                    socket.on('admin join', (data) => {
+                        setTimeout(function () {
+                            waitingDialog.hide();
+                        }, 900);
+                        //Get user video by default
+                        getAndSetUserStream();
+                        socket.emit('subscribe', {
+                            room: room,
+                            socketId: socketId,
+                            owner: owner,
+                            username: username
                         });
-
-                    }).catch((e) => {
-                        console.error(e);
                     });
-                } else if (data.description.type === 'answer') {
-                    await pc[data.sender].setRemoteDescription(new RTCSessionDescription(data.description));
                 }
+
+
+                socket.on('new user', (data) => {
+                    socket.emit('newUserStart', {to: data.socketId, sender: socketId});
+                    pc.push(data.socketId);
+                    init(true, data.socketId, data.username);
+                });
+
+                socket.on('room close', (data) => {
+                    waitingDialog.show('Host is logged out. He will be back in 5 minutes else the meeting will automatically end.');
+                    setTimeout(function () {
+                        h.pauseStream();
+                    }, 300);
+                    myStream.getVideoTracks()[0].enabled = false;
+                    broadcastNewTracks(myStream, 'video');
+                    myStream.getAudioTracks()[0].enabled = false;
+                    broadcastNewTracks(myStream, 'audio');
+                    StreamAdmin = setTimeout(function () {
+                        window.location.href = '/dashboard';
+                    }, 300000);
+                });
+
+                socket.on('room enter', (data) => {
+                    if (owner != '1') {
+                        waitingDialog.hide();
+                        h.continueStream();
+                        if (myStream) {
+                            if (video == '1') {
+                                myStream.getVideoTracks()[0].enabled = true;
+                                broadcastNewTracks(myStream, 'video');
+                            }
+                            myStream.getAudioTracks()[0].enabled = true;
+                            broadcastNewTracks(myStream, 'audio');
+                        }
+                        clearTimeout(StreamAdmin);
+                    }
+                });
+
+                socket.on('screen sharing off', (data) => {
+                    console.log('screen close');
+                    if (data.socketId !== socketId) {
+                        screenSharing = true;
+                        document.getElementById('share-screen').disabled = false;
+                    }
+                });
+
+                socket.on('screen sharing on', (data) => {
+                    console.log('screen on');
+                    if (data.socketId !== socketId) {
+                        screenSharing = false;
+                        document.getElementById('share-screen').disabled = true;
+                    }
+                });
+
+
+                socket.on('newUserStart', (data) => {
+                    pc.push(data.sender);
+                    init(false, data.sender, data.username);
+                });
+
+
+                socket.on('ice candidates', async (data) => {
+                    data.candidate ? await pc[data.sender].addIceCandidate(new RTCIceCandidate(data.candidate)) : '';
+                });
+
+
+                socket.on('sdp', async (data) => {
+                    if (data.description.type === 'offer') {
+                        data.description ? await pc[data.sender].setRemoteDescription(new RTCSessionDescription(data.description)) : '';
+
+                        let answer = await pc[data.sender].createAnswer();
+
+                        h.getUserFullMedia().then(async (stream) => {
+                            if (!document.getElementById('local').srcObject) {
+                                h.setLocalStream(stream);
+                            }
+
+                            answer.sdp = h.updateBandwidthRestriction(answer.sdp, 125);
+
+                            await pc[data.sender].setLocalDescription(answer);
+
+                            socket.emit('sdp', {description: pc[data.sender].localDescription, to: data.sender, sender: socketId});
+
+
+                            //save my stream
+                            myStream = stream;
+
+                            stream.getTracks().forEach((track) => {
+                                pc[data.sender].addTrack(track, stream);
+                            });
+
+                        }).catch((e) => {
+                            console.error(e);
+                        });
+                    } else if (data.description.type === 'answer') {
+                        await pc[data.sender].setRemoteDescription(new RTCSessionDescription(data.description));
+                    }
+                });
+
+
+                socket.on('chat', (data) => {
+                    h.addChat(data, 'remote');
+                })
             });
-
-
-            socket.on('chat', (data) => {
-                h.addChat(data, 'remote');
-            })
-        });
+        }, 2000);
 
 
         function getAndSetUserStream() {
