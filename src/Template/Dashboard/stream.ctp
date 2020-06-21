@@ -13,7 +13,7 @@
             // options...
         });
     });
-    const serverUrl = 'https://claymould.com:3000';
+    const serverUrl = 'https://claymould.com:8080';
 </script>
 <?= $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js') ?>
 <?= $this->Html->component('web-rtc/rtc', 'script', ['type' => 'module']) ?>
