@@ -79,7 +79,7 @@ window.addEventListener('load', () => {
 
 
             socket.on('new user', (data) => {
-                cosole.log('new user');
+                console.log(data);
                 socket.emit('newUserStart', {to: data.socketId, sender: socketId});
                 pc.push(data.socketId);
                 init(true, data.socketId, data.username);
