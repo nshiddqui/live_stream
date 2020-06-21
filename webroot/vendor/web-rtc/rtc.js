@@ -31,6 +31,7 @@ window.addEventListener('load', () => {
         var mediaRecorder = '';
         var closePromt = 'Are you sure you want to close this meeting.';
         var screenSharing = true;
+        var onceTry = true;
 
         let uploader = new SocketIOFileClient(socket);
         uploader.on('complete', function (fileInfo) {
@@ -59,21 +60,24 @@ window.addEventListener('load', () => {
             } else {
                 waitingDialog.show('Please wait for admin to start meating.');
                 socket.on('admin join', (data) => {
-                    //Get user video by default
-                    getAndSetUserStream();
-                    var limitTimeOut = (Math.floor(Math.random() * 800) + 1100);
-                    console.log(limitTimeOut);
-                    setTimeout(function () {
-                        waitingDialog.hide();
+                    if (onceTry) {
+                        onceTry = false;
+                        //Get user video by default
+                        getAndSetUserStream();
+                        var limitTimeOut = (Math.floor(Math.random() * 800) + 1100);
+                        console.log(limitTimeOut);
+                        setTimeout(function () {
+                            waitingDialog.hide();
 
 
-                        socket.emit('subscribe', {
-                            room: room,
-                            socketId: socketId,
-                            owner: owner,
-                            username: username
-                        });
-                    }, (limitTimeOut));
+                            socket.emit('subscribe', {
+                                room: room,
+                                socketId: socketId,
+                                owner: owner,
+                                username: username
+                            });
+                        }, (limitTimeOut));
+                    }
                 });
             }
 
