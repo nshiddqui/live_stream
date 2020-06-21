@@ -18,7 +18,7 @@
 <?= $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js') ?>
 <?= $this->Html->component('web-rtc/rtc', 'script', ['type' => 'module']) ?>
 <?= $this->Html->component('web-rtc/events', 'script', ['type' => 'module']) ?>
-<?= $this->Html->component('web-rtc/adapter.min', 'script') ?>
+<?= $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/7.4.0/adapter.min.js') ?>
 <?= $this->Html->component('web-rtc/FileSaver.min', 'script') ?>
 <?= $this->Html->component('web-rtc/socket.io-file-client', 'script') ?>
 
