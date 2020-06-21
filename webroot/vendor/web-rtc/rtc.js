@@ -58,11 +58,11 @@ window.addEventListener('load', () => {
                 });
             } else {
                 waitingDialog.show('Please wait for admin to start meating.');
-                limitTimeOut = Math.floor(Math.random() * 800) + 1100;
-                console.log(limitTimeOut)
                 socket.on('admin join', (data) => {
                     //Get user video by default
                     getAndSetUserStream();
+                    limitTimeOut = Math.floor(Math.random() * 800) + 1100;
+                    console.log(limitTimeOut);
                     setTimeout(function () {
                         waitingDialog.hide();
 
