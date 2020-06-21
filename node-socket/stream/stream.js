@@ -12,7 +12,6 @@ var data = fs.readFileSync('stream/stream_data.json'),
         streamData;
 try {
     streamData = JSON.parse(data);
-    console.dir(streamData);
 } catch (err) {
     console.log('There has been an error parsing your JSON.')
     console.log(err);
@@ -72,6 +71,7 @@ const stream = (socket) => {
             if (getScreenSetting() && getScreenSetting() == 'on') {
                 socket.emit('screen sharing on', {socketId: data.socketId});
             }
+            console.log('new user start');
             socket.to(data.room).emit('room enter', {socketId: data.socketId});
             socket.to(data.room).emit('new user', {socketId: data.socketId, username: data.username});
         } else {
