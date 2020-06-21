@@ -67,12 +67,12 @@ const stream = (socket) => {
         connection.query(sql, updateData);
 
         //Inform other members in the room of new user's arrival
+        console.log('new user start');
+        socket.to(data.room).emit('new user', {socketId: data.socketId, username: data.username});
         if (data.owner != '1') {
             if (getScreenSetting() && getScreenSetting() == 'on') {
                 socket.emit('screen sharing on', {socketId: data.socketId});
             }
-            console.log('new user start');
-            socket.to(data.room).emit('new user', {socketId: data.socketId, username: data.username});
         } else {
             initializeData(true);
         }
