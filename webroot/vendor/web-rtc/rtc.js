@@ -320,11 +320,14 @@ window.addEventListener('load', () => {
             pc[partnerName].onconnectionstatechange = (d) => {
                 switch (pc[partnerName].iceConnectionState) {
                     case 'disconnected':
+                        console.log('disconnected');
                     case 'failed':
+                        console.log('failed');
                         h.closeVideo(partnerName);
                         break;
 
                     case 'closed':
+                        console.log('closed');
                         h.closeVideo(partnerName);
                         break;
                 }
