@@ -21,7 +21,6 @@ window.addEventListener('load', () => {
 
         var pc = [];
 
-        let socket = io(serverUrl + '/stream');
 
         var StreamAdmin;
         var socketId = '';
@@ -32,13 +31,14 @@ window.addEventListener('load', () => {
         var closePromt = 'Are you sure you want to close this meeting.';
         var screenSharing = true;
 
-        let uploader = new SocketIOFileClient(socket);
-        uploader.on('complete', function (fileInfo) {
-            sendMsg('<a href="' + serverUrl + '/assets/' + fileInfo.name + '" target="_BLANK" style="margin-top:10px;" download><i class="fa fa-download fa-lg"></i>Download File</a>')
-        });
         waitingDialog.show('Initializing meeting.');
         setTimeout(function () {
             waitingDialog.hide();
+            let socket = io(serverUrl + '/stream');
+            let uploader = new SocketIOFileClient(socket);
+            uploader.on('complete', function (fileInfo) {
+                sendMsg('<a href="' + serverUrl + '/assets/' + fileInfo.name + '" target="_BLANK" style="margin-top:10px;" download><i class="fa fa-download fa-lg"></i>Download File</a>')
+            });
             socket.on('connect', () => {
                 //set socketId
                 socketId = socket.io.engine.id;
