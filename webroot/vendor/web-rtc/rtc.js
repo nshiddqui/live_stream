@@ -194,10 +194,12 @@ window.addEventListener('load', () => {
                 //save my stream
                 myStream = stream;
                 myStream.addEventListener("iceconnectionstatechange", event => {
-                    if (myStream.iceConnectionState === "failed") {
+                    if (myStream.iceConnectionState === "failed" || myStream.iceConnectionState === "disconnected" || myStream.iceConnectionState === "closed") {
                         /* possibly reconfigure the connection in some way here */
                         /* then request ICE restart */
-                        myStream.restartIce();
+                        alert('Detected : Your ICE Connection State Changed, need to restart session');
+                        location.reload();
+//                        myStream.restartIce();
                     }
                 });
 
