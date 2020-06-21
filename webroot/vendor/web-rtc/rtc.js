@@ -144,17 +144,17 @@ window.addEventListener('load', () => {
 
                     let answer = await pc[data.sender].createAnswer();
 
-                    answer.sdp = h.updateBandwidthRestriction(answer.sdp, 125);
-
-                    await pc[data.sender].setLocalDescription(answer);
-
-                    socket.emit('sdp', {description: pc[data.sender].localDescription, to: data.sender, sender: socketId});
-
-
                     h.getUserFullMedia().then(async (stream) => {
                         if (!document.getElementById('local').srcObject) {
                             h.setLocalStream(stream);
                         }
+
+                        answer.sdp = h.updateBandwidthRestriction(answer.sdp, 125);
+
+                        await pc[data.sender].setLocalDescription(answer);
+
+                        socket.emit('sdp', {description: pc[data.sender].localDescription, to: data.sender, sender: socketId});
+
 
                         //save my stream
                         myStream = stream;
