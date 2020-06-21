@@ -98,10 +98,14 @@ window.addEventListener('load', () => {
                 if (owner != '1') {
                     waitingDialog.hide();
                     h.continueStream();
-                    myStream.getVideoTracks()[0].enabled = true;
-                    broadcastNewTracks(myStream, 'video');
-                    myStream.getAudioTracks()[0].enabled = true;
-                    broadcastNewTracks(myStream, 'audio');
+                    if (myStream) {
+                        if (video == '1') {
+                            myStream.getVideoTracks()[0].enabled = true;
+                            broadcastNewTracks(myStream, 'video');
+                        }
+                        myStream.getAudioTracks()[0].enabled = true;
+                        broadcastNewTracks(myStream, 'audio');
+                    }
                     clearTimeout(StreamAdmin);
                 }
             });
