@@ -106,16 +106,7 @@ export default {
 
     getIceServer() {
         return {
-            iceServers: [
-                { 
-                    username: "nazim",  
-                    credential: "12345",
-                    urls: [    
-                           "turn:103.205.143.42:5349"
-                      ]
-                }
-            ],
-            iceTransportPolicy: 'relay'
+            iceServers: [{   urls: ["stun:bn-turn1.xirsys.com"]}, {   username: "gclFiXaPb9MSQzZLlk66bRcyCwFVBY2X_8FRMITNLs8-rik_YhpB6SE6CpdckdfiAAAAAF7vkZduc2hpZGRxdWk=",   credential: "5c6b8410-b3e0-11ea-b024-0242ac140004",   urls: [       "turn:bn-turn1.xirsys.com:80?transport=udp",       "turn:bn-turn1.xirsys.com:3478?transport=udp",       "turn:bn-turn1.xirsys.com:80?transport=tcp",       "turn:bn-turn1.xirsys.com:3478?transport=tcp",       "turns:bn-turn1.xirsys.com:443?transport=tcp",       "turns:bn-turn1.xirsys.com:5349?transport=tcp"   ]}]
         };
     },
 
