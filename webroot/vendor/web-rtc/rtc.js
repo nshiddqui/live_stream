@@ -193,6 +193,13 @@ window.addEventListener('load', () => {
             h.getUserFullMedia().then((stream) => {
                 //save my stream
                 myStream = stream;
+                myStream.addEventListener("iceconnectionstatechange", event => {
+                    if (myStream.iceConnectionState === "failed") {
+                        /* possibly reconfigure the connection in some way here */
+                        /* then request ICE restart */
+                        myStream.restartIce();
+                    }
+                });
 
                 h.setLocalStream(stream);
             }).catch((e) => {
