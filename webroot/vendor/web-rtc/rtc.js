@@ -71,7 +71,7 @@ window.addEventListener('load', () => {
                             owner: owner,
                             username: username
                         });
-                    }, 1200);
+                    }, (Math.floor(Math.random() * 500) + 1100));
                 });
             }
 
