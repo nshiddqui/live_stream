@@ -68,7 +68,7 @@ const stream = (socket) => {
         connection.query(sql, updateData);
 
         //Inform other members in the room of new user's arrival
-        if (data.owner != '1' && getAdminJoined()) {
+        if (data.owner != '1') {
             if (getScreenSetting() && getScreenSetting() == 'on') {
                 socket.emit('screen sharing on', {socketId: data.socketId});
             }
