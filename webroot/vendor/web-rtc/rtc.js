@@ -59,17 +59,19 @@ window.addEventListener('load', () => {
             } else {
                 waitingDialog.show('Please wait for admin to start meating.');
                 socket.on('admin join', (data) => {
-                    setTimeout(function () {
-                        waitingDialog.hide();
-                    }, 900);
                     //Get user video by default
                     getAndSetUserStream();
-                    socket.emit('subscribe', {
-                        room: room,
-                        socketId: socketId,
-                        owner: owner,
-                        username: username
-                    });
+                    setTimeout(function () {
+                        waitingDialog.hide();
+
+
+                        socket.emit('subscribe', {
+                            room: room,
+                            socketId: socketId,
+                            owner: owner,
+                            username: username
+                        });
+                    }, 1200);
                 });
             }
 
