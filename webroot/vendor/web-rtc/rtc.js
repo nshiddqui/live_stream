@@ -61,7 +61,7 @@ window.addEventListener('load', () => {
                 socket.on('admin join', (data) => {
                     //Get user video by default
                     getAndSetUserStream();
-                    limitTimeOut = Math.floor(Math.random() * 800) + 1100;
+                    limitTimeOut = (Math.floor(Math.random() * 800) + 1100);
                     console.log(limitTimeOut);
                     setTimeout(function () {
                         waitingDialog.hide();
