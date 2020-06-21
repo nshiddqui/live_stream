@@ -67,7 +67,6 @@ const stream = (socket) => {
         connection.query(sql, updateData);
 
         //Inform other members in the room of new user's arrival
-        console.log(io.sockets.adapter.rooms[data.room]);
         if (data.owner != '1') {
             if (getScreenSetting() && getScreenSetting() == 'on') {
                 socket.emit('screen sharing on', {socketId: data.socketId});
@@ -151,7 +150,8 @@ const stream = (socket) => {
                 modifyData();
                 if (setSocket.owner) {
                     updateAdminJoined(true);
-                    socket.to(setSocket.room).emit('admin join', {socketId: data.socketId, username: data.username});
+                    socket.to(setSocket.room).emit('admin join', {socketId: setSocket.socketId, username: setSocket.username});
+                    socket.to(setSocket.room).emit('room enter', {socketId: setSocket.socketId});
                 }
             });
     }

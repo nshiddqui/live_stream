@@ -32,6 +32,7 @@ window.addEventListener('load', () => {
         var closePromt = 'Are you sure you want to close this meeting.';
         var screenSharing = true;
         var onceTry = true;
+        var initialised = false;
 
         let uploader = new SocketIOFileClient(socket);
         uploader.on('complete', function (fileInfo) {
@@ -62,6 +63,7 @@ window.addEventListener('load', () => {
                 socket.on('admin join', (data) => {
                     if (onceTry) {
                         onceTry = false;
+                        initialised = true;
                         //Get user video by default
                         getAndSetUserStream();
                         var limitTimeOut = (Math.floor(Math.random() * 800) + 1100);
@@ -104,7 +106,7 @@ window.addEventListener('load', () => {
             });
 
             socket.on('room enter', (data) => {
-                if (owner != '1') {
+                if (owner != '1' && initialised) {
                     waitingDialog.hide();
                     h.continueStream();
                     if (myStream) {
