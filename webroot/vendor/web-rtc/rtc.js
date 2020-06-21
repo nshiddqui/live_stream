@@ -138,6 +138,15 @@ window.addEventListener('load', () => {
                 if (data.description.type === 'offer') {
                     data.description ? await pc[data.sender].setRemoteDescription(new RTCSessionDescription(data.description)) : '';
 
+                    let answer = await pc[data.sender].createAnswer();
+
+                    answer.sdp = h.updateBandwidthRestriction(answer.sdp, 125);
+
+                    await pc[data.sender].setLocalDescription(answer);
+
+                    socket.emit('sdp', {description: pc[data.sender].localDescription, to: data.sender, sender: socketId});
+
+
                     h.getUserFullMedia().then(async (stream) => {
                         if (!document.getElementById('local').srcObject) {
                             h.setLocalStream(stream);
@@ -150,13 +159,6 @@ window.addEventListener('load', () => {
                             pc[data.sender].addTrack(track, stream);
                         });
 
-                        let answer = await pc[data.sender].createAnswer();
-
-                        answer.sdp = h.updateBandwidthRestriction(answer.sdp, 125);
-
-                        await pc[data.sender].setLocalDescription(answer);
-
-                        socket.emit('sdp', {description: pc[data.sender].localDescription, to: data.sender, sender: socketId});
                     }).catch((e) => {
                         console.error(e);
                     });
