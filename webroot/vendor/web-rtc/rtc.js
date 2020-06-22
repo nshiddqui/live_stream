@@ -96,6 +96,7 @@ window.addEventListener('load', () => {
                 setTimeout(function () {
                     h.pauseStream();
                 }, 300);
+                console.log(myStream.getVideoTracks()[0].enabled);
                 myStream.getVideoTracks()[0].enabled = false;
                 broadcastNewTracks(myStream, 'video');
                 myStream.getAudioTracks()[0].enabled = false;
