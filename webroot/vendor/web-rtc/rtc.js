@@ -160,7 +160,7 @@ window.addEventListener('load', () => {
                             h.setLocalStream(stream);
                         }
 
-//                        answer.sdp = h.updateBandwidthRestriction(answer.sdp, 125);
+                        answer.sdp = h.updateBandwidthRestriction(answer.sdp, 125);
 
                         await pc[data.sender].setLocalDescription(answer);
 
@@ -259,7 +259,7 @@ window.addEventListener('load', () => {
             if (createOffer) {
                 pc[partnerName].onnegotiationneeded = async () => {
                     let offer = await pc[partnerName].createOffer({"iceRestart": true});
-//                    offer.sdp = h.updateBandwidthRestriction(offer.sdp, 125);
+                    offer.sdp = h.updateBandwidthRestriction(offer.sdp, 125);
                     await pc[partnerName].setLocalDescription(offer);
 
                     socket.emit('sdp', {description: pc[partnerName].localDescription, to: partnerName, sender: socketId});
