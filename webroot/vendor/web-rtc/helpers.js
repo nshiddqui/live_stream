@@ -113,9 +113,13 @@ export default {
                     urls: [    
                            "turn:numb.viagenie.ca"
                       ]
+                },
+                {
+                    urls: ["stun:numb.viagenie.ca"]
                 }
             ],
-            iceTransportPolicy: 'relay'
+            iceTransportPolicy: 'all',
+            rtcpMuxPolicy: 'negotiate'
         };
     },
 
