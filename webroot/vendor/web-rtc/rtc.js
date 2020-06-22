@@ -52,14 +52,18 @@ window.addEventListener('load', () => {
                 username: username
             });
             if (owner == '1') {
+                var limitTimeOut = (Math.floor(Math.random() * 800) + 1100);
+                console.log(limitTimeOut);
                 //Get user video by default
                 getAndSetUserStream();
-                socket.emit('subscribe', {
-                    room: room,
-                    socketId: socketId,
-                    owner: owner,
-                    username: username
-                });
+                setTimeout(function () {
+                    socket.emit('subscribe', {
+                        room: room,
+                        socketId: socketId,
+                        owner: owner,
+                        username: username
+                    });
+                }, (limitTimeOut));
             } else {
                 waitingDialog.show('Please wait for admin to start meating.');
                 socket.on('admin join', (data) => {
