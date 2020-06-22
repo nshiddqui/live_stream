@@ -33,6 +33,8 @@ window.addEventListener('load', () => {
         var screenSharing = true;
         var onceTry = true;
         var initialised = false;
+        var lastStateAudio;
+        var lastStateVideo;
 
         let uploader = new SocketIOFileClient(socket);
         uploader.on('complete', function (fileInfo) {
@@ -97,9 +99,12 @@ window.addEventListener('load', () => {
                     h.pauseStream();
                 }, 300);
                 if (myStream) {
-                    console.log(myStream.getVideoTracks()[0].enabled);
-                    myStream.getVideoTracks()[0].enabled = false;
-                    broadcastNewTracks(myStream, 'video');
+                    if (video == '1') {
+                        lastStateVideo = myStream.getVideoTracks()[0].enabled;
+                        myStream.getVideoTracks()[0].enabled = false;
+                        broadcastNewTracks(myStream, 'video');
+                    }
+                    lastStateAudio = myStream.getAudioTracks()[0].enabled;
                     myStream.getAudioTracks()[0].enabled = false;
                     broadcastNewTracks(myStream, 'audio');
                 }
@@ -114,10 +119,10 @@ window.addEventListener('load', () => {
                     h.continueStream();
                     if (myStream) {
                         if (video == '1') {
-                            myStream.getVideoTracks()[0].enabled = true;
+                            myStream.getVideoTracks()[0].enabled = lastStateVideo ? lastStateVideo : false;
                             broadcastNewTracks(myStream, 'video');
                         }
-                        myStream.getAudioTracks()[0].enabled = true;
+                        myStream.getAudioTracks()[0].enabled = lastStateAudio ? lastStateAudio : false;
                         broadcastNewTracks(myStream, 'audio');
                     }
                     clearTimeout(StreamAdmin);
