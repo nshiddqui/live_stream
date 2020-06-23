@@ -17,7 +17,7 @@ return [
      * Development Mode:
      * true: Errors and warnings shown.
      */
-    'debug' => filter_var(env('DEBUG', true), FILTER_VALIDATE_BOOLEAN),
+    'debug' => filter_var(env('DEBUG', false), FILTER_VALIDATE_BOOLEAN),
     /**
      * Configure basic information about the application.
      *
@@ -224,7 +224,7 @@ return [
     'Email' => [
         'default' => [
             'transport' => 'default',
-            'from' => 'nazim@developer',
+            'from' => ['no-reply@claymould.com' => 'Clay Mould'],
 //            'charset' => 'utf-8',
 //            'headerCharset' => 'utf-8',
         ],
@@ -247,23 +247,23 @@ return [
             'className' => Connection::class,
             'driver' => Mysql::class,
             'persistent' => true,
-            'host' => 'yuserver.in',
+            'host' => 'localhost',
             /*
              * CakePHP will use the default DB port based on the driver selected
              * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
              * the following line and set the port accordingly
              */
             //'port' => 'non_standard_port_number',
-            'username' => 'yuserver_yuserver',
+            'username' => 'nazim',
             'password' => 'nazim@123',
-            'database' => 'yuserver_stream',
+            'database' => 'live_stream',
             /*
              * You do not need to set this flag to use full utf-8 encoding (internal default since CakePHP 3.6).
              */
             //'encoding' => 'utf8mb4',
-            'timezone' => 'UTC',
+            'timezone' => '+5:30',
             'flags' => [],
-            'cacheMetadata' => false,
+            'cacheMetadata' => true,
             'log' => false,
             /**
              * Set identifier quoting to true if you are using reserved words or
