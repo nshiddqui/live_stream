@@ -105,22 +105,22 @@ export default {
     },
 
     getIceServer() {
-        return {
-            iceServers: [
-                { 
-                    username: "nazim27294@gmail.com",  
-                    credential: "786786N@zim",
-                    urls: [    
-                           "turn:numb.viagenie.ca"
-                      ]
-                },
-                {
-                    urls: ["stun:numb.viagenie.ca"]
-                }
-            ],
-            iceTransportPolicy: 'all',
-            rtcpMuxPolicy: 'negotiate'
-        };
+//        return {
+//            iceServers: [
+//                { 
+//                    username: "nazim27294@gmail.com",  
+//                    credential: "786786N@zim",
+//                    urls: [    
+//                           "turn:numb.viagenie.ca"
+//                      ]
+//    },
+//                {
+//                    urls: ["stun:numb.viagenie.ca"]
+//                }
+//            ],
+//            iceTransportPolicy: 'all',
+//            rtcpMuxPolicy: 'negotiate'
+//        };
     },
 
     addChat(data, senderType) {
