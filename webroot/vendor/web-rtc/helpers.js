@@ -105,46 +105,46 @@ export default {
     },
 
     getIceServer() {
-        return {
-            "lifetimeDuration": "86400s",
-            "iceServers": [
-                {
-                    "urls": [
-                        "stun:172.217.27.190:19302",
-                        "stun:[2404:6800:4002:80E::201E]:19302"
-                    ]
-                },
-                {
-                    "urls": [
-                        "turn:172.217.24.254:19305?transport=udp",
-                        "turn:[2404:6800:4002:802::201E]:19305?transport=udp",
-                        "turn:172.217.24.254:19305?transport=tcp",
-                        "turn:[2404:6800:4002:802::201E]:19305?transport=tcp"
-                    ],
-                    "username": "CMbHz/cFEgY9OwQZh08Yzc/s6OMTIICjBQ",
-                    "credential": "f2WxYdspdu0JaAete0psf1rN0q8=",
-                    "maxRateKbps": "8000"
-                }
-            ],
-            "blockStatus": "NOT_BLOCKED",
-            "iceTransportPolicy": "all"
-        };
 //        return {
-//            iceServers: [
-//                { 
-//                    username: "nazim27294@gmail.com",  
-//                    credential: "786786N@zim",
-//                    urls: [    
-//                           "turn:numb.viagenie.ca"
-//                      ]
-//    },
+//            "lifetimeDuration": "86400s",
+//            "iceServers": [
 //                {
-//                    urls: ["stun:numb.viagenie.ca"]
+//                    "urls": [
+//                        "stun:172.217.27.190:19302",
+//                        "stun:[2404:6800:4002:80E::201E]:19302"
+//                    ]
+//                },
+//                {
+//                    "urls": [
+//                        "turn:172.217.24.254:19305?transport=udp",
+//                        "turn:[2404:6800:4002:802::201E]:19305?transport=udp",
+//                        "turn:172.217.24.254:19305?transport=tcp",
+//                        "turn:[2404:6800:4002:802::201E]:19305?transport=tcp"
+//                    ],
+//                    "username": "CMbHz/cFEgY9OwQZh08Yzc/s6OMTIICjBQ",
+//                    "credential": "f2WxYdspdu0JaAete0psf1rN0q8=",
+//                    "maxRateKbps": "8000"
 //                }
 //            ],
-//            iceTransportPolicy: 'all',
-//            rtcpMuxPolicy: 'negotiate'
+//            "blockStatus": "NOT_BLOCKED",
+//            "iceTransportPolicy": "all"
 //        };
+        return {
+            iceServers: [
+                { 
+                    username: "nazim",  
+                    credential: "nazim@123",
+                    urls: [    
+                           "turn:live.claymould.com:3478?transport=udp"
+                      ]
+                },
+                {
+                    urls: ["stun:live.claymould.com:3478"]
+                }
+            ],
+            iceTransportPolicy: 'all',
+            rtcpMuxPolicy: 'negotiate'
+        };
     },
 
     addChat(data, senderType) {
