@@ -142,7 +142,7 @@ export default {
                     urls: ["stun:live.claymould.com:3478"]
                 }
             ],
-            iceTransportPolicy: 'all',
+            iceTransportPolicy: 'relay',
             rtcpMuxPolicy: 'negotiate'
         };
     },
