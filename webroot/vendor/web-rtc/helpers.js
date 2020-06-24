@@ -130,13 +130,15 @@ export default {
 //            "iceTransportPolicy": "all"
 //        };
         return {
+            lifetimeDuration: "86400s",
             iceServers: [
                 { 
                     username: "nazim",  
                     credential: "nazim@123",
                     urls: [    
                            "turn:live.claymould.com:3478?transport=udp"
-                      ]
+                      ],
+                    maxRateKbps: "8000"
                 },
                 {
                     urls: ["stun:live.claymould.com:3478"]
