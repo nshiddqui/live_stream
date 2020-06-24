@@ -331,7 +331,7 @@ window.addEventListener('load', () => {
 
 
 
-            pc[partnerName].onconnectionstatechange = (d) => {
+            pc[partnerName].oniceconnectionstatechange = (d) => {
                 switch (pc[partnerName].iceConnectionState) {
                     case 'disconnected':
                         console.log('disconnected');
