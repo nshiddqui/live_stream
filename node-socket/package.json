@@ -20,7 +20,7 @@
     ]
   },
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon -x server.js",
     "debug": "nodemon --inspect server.js"
   }
 }
