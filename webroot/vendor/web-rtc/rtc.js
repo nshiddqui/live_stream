@@ -320,7 +320,7 @@ window.addEventListener('load', () => {
                     cardDiv.appendChild(controlDiv);
                     if (username) {
                         controlDiv = document.createElement('a');
-                        cardDiv.id = 'participant-' + partnerName;
+                        controlDiv.id = 'participant-' + partnerName;
                         controlDiv.href = '#';
                         controlDiv.innerHTML = username;
                         document.getElementById('participant-list').appendChild(controlDiv);
