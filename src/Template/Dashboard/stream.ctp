@@ -8,12 +8,20 @@
     const owner = '<?= $stream_data['stream']->user_id == $current_user['id'] ? '1' : '0' ?>';
     const video = '<?= $stream_data['stream']->video ?>';
     const screen_share = '<?= $stream_data['stream']->screen_share ?>';
+    const is_mobile = '<?= $mobile_user ?>';
     $(document).ready(function () {
         $(".local-video").draggabilly({
             // options...
         });
     });
     const serverUrl = 'https://live.claymould.com:8080';
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
 </script>
 <?= $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js') ?>
 <?= $this->Html->component('web-rtc/rtc', 'script', ['type' => 'module']) ?>
@@ -21,6 +29,13 @@
 <?= $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/7.4.0/adapter.min.js') ?>
 <?= $this->Html->component('web-rtc/FileSaver.min', 'script') ?>
 <?= $this->Html->component('web-rtc/socket.io-file-client', 'script') ?>
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#"><h4>Participant List</h4></a>
+    <hr>
+    <div id="participant-list">
+    </div>
+</div>
 
 <div class="custom-modal" id='recording-options-modal'>
     <div class="custom-modal-content">
@@ -47,6 +62,11 @@
         <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-video' title="Hide Video">
             <i class="fa fa-2x fa-video text-primary"></i>
         </button>
+        <?php if ($mobile_user) { ?>
+            <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-camera' title="Change Camera">
+                <i class="fa fa-2x fa-camera text-primary"></i>
+            </button>
+        <?php } ?>
     <?php } ?>
     <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute' title="Mute">
         <i class="fa fa-2x fa-microphone text-primary"></i>
@@ -63,9 +83,16 @@
     <button class="btn btn-sm rounded-0 btn-no-effect" id='record' title="Record">
         <i class="fa fa-2x fa-dot-circle text-primary"></i>
     </button>
+    <button class="btn btn-sm rounded-0 btn-no-effect" style="display: none;" id='resume-record' title="Pause Record">
+        <i class="fa fa-2x fa-pause text-danger"></i>
+    </button>
 
     <button class="btn btn-sm text-primary pull-right btn-no-effect" id='toggle-chat-pane'>
         <span class="badge badge-danger very-small font-weight-lighter" id='new-chat-notification' hidden>New</span><i class="fa fa-2x fa-comment text-primary"></i>
+    </button>
+
+    <button class="btn btn-sm rounded-0 btn-no-effect" onclick="openNav()" title="Participant">
+        <i class="fa fa-2x fa-users text-primary"></i>
     </button>
 
     <button class="btn btn-sm rounded-0 btn-no-effect text-primary">

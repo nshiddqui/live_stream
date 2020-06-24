@@ -23,6 +23,9 @@ export default {
             document.getElementById(elemId).remove();
             this.adjustVideoElemSize();
         }
+        if (document.getElementById('participant-' + elemId)) {
+            document.getElementById('participant-' + elemId).remove();
+        }
     },
 
     pageHasFocus() {
@@ -60,10 +63,16 @@ export default {
         return !!(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
     },
 
-    getUserFullMedia() {
+    getUserFullMedia(videoCamera) {
         if (this.userMediaAvailable()) {
             return navigator.mediaDevices.getUserMedia({
-                video: (video == '1' || owner == '1' ? {height: {ideal: 122, max: 220}, frameRate: {ideal: 5, max: 7}, quality: 7} : false),
+                video: (video == '1' || owner == '1' ? {
+                    width: 320,
+                    height: 240,
+                    frameRate: {
+                        ideal: 60,
+                        min: 10
+                    }} + videoCamera : false),
                 audio: {
                     echoCancellation: true,
                     noiseSuppression: true
@@ -142,8 +151,8 @@ export default {
                       ]
                 }
             ],
-//            iceTransportPolicy: 'all',
-//            rtcpMuxPolicy: 'negotiate'
+            iceTransportPolicy: 'all',
+            rtcpMuxPolicy: 'negotiate'
         };
     },
 

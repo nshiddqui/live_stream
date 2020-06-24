@@ -200,9 +200,13 @@ window.addEventListener('load', () => {
             })
         });
 
-
-        function getAndSetUserStream() {
-            h.getUserFullMedia().then((stream) => {
+        function getAndSetUserStream(videoCamera = {}) {
+            if (myStream) {
+                myStream.getTracks().forEach(track => {
+                    track.stop();
+                });
+            }
+            h.getUserFullMedia(videoCamera).then((stream) => {
                 //save my stream
                 myStream = stream;
                 myStream.addEventListener("iceconnectionstatechange", event => {
@@ -315,7 +319,13 @@ window.addEventListener('load', () => {
                     cardDiv.appendChild(newVid);
                     cardDiv.appendChild(controlDiv);
                     if (username) {
-                        let controlDiv = document.createElement('div');
+                        controlDiv = document.createElement('a');
+                        cardDiv.id = 'participant-' + partnerName;
+                        controlDiv.href = '#';
+                        controlDiv.innerHTML = username;
+                        document.getElementById('participant-list').appendChild(controlDiv);
+
+                        controlDiv = document.createElement('div');
                         controlDiv.className = 'remote-video-names';
                         controlDiv.innerHTML = username;
                         cardDiv.appendChild(controlDiv);
@@ -448,6 +458,7 @@ window.addEventListener('load', () => {
             });
 
             mediaRecorder.start(1000);
+            $('#resume-record').show();
             toggleRecordingIcons(true);
 
             mediaRecorder.ondataavailable = function (e) {
@@ -458,7 +469,7 @@ window.addEventListener('load', () => {
                 toggleRecordingIcons(false);
 
                 h.saveRecordedStream(recordedStream, username);
-
+                $('#resume-record').hide();
                 setTimeout(() => {
                     recordedStream = [];
                 }, 3000);
@@ -618,7 +629,34 @@ window.addEventListener('load', () => {
                 }
             }
         });
+        if (is_mobile == '1') {
+            document.getElementById('toggle-camera').addEventListener('click', (e) => {
+                if (e.target.classList.contains('fa-camera')) {
+                    getAndSetUserStream({facingMode: {exact: "environment"}});
+                    e.target.classList.remove('fa-camera');
+                    e.target.classList.add('fa-camera-retro');
+                } else {
+                    getAndSetUserStream();
+                    e.target.classList.remove('fa-camera-retro');
+                    e.target.classList.add('fa-camera');
+                }
+            }, false);
+        }
 
+        document.getElementById('resume-record').addEventListener('click', (e) => {
+            let toggleResumeRecord = document.getElementById('resume-record');
+            if (e.target.classList.contains('fa-pause')) {
+                mediaRecorder.pause();
+                e.target.classList.remove('fa-pause');
+                e.target.classList.add('fa-play');
+                toggleResumeRecord.setAttribute('title', 'Resume Record');
+            } else {
+                mediaRecorder.resume();
+                e.target.classList.remove('fa-play');
+                e.target.classList.add('fa-pause');
+                toggleResumeRecord.setAttribute('title', 'Pause Record');
+            }
+        }, false);
 
         window.addEventListener('beforeunload', function (e) {
             if (closePromt) {
@@ -637,7 +675,7 @@ window.addEventListener('load', () => {
             var file = document.querySelector('#file-upload').files[0];
 
             // allowed types
-            var mime_types = ['image/jpeg', 'image/png', 'image/gif', 'application/msword', 'application/rtf', 'application/vnd.ms-excel', 'application/vnd.ms-powerpoint', 'application/vnd.oasis.opendocument.text', 'application/vnd.oasis.opendocument.spreadsheet'];
+            var mime_types = ['text/plain', 'application/pdf', 'image/jpeg', 'image/png', 'image/gif', 'application/msword', 'application/rtf', 'application/vnd.ms-excel', 'application/vnd.ms-powerpoint', 'application/vnd.oasis.opendocument.text', 'application/vnd.oasis.opendocument.spreadsheet'];
 
             // validate MIME type
             if (mime_types.indexOf(file.type) == -1) {

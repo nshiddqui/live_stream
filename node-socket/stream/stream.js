@@ -21,7 +21,7 @@ const stream = (socket) => {
 
     var uploader = new SocketIOFile(socket, {
         uploadDir: 'assets',
-        accepts: ['image/jpeg', 'image/png', 'image/gif', 'application/msword', 'application/rtf', 'application/vnd.ms-excel', 'application/vnd.ms-powerpoint', 'application/vnd.oasis.opendocument.text', 'application/vnd.oasis.opendocument.spreadsheet'],
+        accepts: ['text/plain', 'application/pdf', 'image/jpeg', 'image/png', 'image/gif', 'application/msword', 'application/rtf', 'application/vnd.ms-excel', 'application/vnd.ms-powerpoint', 'application/vnd.oasis.opendocument.text', 'application/vnd.oasis.opendocument.spreadsheet'],
         maxFileSize: 4194304,
         chunkSize: 10240,
         transmissionDelay: 0,
