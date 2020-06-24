@@ -68,7 +68,7 @@ export default {
             return navigator.mediaDevices.getUserMedia({
                 video: (video == '1' || owner == '1' ? {
                     width: 320,
-                    height: 240,
+                    height: 220,
                     frameRate: {
                         ideal: 60,
                         min: 10
