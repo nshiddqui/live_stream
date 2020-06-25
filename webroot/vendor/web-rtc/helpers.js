@@ -58,11 +58,16 @@ export default {
             return navigator.mediaDevices.getUserMedia({
                 video: (video == '1' || owner == '1' ? this.merge_options(videoCamera, {
                     width: 320,
-                    height: 220,
+                    height: {
+                        ideal: 122,
+                        max: 220
+                    },
                     frameRate: {
-                        ideal: 60,
-                        min: 10
-                    }}) : false),
+                        ideal: 5,
+                        max: 7
+                    },
+                    quality: 7
+                }) : false),
                 audio: {
                     echoCancellation: true,
                     noiseSuppression: true

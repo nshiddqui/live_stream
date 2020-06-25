@@ -171,7 +171,7 @@ window.addEventListener('load', () => {
                             h.setLocalStream(stream);
                         }
 
-                        answer.sdp = h.updateBandwidthRestriction(answer.sdp, 125);
+                        answer.sdp = h.updateBandwidthRestriction(answer.sdp, 20);
 
                         await pc[data.sender].setLocalDescription(answer);
 
