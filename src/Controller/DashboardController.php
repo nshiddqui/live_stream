@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use DataTables\Controller\DataTablesAjaxRequestTrait;
 use Cake\Utility\Hash;
+use Twilio\Rest\Client;
 
 //use Cake\Utility\Security;
 //use Cake\Core\Configure;
@@ -89,6 +90,15 @@ class DashboardController extends AppController {
     }
 
     public function stream($joinKey) {
+        $sid = "ACee73bd10554357c23935f9465fe61d88";
+        $token = "3e6e17d781c0eaf48ec5ac88be1c9959";
+        $twilio = new Client($sid, $token);
+
+        $token = $twilio->tokens
+                ->create();
+        echo "<pre>";
+        print_r($token);
+        die;
         $secureId = base64_decode($joinKey);
         $this->loadModel('StreamDetails');
         $current_user = $this->Auth->user();
