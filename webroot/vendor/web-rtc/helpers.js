@@ -65,7 +65,7 @@ export default {
                         ideal: 5,
                         max: 7
                     },
-                    quality: 7
+                    quality: 5
                 }) : false),
                 audio: {
                     echoCancellation: true,
