@@ -9,6 +9,7 @@
     const video = '<?= $stream_data['stream']->video ?>';
     const screen_share = '<?= $stream_data['stream']->screen_share ?>';
     const is_mobile = '<?= $mobile_user ?>';
+    const iceServer = JSON.parse('<?= $ice_server ?>');
     $(document).ready(function () {
         $(".local-video").draggabilly({
             // options...

@@ -136,18 +136,7 @@ export default {
 //            "iceTransportPolicy": "all"
 //        };
         return {
-            iceServers: [
-                {
-                    urls: ["stun:live.claymould.com:3478"]
-                },
-                { 
-                    username: "nazim",  
-                    credential: "nazim@123",
-                    urls: [    
-                           "turn:live.claymould.com:3478?transport=udp"
-                      ]
-                }
-            ],
+            iceServers: iceServer['ice_servers'],
             iceTransportPolicy: 'all',
             rtcpMuxPolicy: 'negotiate'
         };

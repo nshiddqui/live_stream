@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Controller\AppController;
 use DataTables\Controller\DataTablesAjaxRequestTrait;
 use Cake\Utility\Hash;
-use Twilio\Rest\Client;
 
 //use Cake\Utility\Security;
 //use Cake\Core\Configure;
@@ -90,15 +89,9 @@ class DashboardController extends AppController {
     }
 
     public function stream($joinKey) {
-        $sid = "ACee73bd10554357c23935f9465fe61d88";
-        $token = "3e6e17d781c0eaf48ec5ac88be1c9959";
-        $twilio = new Client($sid, $token);
-
-        $token = $twilio->tokens
-                ->create();
-        echo "<pre>";
-        print_r($token);
-        die;
+        /* TURN SERVER from twilio */
+        $proxyauth = 'ACee73bd10554357c23935f9465fe61d88:3e6e17d781c0eaf48ec5ac88be1c9959';
+        $ice_server = exec("curl -X POST https://api.twilio.com/2010-04-01/Accounts/ACee73bd10554357c23935f9465fe61d88/Tokens.json -u {$proxyauth}");
         $secureId = base64_decode($joinKey);
         $this->loadModel('StreamDetails');
         $current_user = $this->Auth->user();
@@ -125,7 +118,7 @@ class DashboardController extends AppController {
             $mobile_user = false;
         }
         $toggled = true;
-        $this->set(compact('stream_data', 'current_user', 'toggled', 'mobile_user'));
+        $this->set(compact('stream_data', 'current_user', 'toggled', 'mobile_user', 'ice_server'));
     }
 
 }

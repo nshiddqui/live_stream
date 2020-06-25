@@ -5,7 +5,6 @@
 import h from './helpers.js';
 
 window.addEventListener('load', () => {
-
     if (!room) {
         alert('Room Not Found');
         window.location.href = '/';
