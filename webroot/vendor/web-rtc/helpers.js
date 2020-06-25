@@ -57,10 +57,9 @@ export default {
         if (this.userMediaAvailable()) {
             return navigator.mediaDevices.getUserMedia({
                 video: (video == '1' || owner == '1' ? this.merge_options(videoCamera, {
-                    width: 320,
                     height: {
-                        ideal: 122,
-                        max: 220
+                        ideal: 70,
+                        max: 120
                     },
                     frameRate: {
                         ideal: 5,
