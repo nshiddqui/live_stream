@@ -10,14 +10,13 @@ export default {
             modifier = 'TIAS';
         }
         if (sdp.indexOf('b=' + modifier + ':') === -1) {
-            // insert b= after c= line.
+// insert b= after c= line.
             sdp = sdp.replace(/c=IN (.*)\r\n/, 'c=IN $1\r\nb=' + modifier + ':' + bandwidth + '\r\n');
         } else {
             sdp = sdp.replace(new RegExp('b=' + modifier + ':.*\r\n'), 'b=' + modifier + ':' + bandwidth + '\r\n');
         }
         return sdp;
     },
-
     closeVideo(elemId) {
         if (document.getElementById(elemId)) {
             document.getElementById(elemId).remove();
@@ -27,29 +26,22 @@ export default {
             document.getElementById('participant-' + elemId).remove();
         }
     },
-
     pageHasFocus() {
         return !(document.hidden || document.onfocusout || window.onpagehide || window.onblur);
     },
-
     getQString(url = '', keyToReturn = '') {
         url = url ? url : location.href;
         let queryStrings = decodeURIComponent(url).split('#', 2)[0].split('?', 2)[1];
-
         if (queryStrings) {
             let splittedQStrings = queryStrings.split('&');
-
             if (splittedQStrings.length) {
                 let queryStringObj = {};
-
                 splittedQStrings.forEach(function (keyValuePair) {
                     let keyValue = keyValuePair.split('=', 2);
-
                     if (keyValue.length) {
                         queryStringObj[keyValue[0]] = keyValue[1];
                     }
                 });
-
                 return keyToReturn ? (queryStringObj[keyToReturn] ? queryStringObj[keyToReturn] : null) : queryStringObj;
             }
 
@@ -58,21 +50,19 @@ export default {
 
         return null;
     },
-
     userMediaAvailable() {
         return !!(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
     },
-
-    getUserFullMedia(videoCamera) {
+    getUserFullMedia(videoCamera = {}) {
         if (this.userMediaAvailable()) {
             return navigator.mediaDevices.getUserMedia({
-                video: (video == '1' || owner == '1' ? {
+                video: (video == '1' || owner == '1' ? this.merge_options(videoCamera, {
                     width: 320,
                     height: 220,
                     frameRate: {
                         ideal: 60,
                         min: 10
-                    }} + videoCamera : false),
+                    }}) : false),
                 audio: {
                     echoCancellation: true,
                     noiseSuppression: true
@@ -80,9 +70,18 @@ export default {
             });
         } else {
             throw new Error('User media not available');
-        }
+    }
     },
-
+    merge_options(obj1, obj2) {
+        var obj3 = {};
+        for (var attrname in obj1) {
+            obj3[attrname] = obj1[attrname];
+        }
+        for (var attrname in obj2) {
+            obj3[attrname] = obj2[attrname];
+        }
+        return obj3;
+    },
     getUserAudio() {
         if (this.userMediaAvailable()) {
             return navigator.mediaDevices.getUserMedia({
@@ -95,7 +94,6 @@ export default {
             throw new Error('User media not available');
         }
     },
-
     shareScreen() {
         if (this.userMediaAvailable()) {
             return navigator.mediaDevices.getDisplayMedia({
@@ -112,7 +110,6 @@ export default {
             throw new Error('User media not available');
         }
     },
-
     getIceServer() {
 //        return {
 //            "lifetimeDuration": "86400s",
@@ -155,38 +152,29 @@ export default {
             rtcpMuxPolicy: 'negotiate'
         };
     },
-
     addChat(data, senderType) {
         let chatMsgDiv = document.querySelector('#chat-messages');
         let contentAlign = 'justify-content-end';
         let senderName = 'You';
         let msgBg = 'bg-white';
-
         if (senderType === 'remote') {
             contentAlign = 'justify-content-start';
             senderName = data.sender;
             msgBg = '';
-
             this.toggleChatNotificationBadge();
         }
 
         let infoDiv = document.createElement('div');
         infoDiv.className = 'sender-info';
         infoDiv.innerHTML = `${senderName} - ${moment().format('Do MMMM, YYYY h:mm a')}`;
-
         let colDiv = document.createElement('div');
         colDiv.className = `col-10 card chat-card msg ${msgBg}`;
         colDiv.innerHTML = data.msg;
-
         let rowDiv = document.createElement('div');
         rowDiv.className = `row ${contentAlign} mb-2`;
-
-
         colDiv.appendChild(infoDiv);
         rowDiv.appendChild(colDiv);
-
         chatMsgDiv.appendChild(rowDiv);
-
         /**
          * Move focus to the newly added message but only if:
          * 1. Page has focus
@@ -196,7 +184,6 @@ export default {
             rowDiv.scrollIntoView();
         }
     },
-
     toggleChatNotificationBadge() {
         if (document.querySelector('#chat-pane').classList.contains('chat-opened')) {
             document.querySelector('#new-chat-notification').setAttribute('hidden', true);
@@ -204,16 +191,12 @@ export default {
             document.querySelector('#new-chat-notification').removeAttribute('hidden');
         }
     },
-
     replaceTrack(stream, recipientPeer) {
         let sender = recipientPeer.getSenders ? recipientPeer.getSenders().find(s => s.track && s.track.kind === stream.kind) : false;
-
         sender ? sender.replaceTrack(stream) : '';
     },
-
     toggleShareIcons(share) {
         let shareIconElem = document.querySelector('#share-screen');
-
         if (share) {
             shareIconElem.setAttribute('title', 'Stop sharing screen');
             shareIconElem.children[0].classList.add('text-danger');
@@ -224,14 +207,11 @@ export default {
             shareIconElem.children[0].classList.remove('text-danger');
         }
     },
-
     toggleVideoBtnDisabled(disabled) {
         document.getElementById('toggle-video').disabled = disabled;
     },
-
     maximiseStream(e) {
         let elem = e.target.parentElement.previousElementSibling;
-
         elem.requestFullscreen() || elem.mozRequestFullScreen() || elem.webkitRequestFullscreen() || elem.msRequestFullscreen();
         // document.querySelector('#close-single-peer-btn').style.display = 'block';
 
@@ -247,7 +227,6 @@ export default {
         //     }
         // }
     },
-
     singleStreamToggleMute(e) {
         if (e.target.classList.contains('fa-microphone')) {
             e.target.parentElement.previousElementSibling.muted = true;
@@ -259,7 +238,6 @@ export default {
             e.target.classList.remove('fa-microphone-slash');
         }
     },
-
     remoteStreamToggleMute(e) {
         let toggleMute = document.getElementById('toggle-mute-all');
         let elem = document.getElementsByClassName('mute-remote-mic');
@@ -287,18 +265,13 @@ export default {
             }
         }
     },
-
     saveRecordedStream(stream, user) {
         let blob = new Blob(stream, {type: 'video/mp4'});
-
         let file = new File([blob], `${user}-${moment().unix()}-record.mp4`);
-
         saveAs(file);
     },
-
     toggleModal(id, show) {
         let el = document.getElementById(id);
-
         if (show) {
             el.style.display = 'block';
             el.removeAttribute('aria-hidden');
@@ -307,14 +280,11 @@ export default {
             el.setAttribute('aria-hidden', true);
         }
     },
-
     setLocalStream(stream, mirrorMode = true) {
         const localVidElem = document.getElementById('local');
-
         localVidElem.srcObject = stream;
         mirrorMode ? localVidElem.classList.add('mirror-mode') : localVidElem.classList.remove('mirror-mode');
     },
-
     adjustVideoElemSize() {
         let elem = document.getElementsByClassName('custom-card-video');
         let totalRemoteVideosDesktop = elem.length;
@@ -344,37 +314,29 @@ export default {
             elem[i].querySelector('video').style.height = newHeight;
         }
     },
-
     createDemoRemotes(str, total = 6) {
         let i = 0;
-
         let testInterval = setInterval(() => {
             let newVid = document.createElement('video');
             newVid.id = `demo-${i}-video`;
             newVid.srcObject = str;
             newVid.autoplay = true;
             newVid.className = 'remote-video';
-
             //video controls elements
             let controlDiv = document.createElement('div');
             controlDiv.className = 'remote-video-controls';
             controlDiv.innerHTML = `<i class="fa fa-microphone text-danger pr-3 mute-remote-mic" title="Mute"></i>
                 <i class="fa fa-expand text-danger expand-remote-video" title="Expand"></i>`;
-
             //create a new div for card
             let cardDiv = document.createElement('div');
             cardDiv.className = 'card card-sm';
             cardDiv.id = `demo-${i}`;
             cardDiv.appendChild(newVid);
             cardDiv.appendChild(controlDiv);
-
             //put div in main-section elem
             document.getElementById('videos').appendChild(cardDiv);
-
             this.adjustVideoElemSize();
-
             i++;
-
             if (i == total) {
                 clearInterval(testInterval);
             }
