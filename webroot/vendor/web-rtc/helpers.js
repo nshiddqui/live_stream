@@ -57,6 +57,17 @@ export default {
         return !!(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
     },
     getUserFullMedia(videoCamera = {}) {
+        alert(this.merge_options(videoCamera, {
+                    height: {
+                        ideal: 70,
+                        max: 120
+                    },
+                    frameRate: {
+                        ideal: 5,
+                        max: 7
+                    },
+                    quality: 5
+                }));
         if (this.userMediaAvailable()) {
             return navigator.mediaDevices.getUserMedia({
                 video: (video == '1' || owner == '1' ? this.merge_options(videoCamera, {
