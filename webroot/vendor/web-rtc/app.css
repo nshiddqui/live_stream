@@ -252,11 +252,11 @@
     }
 
     #chat-messages{
-        height: 60vh;
+        height: 45vh;
     }
 
     .chat-box{
-        bottom: 90px;
+        bottom: 120px;
         margin-bottom: 0px;
     }
 
