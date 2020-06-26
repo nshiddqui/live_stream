@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const fs = require('fs');
 const SocketIOFile = require('socket.io-file');
 const connection = mysql.createConnection({
-    host: 'localhost',
+    host: 'claymould.com',
     user: 'nazim',
     password: 'nazim@123',
     database: 'live_stream'
@@ -109,7 +109,7 @@ const stream = (socket) => {
     });
 
     socket.on('disconnect', (data) => {
-        if (setSocket && setSocket.owner && setSocket.owner == 1) {
+        if (setSocket.owner == '1') {
             let sql = "UPDATE `streams` SET `is_active` = '0' WHERE `request_token` = ?";
             let updateData = [setSocket.room];
             // execute the UPDATE statement
@@ -148,7 +148,7 @@ const stream = (socket) => {
                     throw err;
                 streamData[setSocket.room] = result;
                 modifyData();
-                if (setSocket.owner) {
+                if (setSocket.owner == '1') {
                     updateAdminJoined(true);
                     socket.to(setSocket.room).emit('admin join', {socketId: setSocket.socketId, username: setSocket.username});
                     socket.to(setSocket.room).emit('room enter', {socketId: setSocket.socketId});
