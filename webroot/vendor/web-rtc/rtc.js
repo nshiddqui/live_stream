@@ -35,9 +35,15 @@ window.addEventListener('load', () => {
         var lastStateAudio;
         var lastStateVideo;
         let uploader = new SocketIOFileClient(socket);
+        let deviceVideo = [];
 
         navigator.mediaDevices.enumerateDevices().then(function (deviceInfos) {
-            console.log(deviceInfos);
+            for (let i = 0; i !== deviceInfos.length; ++i) {
+                const deviceInfo = deviceInfos[i];
+                if (deviceInfo.kind === 'videoinput') {
+                    deviceVideo.push(deviceInfo.deviceId);
+                }
+            }
         }).catch(function (error) {
             console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
         });
@@ -650,8 +656,10 @@ window.addEventListener('load', () => {
                 }
             }
         });
-        if (is_mobile == '1') {
+        if (is_mobile == '1' || video == '1' || owner == '1') {
             document.getElementById('toggle-camera').addEventListener('click', async (e) => {
+                console.log(deviceVideo);
+                console.log(deviceVideo.length);
                 if (e.target.classList.contains('fa-camera')) {
                     getAndSetUserStream({facingMode: {exact: "environment"}});
                     e.target.classList.remove('fa-camera');
