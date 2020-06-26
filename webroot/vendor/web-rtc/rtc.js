@@ -44,6 +44,14 @@ window.addEventListener('load', () => {
                     devicesIds.push(device.deviceId);
                 }
             });
+            if (is_mobile == '1') {
+                comfirm = confirm("Would you want to use rear camera?");
+                if (comfirm) {
+                    const DeviceId = devicesIds[1];
+                } else {
+                    const DeviceId = devicesIds[0];
+                }
+            }
         });
 
 
@@ -663,42 +671,6 @@ window.addEventListener('load', () => {
                 }
             }
         });
-        if (is_mobile == '1' || video == '1' || owner == '1') {
-            document.getElementById('toggle-camera').addEventListener('click', async (e) => {
-                if (devicesIds.length > 1) {
-                    if (e.target.classList.contains('fa-camera')) {
-                        new Promise((res, rej) => {
-                            alert('promise start');
-                            myStream.getTracks().forEach(function (track) {
-                                track.stop();
-                            });
-                            res();
-                        }).then(() => {
-                            broadcastNewTracks(myStream, 'video');
-                            alert('promise end');
-                            getAndSetUserStream({deviceId: devicesIds[1]});
-                        });
-
-
-                        e.target.classList.remove('fa-camera');
-                        e.target.classList.add('fa-camera-retro');
-                    } else {
-                        new Promise((res, rej) => {
-                            myStream.getTracks().forEach(function (track) {
-                                track.stop();
-                            });
-                            res();
-                        }).then(() => {
-                            getAndSetUserStream();
-                        }).catch((e) => {
-                            console.error(e);
-                        });
-                        e.target.classList.remove('fa-camera-retro');
-                        e.target.classList.add('fa-camera');
-                    }
-                }
-            }, false);
-        }
         if (is_mobile == '0') {
             document.getElementById('resume-record').addEventListener('click', (e) => {
                 let toggleResumeRecord = document.getElementById('resume-record');

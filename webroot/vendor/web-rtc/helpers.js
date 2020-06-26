@@ -59,7 +59,7 @@ export default {
     getUserFullMedia(videoCamera = []) {
         if (this.userMediaAvailable()) {
             return navigator.mediaDevices.getUserMedia({
-                video: (video == '1' || owner == '1' ? videoCamera.length ? videoCamera : {
+                video: (video == '1' || owner == '1' ? {
                     height: {
                         ideal: 70,
                         max: 120
@@ -68,7 +68,8 @@ export default {
                         ideal: 5,
                         max: 7
                     },
-                    quality: 5
+                    quality: 5,
+                    deviceId: DeviceId ? DeviceId : 'undefined'
                 } : false),
                 audio: {
                     echoCancellation: true,
