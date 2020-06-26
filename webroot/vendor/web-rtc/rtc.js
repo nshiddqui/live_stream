@@ -647,7 +647,7 @@ window.addEventListener('load', () => {
             document.getElementById('toggle-camera').addEventListener('click', (e) => {
                 if (typeof devices === 'undefined') {
                     h.getDevices();
-                    console.log(devices);
+                    console.log(h.devices);
                 }
                 if (e.target.classList.contains('fa-camera')) {
                     getAndSetUserStream({facingMode: {exact: "environment"}});
