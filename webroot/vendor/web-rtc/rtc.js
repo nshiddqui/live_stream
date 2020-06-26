@@ -239,7 +239,7 @@ window.addEventListener('load', () => {
 //                        myStream.restartIce();
                     }
                 });
-                if (videoCamera !== {}) {
+                if (DeviceId !== []) {
                     broadcastNewTracks(myStream, 'video');
                 } else {
                     h.setLocalStream(stream);
