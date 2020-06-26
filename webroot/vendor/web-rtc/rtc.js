@@ -575,7 +575,7 @@ window.addEventListener('load', () => {
             });
         }
 
-        if (is_mobile == '0') {
+        if (is_mobile == '1') {
             //When record button is clicked
             document.getElementById('record').addEventListener('click', (e) => {
                 /**
