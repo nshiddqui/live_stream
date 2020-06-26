@@ -60,7 +60,8 @@ window.addEventListener('load', () => {
                         room: room,
                         socketId: socketId,
                         owner: owner,
-                        username: username
+                        username: username,
+                        profile: profile
                     });
                 }, (limitTimeOut));
             } else {
@@ -93,7 +94,7 @@ window.addEventListener('load', () => {
                 console.log(data);
                 socket.emit('newUserStart', {to: data.socketId, sender: socketId});
                 pc.push(data.socketId);
-                init(true, data.socketId, data.username);
+                init(true, data.socketId, data.username, data.profile);
             });
 
             socket.on('room close', (data) => {
@@ -151,7 +152,7 @@ window.addEventListener('load', () => {
 
             socket.on('newUserStart', (data) => {
                 pc.push(data.sender);
-                init(false, data.sender, data.username);
+                init(false, data.sender, data.username, data.profile);
             });
 
 
@@ -246,7 +247,7 @@ window.addEventListener('load', () => {
 
 
 
-        function init(createOffer, partnerName, username = false) {
+        function init(createOffer, partnerName, username = false, profile = false) {
             pc[partnerName] = new RTCPeerConnection(h.getIceServer());
 
             if (screen && screen.getTracks().length) {
@@ -325,7 +326,11 @@ window.addEventListener('load', () => {
                         controlDiv = document.createElement('a');
                         controlDiv.id = 'participant-' + partnerName;
                         controlDiv.href = '#';
-                        controlDiv.innerHTML = username;
+                        if (profile) {
+                            controlDiv.innerHTML = '<img src="/img/profile_image/' + profile + '" style="height: 25px;">' + username;
+                        } else {
+                            controlDiv.innerHTML = '<img src="/img/profile_image/logo.png" style="height: 25px;margin-right:10px;">' + username;
+                        }
                         document.getElementById('participant-list').appendChild(controlDiv);
 
                         controlDiv = document.createElement('div');

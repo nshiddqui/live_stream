@@ -2,9 +2,11 @@
 <?= $this->Html->css('https://use.fontawesome.com/releases/v5.7.2/css/all.css') ?>
 <?= $this->Html->script('https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js') ?>
 <?= $this->Html->script('waitng-modal') ?>
+<?= $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.0/jquery.nicescroll.min.js') ?>
 <script>
     const room = '<?= $stream_data['stream']['request_token'] ?>';
     const username = '<?= $current_user['name'] ?>';
+    const profile = '<?= isset($current_user['profile_image']) ? $current_user['profile_image'] : 'logo.png' ?>';
     const owner = '<?= $stream_data['stream']->user_id == $current_user['id'] ? '1' : '0' ?>';
     const video = '<?= $stream_data['stream']->video ?>';
     const screen_share = '<?= $stream_data['stream']->screen_share ?>';
@@ -13,6 +15,14 @@
     $(document).ready(function () {
         $(".local-video").draggabilly({
             // options...
+        });
+        $("#chat-messages").niceScroll({
+            horizrailenabled: false,
+            cursorwidth: "7px"
+        });
+        $("#participant-list").niceScroll({
+            horizrailenabled: false,
+            cursorwidth: "7px"
         });
     });
     const serverUrl = 'https://socket.claymould.com:3000';

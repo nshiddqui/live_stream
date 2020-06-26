@@ -44,7 +44,8 @@ const stream = (socket) => {
                 socketId: data.socketId,
                 owner: data.owner,
                 room: data.room,
-                username: data.username
+                username: data.username,
+                profile: data.profile
             };
         }
         if (streamData[setSocket.room]) {
@@ -75,12 +76,12 @@ const stream = (socket) => {
         } else {
             initializeData(true);
         }
-        socket.to(data.room).emit('new user', {socketId: data.socketId, username: data.username});
+        socket.to(data.room).emit('new user', {socketId: data.socketId, username: data.username, profile: data.profile});
     });
 
 
     socket.on('newUserStart', (data) => {
-        socket.to(data.to).emit('newUserStart', {sender: data.sender, username: setSocket.username});
+        socket.to(data.to).emit('newUserStart', {sender: data.sender, username: setSocket.username, profile: setSocket.profile});
     });
 
     socket.on('screen sharing off', (data) => {

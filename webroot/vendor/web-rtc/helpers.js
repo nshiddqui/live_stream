@@ -289,11 +289,11 @@ export default {
                 || document.body.clientWidth;
         var newHeight;
         if (newWidth == '50%') {
-            newHeight = window.outerHeight / 2 + 'px';
+            newHeight = ((window.outerHeight / 2) + 120) + 'px';
         } else if (newWidth == '33.33%') {
-            newHeight = window.outerHeight / 3 + 'px';
+            newHeight = ((window.outerHeight / 3) + 120) + 'px';
         } else {
-            newHeight = window.outerHeight / 4 + 'px';
+            newHeight = ((window.outerHeight / 4) + 120) + 'px';
         }
         if (w < 767) {
             newWidth = '100%';
