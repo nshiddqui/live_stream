@@ -242,7 +242,7 @@ window.addEventListener('load', () => {
                 }
 
             }).catch((e) => {
-                console.error(`stream error: ${e}`);
+                alert(`stream error: ${e}`);
             });
         }
 
@@ -659,24 +659,11 @@ window.addEventListener('load', () => {
             document.getElementById('toggle-camera').addEventListener('click', async (e) => {
                 if (deviceVideo.length > 1) {
                     if (e.target.classList.contains('fa-camera')) {
-                        new Promise((res, rej) => {
-                            try {
-                                myStream.getTracks().forEach(track => {
-                                    track.stop();
-                                });
-                            } catch (err) {
-                                alert(e);
-                            }
-                            res();
-                        }).then(() => {
-                            try {
-                                getAndSetUserStream({deviceId: deviceVideo[1]});
-                            } catch (err) {
-                                alert(e);
-                            }
-                        }).catch((e) => {
-                            alert(e);
+                        myStream.getTracks().forEach(track => {
+                            track.stop();
                         });
+
+                        getAndSetUserStream({deviceId: deviceVideo[1]});
                         e.target.classList.remove('fa-camera');
                         e.target.classList.add('fa-camera-retro');
                     } else {
