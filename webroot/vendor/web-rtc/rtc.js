@@ -662,7 +662,7 @@ window.addEventListener('load', () => {
         });
         if (is_mobile == '1' || video == '1' || owner == '1') {
             document.getElementById('toggle-camera').addEventListener('click', async (e) => {
-                if (deviceVideo.length > 1) {
+                if (devicesIds.length > 1) {
                     if (e.target.classList.contains('fa-camera')) {
                         new Promise((res, rej) => {
                             alert('promise start');
