@@ -36,7 +36,6 @@ window.addEventListener('load', () => {
         var lastStateVideo;
         let uploader = new SocketIOFileClient(socket);
 
-        h.getDevices()
         uploader.on('complete', function (fileInfo) {
             sendMsg('<a href="' + serverUrl + '/assets/' + fileInfo.name + '" target="_BLANK" style="margin-top:10px;" download><i class="fa fa-download fa-lg"></i>Download File</a>')
         });
@@ -646,6 +645,10 @@ window.addEventListener('load', () => {
         });
         if (is_mobile == '1') {
             document.getElementById('toggle-camera').addEventListener('click', (e) => {
+                if (!devices) {
+                    h.getDevices();
+                    console.log(devices);
+                }
                 if (e.target.classList.contains('fa-camera')) {
                     getAndSetUserStream({facingMode: {exact: "environment"}});
                     e.target.classList.remove('fa-camera');
