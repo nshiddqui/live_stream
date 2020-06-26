@@ -39,8 +39,10 @@ window.addEventListener('load', () => {
 
         navigator.mediaDevices.enumerateDevices().then(function (devices) {
             devices.forEach(function (device) {
-                alert(device.kind);
-                devicesIds.push(device.deviceId);
+                if (device.kind === 'videoinput') {
+                    alert(device.kind);
+                    devicesIds.push(device.deviceId);
+                }
             });
         });
 
