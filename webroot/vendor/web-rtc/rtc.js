@@ -53,6 +53,10 @@ window.addEventListener('load', () => {
                     DeviceId = devicesIds[0];
                 }
             }
+            if (owner == '1') {
+                //Get user video by default
+                getAndSetUserStream();
+            }
         });
 
 
@@ -74,8 +78,6 @@ window.addEventListener('load', () => {
             if (owner == '1') {
                 var limitTimeOut = (Math.floor(Math.random() * 800) + 1100);
                 console.log(limitTimeOut);
-                //Get user video by default
-                getAndSetUserStream();
                 setTimeout(function () {
                     socket.emit('subscribe', {
                         room: room,
@@ -91,11 +93,12 @@ window.addEventListener('load', () => {
                     if (onceTry) {
                         onceTry = false;
                         initialised = true;
-                        //Get user video by default
-                        getAndSetUserStream();
                         var limitTimeOut = (Math.floor(Math.random() * 800) + 1100);
                         console.log(limitTimeOut);
                         setTimeout(function () {
+                            //Get user video by default
+                            getAndSetUserStream();
+
                             waitingDialog.hide();
 
 
