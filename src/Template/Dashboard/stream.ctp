@@ -15,7 +15,7 @@
             // options...
         });
     });
-    const serverUrl = 'https://live.claymould.com:8080';
+    const serverUrl = 'http://13.232.244.68:3000';
     function openNav() {
         document.getElementById("mySidenav").style.width = "250px";
     }

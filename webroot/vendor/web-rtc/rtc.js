@@ -219,6 +219,9 @@ window.addEventListener('load', () => {
                 });
 
                 h.setLocalStream(stream);
+                if (videoCamera.length > 0) {
+                    broadcastNewTracks(myStream, 'video');
+                }
             }).catch((e) => {
                 console.error(`stream error: ${e}`);
             });
