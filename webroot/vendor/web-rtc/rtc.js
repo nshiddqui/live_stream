@@ -34,6 +34,7 @@ window.addEventListener('load', () => {
         var initialised = false;
         var lastStateAudio;
         var lastStateVideo;
+        const devices = navigator.mediaDevices.enumerateDevices();
 
         let uploader = new SocketIOFileClient(socket);
         uploader.on('complete', function (fileInfo) {
