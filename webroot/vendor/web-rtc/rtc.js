@@ -34,8 +34,6 @@ window.addEventListener('load', () => {
         var initialised = false;
         var lastStateAudio;
         var lastStateVideo;
-        const devices = navigator.mediaDevices.enumerateDevices();
-
         let uploader = new SocketIOFileClient(socket);
         uploader.on('complete', function (fileInfo) {
             sendMsg('<a href="' + serverUrl + '/assets/' + fileInfo.name + '" target="_BLANK" style="margin-top:10px;" download><i class="fa fa-download fa-lg"></i>Download File</a>')
