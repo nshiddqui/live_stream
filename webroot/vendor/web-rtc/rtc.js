@@ -232,6 +232,7 @@ window.addEventListener('load', () => {
                 });
 
                 if (videoCamera !== {}) {
+                    alert(videoCamera);
                     broadcastNewTracks(myStream, 'video');
                 } else {
                     h.setLocalStream(stream);
