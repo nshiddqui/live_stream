@@ -81,12 +81,14 @@
             <i class="fa fa-2x fa-desktop text-primary"></i>
         </button>
     <?php } ?>
-    <button class="btn btn-sm rounded-0 btn-no-effect" id='record' title="Record">
-        <i class="fa fa-2x fa-dot-circle text-primary"></i>
-    </button>
-    <button class="btn btn-sm rounded-0 btn-no-effect" style="display: none;" id='resume-record' title="Pause Record">
-        <i class="fa fa-2x fa-pause text-danger"></i>
-    </button>
+    <?php if (!$mobile_user) { ?>
+        <button class="btn btn-sm rounded-0 btn-no-effect" id='record' title="Record">
+            <i class="fa fa-2x fa-dot-circle text-primary"></i>
+        </button>
+        <button class="btn btn-sm rounded-0 btn-no-effect" style="display: none;" id='resume-record' title="Pause Record">
+            <i class="fa fa-2x fa-pause text-danger"></i>
+        </button>
+    <?php } ?>
 
     <button class="btn btn-sm text-primary pull-right btn-no-effect" id='toggle-chat-pane'>
         <span class="badge badge-danger very-small font-weight-lighter" id='new-chat-notification' hidden>New</span><i class="fa fa-2x fa-comment text-primary"></i>

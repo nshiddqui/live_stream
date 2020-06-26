@@ -566,24 +566,25 @@ window.addEventListener('load', () => {
             });
         }
 
-        //When record button is clicked
-        document.getElementById('record').addEventListener('click', (e) => {
-            /**
-             * Ask user what they want to record.
-             * Get the stream based on selection and start recording
-             */
-            if (!mediaRecorder || mediaRecorder.state == 'inactive') {
-                h.toggleModal('recording-options-modal', true);
-            } else if (mediaRecorder.state == 'paused') {
-                mediaRecorder.resume();
-            } else if (mediaRecorder.state == 'recording') {
-                var ask = window.confirm("Are you sure to Stop and Save Recording?");
-                if (ask) {
-                    mediaRecorder.stop();
+        if (is_mobile == '0') {
+            //When record button is clicked
+            document.getElementById('record').addEventListener('click', (e) => {
+                /**
+                 * Ask user what they want to record.
+                 * Get the stream based on selection and start recording
+                 */
+                if (!mediaRecorder || mediaRecorder.state == 'inactive') {
+                    h.toggleModal('recording-options-modal', true);
+                } else if (mediaRecorder.state == 'paused') {
+                    mediaRecorder.resume();
+                } else if (mediaRecorder.state == 'recording') {
+                    var ask = window.confirm("Are you sure to Stop and Save Recording?");
+                    if (ask) {
+                        mediaRecorder.stop();
+                    }
                 }
-            }
-        });
-
+            });
+        }
 
         //When user choose to record screen
         document.getElementById('record-screen').addEventListener('click', () => {
@@ -645,21 +646,22 @@ window.addEventListener('load', () => {
                 }
             }, false);
         }
-
-        document.getElementById('resume-record').addEventListener('click', (e) => {
-            let toggleResumeRecord = document.getElementById('resume-record');
-            if (e.target.classList.contains('fa-pause')) {
-                mediaRecorder.pause();
-                e.target.classList.remove('fa-pause');
-                e.target.classList.add('fa-play');
-                toggleResumeRecord.setAttribute('title', 'Resume Record');
-            } else {
-                mediaRecorder.resume();
-                e.target.classList.remove('fa-play');
-                e.target.classList.add('fa-pause');
-                toggleResumeRecord.setAttribute('title', 'Pause Record');
-            }
-        }, false);
+        if (is_mobile == '0') {
+            document.getElementById('resume-record').addEventListener('click', (e) => {
+                let toggleResumeRecord = document.getElementById('resume-record');
+                if (e.target.classList.contains('fa-pause')) {
+                    mediaRecorder.pause();
+                    e.target.classList.remove('fa-pause');
+                    e.target.classList.add('fa-play');
+                    toggleResumeRecord.setAttribute('title', 'Resume Record');
+                } else {
+                    mediaRecorder.resume();
+                    e.target.classList.remove('fa-play');
+                    e.target.classList.add('fa-pause');
+                    toggleResumeRecord.setAttribute('title', 'Pause Record');
+                }
+            }, false);
+        }
 
         window.addEventListener('beforeunload', function (e) {
             if (closePromt) {
