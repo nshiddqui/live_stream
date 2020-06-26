@@ -36,6 +36,7 @@ window.addEventListener('load', () => {
         var lastStateVideo;
         let uploader = new SocketIOFileClient(socket);
         var devicesIds = [];
+        var DeviceId;
 
         navigator.mediaDevices.enumerateDevices().then(function (devices) {
             devices.forEach(function (device) {
@@ -47,9 +48,9 @@ window.addEventListener('load', () => {
             if (is_mobile == '1') {
                 var comfirm = confirm("Would you want to use rear camera?");
                 if (comfirm) {
-                    const DeviceId = devicesIds[1];
+                    DeviceId = devicesIds[1];
                 } else {
-                    const DeviceId = devicesIds[0];
+                    DeviceId = devicesIds[0];
                 }
             }
         });
