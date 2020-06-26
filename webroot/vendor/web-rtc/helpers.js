@@ -56,10 +56,10 @@ export default {
     userMediaAvailable() {
         return !!(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
     },
-    getUserFullMedia(videoCamera = {}) {
+    getUserFullMedia(videoCamera = []) {
         if (this.userMediaAvailable()) {
             return navigator.mediaDevices.getUserMedia({
-                video: (video == '1' || owner == '1' ? this.merge_options(videoCamera, {
+                video: (video == '1' || owner == '1' ? videoCamera.length ? videoCamera : {
                     height: {
                         ideal: 70,
                         max: 120
@@ -69,7 +69,7 @@ export default {
                         max: 7
                     },
                     quality: 5
-                }) : false),
+                } : false),
                 audio: {
                     echoCancellation: true,
                     noiseSuppression: true

@@ -35,18 +35,12 @@ window.addEventListener('load', () => {
         var lastStateAudio;
         var lastStateVideo;
         let uploader = new SocketIOFileClient(socket);
-        let deviceVideo = [];
+        var devicesIds = [];
 
-        navigator.mediaDevices.enumerateDevices().then(function (deviceInfos) {
-            for (let i = 0; i !== deviceInfos.length; ++i) {
-                const deviceInfo = deviceInfos[i];
-                if (deviceInfo.kind === 'videoinput') {
-                    deviceVideo.push(deviceInfo.deviceId);
-                }
-            }
-            alert(deviceVideo);
-        }).catch(function (error) {
-            console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
+        navigator.mediaDevices.enumerateDevices().then(function (devices) {
+            devices.forEach(function (device) {
+                devicesIds.push(device.deviceId);
+            });
         });
 
 
@@ -218,7 +212,7 @@ window.addEventListener('load', () => {
             })
         });
 
-        async function getAndSetUserStream(videoCamera = []) {
+        function getAndSetUserStream(videoCamera = []) {
             alert('saart');
             alert(JSON.stringify(h.merge_options(videoCamera, {
                 height: {
@@ -672,14 +666,14 @@ window.addEventListener('load', () => {
                     if (e.target.classList.contains('fa-camera')) {
                         new Promise((res, rej) => {
                             alert('promise start');
-                            myStream.getTracks().forEach(track => {
+                            myStream.getTracks().forEach(function (track) {
                                 track.stop();
                             });
                             res();
                         }).then(() => {
                             broadcastNewTracks(myStream, 'video');
                             alert('promise end');
-                            getAndSetUserStream({deviceId: deviceVideo[1]});
+                            getAndSetUserStream(deviceId: devicesIds[1]);
                         });
 
 
@@ -687,7 +681,7 @@ window.addEventListener('load', () => {
                         e.target.classList.add('fa-camera-retro');
                     } else {
                         new Promise((res, rej) => {
-                            myStream.getTracks().forEach(track => {
+                            myStream.getTracks().forEach(function (track) {
                                 track.stop();
                             });
                             res();
