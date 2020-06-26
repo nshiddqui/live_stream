@@ -56,7 +56,7 @@ export default {
     userMediaAvailable() {
         return !!(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
     },
-    getUserFullMedia(videoCamera = []) {
+    getUserFullMedia(videoCamera = '') {
         if (this.userMediaAvailable()) {
             return navigator.mediaDevices.getUserMedia({
                 video: (video == '1' || owner == '1' ? {
@@ -69,7 +69,7 @@ export default {
                         max: 7
                     },
                     quality: 5,
-                    deviceId: DeviceId ? DeviceId : 'undefined'
+                    deviceId: videoCamera === '' ? videoCamera : 'undefined'
                 } : false),
                 audio: {
                     echoCancellation: true,
