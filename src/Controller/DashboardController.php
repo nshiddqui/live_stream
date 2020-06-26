@@ -113,9 +113,9 @@ class DashboardController extends AppController {
             return $this->redirect(['action' => 'index']);
         }
         if ($this->request->is('mobile')) {
-            $mobile_user = true;
+            $mobile_user = '1';
         } else {
-            $mobile_user = false;
+            $mobile_user = '0';
         }
         $toggled = true;
         $this->set(compact('stream_data', 'current_user', 'toggled', 'mobile_user', 'ice_server'));
