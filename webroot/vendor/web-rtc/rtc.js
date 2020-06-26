@@ -659,11 +659,18 @@ window.addEventListener('load', () => {
             document.getElementById('toggle-camera').addEventListener('click', async (e) => {
                 if (deviceVideo.length > 1) {
                     if (e.target.classList.contains('fa-camera')) {
-                        myStream.getTracks().forEach(track => {
-                            track.stop();
+                        new Promise((res, rej) => {
+                            alert('promise start');
+                            myStream.getTracks().forEach(track => {
+                                track.stop();
+                            });
+                            res();
+                        }).then(() => {
+                            alert('promise end');
+                            getAndSetUserStream({deviceId: deviceVideo[1]});
                         });
 
-                        getAndSetUserStream({deviceId: deviceVideo[1]});
+
                         e.target.classList.remove('fa-camera');
                         e.target.classList.add('fa-camera-retro');
                     } else {
