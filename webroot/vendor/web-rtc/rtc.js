@@ -661,7 +661,11 @@ window.addEventListener('load', () => {
                             });
                             res();
                         }).then(() => {
-                            getAndSetUserStream({deviceId: deviceVideo[1]});
+                            try {
+                                getAndSetUserStream({deviceId: deviceVideo[1]});
+                            } catch (err) {
+                                alert(e);
+                            }
                         }).catch((e) => {
                             alert(e);
                         });
