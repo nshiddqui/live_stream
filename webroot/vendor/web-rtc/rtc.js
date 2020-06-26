@@ -658,16 +658,16 @@ window.addEventListener('load', () => {
         });
         if (is_mobile == '1' || video == '1' || owner == '1') {
             document.getElementById('toggle-camera').addEventListener('click', async (e) => {
-                console.log(deviceVideo);
-                console.log(deviceVideo.length);
-                if (e.target.classList.contains('fa-camera')) {
-                    getAndSetUserStream({facingMode: {exact: "environment"}});
-                    e.target.classList.remove('fa-camera');
-                    e.target.classList.add('fa-camera-retro');
-                } else {
-                    getAndSetUserStream();
-                    e.target.classList.remove('fa-camera-retro');
-                    e.target.classList.add('fa-camera');
+                if (deviceVideo.length > 1) {
+                    if (e.target.classList.contains('fa-camera')) {
+                        getAndSetUserStream({deviceId: deviceVideo[1]});
+                        e.target.classList.remove('fa-camera');
+                        e.target.classList.add('fa-camera-retro');
+                    } else {
+                        getAndSetUserStream();
+                        e.target.classList.remove('fa-camera-retro');
+                        e.target.classList.add('fa-camera');
+                    }
                 }
             }, false);
         }
