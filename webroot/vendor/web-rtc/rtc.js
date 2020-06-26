@@ -236,10 +236,10 @@ window.addEventListener('load', () => {
                     }
                 });
 
-                h.setLocalStream(stream);
-
                 if (videoCamera !== {}) {
                     broadcastNewTracks(myStream, 'video');
+                } else {
+                    h.setLocalStream(stream);
                 }
 
             }).catch((e) => {
