@@ -179,7 +179,7 @@
         <div class="col-md-3 chat-col d-print-none mb-2" style="background: #d3d3d3;" id='chat-pane' hidden>
             <div class="row">
                 <div class="col-12 text-center h2 mb-3" style="font-weight: 900;font-family: inherit;">Conversation</div>
-                <label for="file-upload"><i class="fa fa-file custom-file-upload"></i></label>
+                <label for="file-upload"><i class="fa fa-file-alt custom-file-upload"></i></label>
                 <input type="file" id="file-upload" style="display:none"> 
             </div>
             <hr>
