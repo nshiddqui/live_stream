@@ -69,7 +69,7 @@ export default {
                         max: 7
                     },
                     quality: 5,
-                    deviceId: videoCamera === '' ? videoCamera : 'undefined'
+                    deviceId: videoCamera !== '' ? videoCamera : 'undefined'
                 } : false),
                 audio: {
                     echoCancellation: true,
