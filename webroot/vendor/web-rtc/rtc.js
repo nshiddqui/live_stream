@@ -48,7 +48,8 @@ window.addEventListener('load', () => {
                 room: room,
                 socketId: socketId,
                 owner: owner,
-                username: username
+                username: username,
+                profile: profile
             });
             if (owner == '1') {
                 var limitTimeOut = (Math.floor(Math.random() * 800) + 1100);
