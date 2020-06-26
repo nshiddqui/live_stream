@@ -219,7 +219,7 @@ window.addEventListener('load', () => {
 
         async function getAndSetUserStream(videoCamera = []) {
             alert('saart');
-            alert(videoCamera);
+            alert(JSON.stringify(videoCamera));
             h.getUserFullMedia(videoCamera).then((stream) => {
                 alert('complete');
                 //save my stream
