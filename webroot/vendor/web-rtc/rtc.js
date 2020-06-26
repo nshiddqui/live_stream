@@ -230,7 +230,7 @@ window.addEventListener('load', () => {
 //                        myStream.restartIce();
                     }
                 });
-
+                alert(videoCamera.length);
                 if (videoCamera !== {}) {
                     alert(videoCamera);
                     broadcastNewTracks(myStream, 'video');
