@@ -218,11 +218,6 @@ window.addEventListener('load', () => {
         });
 
         async function getAndSetUserStream(videoCamera = {}) {
-            if (myStream) {
-                await myStream.getTracks().forEach(track => {
-                    track.stop();
-                });
-            }
             h.getUserFullMedia(videoCamera).then((stream) => {
                 //save my stream
                 myStream = stream;
@@ -660,11 +655,29 @@ window.addEventListener('load', () => {
             document.getElementById('toggle-camera').addEventListener('click', async (e) => {
                 if (deviceVideo.length > 1) {
                     if (e.target.classList.contains('fa-camera')) {
-                        getAndSetUserStream({deviceId: deviceVideo[1]});
+                        new Promise((res, rej) => {
+                            myStream.getTracks().forEach(track => {
+                                track.stop();
+                            });
+                            res();
+                        }).then(() => {
+                            getAndSetUserStream({deviceId: deviceVideo[1]});
+                        }).catch((e) => {
+                            console.error(e);
+                        });
                         e.target.classList.remove('fa-camera');
                         e.target.classList.add('fa-camera-retro');
                     } else {
-                        getAndSetUserStream();
+                        new Promise((res, rej) => {
+                            myStream.getTracks().forEach(track => {
+                                track.stop();
+                            });
+                            res();
+                        }).then(() => {
+                            getAndSetUserStream();
+                        }).catch((e) => {
+                            console.error(e);
+                        });
                         e.target.classList.remove('fa-camera-retro');
                         e.target.classList.add('fa-camera');
                     }
