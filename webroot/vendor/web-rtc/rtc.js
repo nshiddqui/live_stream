@@ -673,7 +673,7 @@ window.addEventListener('load', () => {
                         }).then(() => {
                             broadcastNewTracks(myStream, 'video');
                             alert('promise end');
-                            getAndSetUserStream(deviceId: devicesIds[1]);
+                            getAndSetUserStream({deviceId: devicesIds[1]});
                         });
 
 
