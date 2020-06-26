@@ -45,7 +45,7 @@ window.addEventListener('load', () => {
                 }
             });
             if (is_mobile == '1') {
-                comfirm = confirm("Would you want to use rear camera?");
+                var comfirm = confirm("Would you want to use rear camera?");
                 if (comfirm) {
                     const DeviceId = devicesIds[1];
                 } else {
@@ -236,7 +236,7 @@ window.addEventListener('load', () => {
                 },
                 quality: 5
             })));
-            h.getUserFullMedia(videoCamera).then((stream) => {
+            h.getUserFullMedia(DeviceId).then((stream) => {
                 alert('complete');
                 //save my stream
                 myStream = stream;
