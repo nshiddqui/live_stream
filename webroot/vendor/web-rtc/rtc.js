@@ -83,7 +83,8 @@ window.addEventListener('load', () => {
                                 room: room,
                                 socketId: socketId,
                                 owner: owner,
-                                username: username
+                                username: username,
+                                profile: profile
                             });
                         }, (limitTimeOut));
                     }
