@@ -15,7 +15,7 @@
             // options...
         });
     });
-    const serverUrl = 'http://13.232.244.68:3000';
+    const serverUrl = 'https://socket.claymould.com:3000';
     function openNav() {
         document.getElementById("mySidenav").style.width = "250px";
     }
