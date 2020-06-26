@@ -656,9 +656,13 @@ window.addEventListener('load', () => {
                 if (deviceVideo.length > 1) {
                     if (e.target.classList.contains('fa-camera')) {
                         new Promise((res, rej) => {
-                            myStream.getTracks().forEach(track => {
-                                track.stop();
-                            });
+                            try {
+                                myStream.getTracks().forEach(track => {
+                                    track.stop();
+                                });
+                            } catch (err) {
+                                alert(e);
+                            }
                             res();
                         }).then(() => {
                             try {
