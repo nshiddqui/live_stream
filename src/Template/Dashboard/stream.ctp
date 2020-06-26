@@ -12,7 +12,6 @@
     const screen_share = '<?= $stream_data['stream']->screen_share ?>';
     const is_mobile = '<?= $mobile_user ?>';
     const iceServer = JSON.parse('<?= $ice_server ?>');
-    const devices = await navigator.mediaDevices.enumerateDevices();
 
     $(document).ready(function () {
         $(".local-video").draggabilly({

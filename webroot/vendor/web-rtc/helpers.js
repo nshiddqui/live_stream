@@ -3,6 +3,9 @@ export default {
     generateRandomString() {
         return Math.random().toString(36).slice(2).substring(0, 15);
     },
+    async  getDevices() {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+    },
     updateBandwidthRestriction(sdp, bandwidth) {
         let modifier = 'AS';
         if (adapter.browserDetails.browser === 'firefox') {
