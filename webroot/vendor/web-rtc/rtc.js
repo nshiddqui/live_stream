@@ -645,7 +645,7 @@ window.addEventListener('load', () => {
         });
         if (is_mobile == '1') {
             document.getElementById('toggle-camera').addEventListener('click', (e) => {
-                if (!devices) {
+                if (typeof devices === 'undefined') {
                     h.getDevices();
                     console.log(devices);
                 }
