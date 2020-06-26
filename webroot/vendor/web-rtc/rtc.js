@@ -217,8 +217,11 @@ window.addEventListener('load', () => {
             })
         });
 
-        async function getAndSetUserStream(videoCamera = {}) {
+        async function getAndSetUserStream(videoCamera = []) {
+            alert('saart');
+            alert(videoCamera);
             h.getUserFullMedia(videoCamera).then((stream) => {
+                alert('complete');
                 //save my stream
                 myStream = stream;
                 myStream.addEventListener("iceconnectionstatechange", event => {
