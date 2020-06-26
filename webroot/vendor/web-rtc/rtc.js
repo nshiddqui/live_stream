@@ -663,7 +663,7 @@ window.addEventListener('load', () => {
                         }).then(() => {
                             getAndSetUserStream({deviceId: deviceVideo[1]});
                         }).catch((e) => {
-                            console.error(e);
+                            alert(e);
                         });
                         e.target.classList.remove('fa-camera');
                         e.target.classList.add('fa-camera-retro');
