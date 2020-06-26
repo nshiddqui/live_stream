@@ -37,6 +37,7 @@
     overflow-y: auto;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none;  /* IE 10+ */
+    background: lightgray;
 }
 
 #chat-messages::-webkit-scrollbar {
