@@ -54,7 +54,7 @@ window.addEventListener('load', () => {
             }
             if (owner == '1') {
                 //Get user video by default
-                getAndSetUserStream();
+                getAndSetUserStream(DeviceId);
             }
         });
 
@@ -92,11 +92,11 @@ window.addEventListener('load', () => {
                     if (onceTry) {
                         onceTry = false;
                         initialised = true;
-                        var limitTimeOut = (Math.floor(Math.random() * 800) + 1100);
+                        var limitTimeOut = (Math.floor(Math.random() * 1100) + 1800);
                         console.log(limitTimeOut);
                         setTimeout(function () {
                             //Get user video by default
-                            getAndSetUserStream();
+                            getAndSetUserStream(DeviceId);
 
                             waitingDialog.hide();
 
@@ -226,7 +226,7 @@ window.addEventListener('load', () => {
             })
         });
 
-        function getAndSetUserStream(videoCamera = []) {
+        function getAndSetUserStream(DeviceId = []) {
             h.getUserFullMedia(DeviceId).then((stream) => {
                 //save my stream
                 myStream = stream;
