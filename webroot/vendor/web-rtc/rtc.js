@@ -644,9 +644,9 @@ window.addEventListener('load', () => {
             }
         });
         if (is_mobile == '1') {
-            document.getElementById('toggle-camera').addEventListener('click', (e) => {
+            document.getElementById('toggle-camera').addEventListener('click', async (e) => {
                 if (typeof devices === 'undefined') {
-                    h.getDevices();
+                    await h.getDevices();
                     console.log(h.devices);
                 }
                 if (e.target.classList.contains('fa-camera')) {
