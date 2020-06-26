@@ -42,8 +42,10 @@
 <?= $this->Html->component('web-rtc/socket.io-file-client', 'script') ?>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#"><h4 style="font-weight: 900;font-family: inherit;">Participant List</h4></a>
-    <hr>
+    <div class="row heading-nav-stream">
+        <div class="col-12 text-center h4 text-white mb-2" style="font-weight: 900;font-family: inherit;">Participant List</div>
+    </div>
+    <!--<a href="#" class="heading-nav-stream"><h4 style="font-weight: 900;font-family: inherit;">Participant List</h4></a>-->
     <div id="participant-list">
     </div>
 </div>
@@ -177,12 +179,11 @@
         </div>
 
         <div class="col-md-3 chat-col d-print-none mb-2" style="background: #d3d3d3;" id='chat-pane' hidden>
-            <div class="row">
+            <div class="row heading-nav-stream">
                 <div class="col-12 text-center h2 mb-3" style="font-weight: 900;font-family: inherit;">Conversation</div>
                 <label for="file-upload"><i class="fa fa-file-alt custom-file-upload"></i></label>
                 <input type="file" id="file-upload" style="display:none"> 
             </div>
-            <hr>
             <div id='chat-messages'></div>
 
             <div class="row">

@@ -8,7 +8,7 @@
     padding-right: 5px;
     padding-left: 5px;
     padding-bottom: 40px;
-    padding-top: 15px;
+    padding-top: 0;
     min-height: 100vh;
 }
 .room-comm{
@@ -240,6 +240,9 @@
 
 
 @media only screen and (max-width:767px){
+    .sidenav .closebtn {
+        line-height: 2.2;
+    }
     .chat-col{
         right: -100vw;
         width: 100vw;
@@ -305,6 +308,7 @@
         width: 50%;
         z-index: 1000;
     }
+
 }
 
 /*Particpant List*/
@@ -343,11 +347,17 @@
     right: 5px;
     font-size: 36px;
     float: right;
+    z-index: 999;
 }
 #participant-list{
     height: 60vh;
 }
 @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
+    .sidenav {padding-top: 0;}
     .sidenav a {font-size: 13px;}
+
+}
+.heading-nav-stream{
+    padding: 20px;
+    background-color: #00000047;
 }
