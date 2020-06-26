@@ -44,6 +44,7 @@ window.addEventListener('load', () => {
                     deviceVideo.push(deviceInfo.deviceId);
                 }
             }
+            alert(deviceVideo);
         }).catch(function (error) {
             console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
         });
