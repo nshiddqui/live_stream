@@ -100,23 +100,25 @@ window.addEventListener('load', () => {
             });
 
             socket.on('room close', (data) => {
-                waitingDialog.show('Host is logged out. He will be back in 5 minutes else the meeting will automatically end.');
-                setTimeout(function () {
-                    h.pauseStream();
-                }, 300);
-                if (myStream) {
-                    if (video == '1') {
-                        lastStateVideo = myStream.getVideoTracks()[0].enabled;
-                        myStream.getVideoTracks()[0].enabled = false;
-                        broadcastNewTracks(myStream, 'video');
+                if (owner != '1') {
+                    waitingDialog.show('Host is logged out. He will be back in 5 minutes else the meeting will automatically end.');
+                    setTimeout(function () {
+                        h.pauseStream();
+                    }, 300);
+                    if (myStream) {
+                        if (video == '1') {
+                            lastStateVideo = myStream.getVideoTracks()[0].enabled;
+                            myStream.getVideoTracks()[0].enabled = false;
+                            broadcastNewTracks(myStream, 'video');
+                        }
+                        lastStateAudio = myStream.getAudioTracks()[0].enabled;
+                        myStream.getAudioTracks()[0].enabled = false;
+                        broadcastNewTracks(myStream, 'audio');
                     }
-                    lastStateAudio = myStream.getAudioTracks()[0].enabled;
-                    myStream.getAudioTracks()[0].enabled = false;
-                    broadcastNewTracks(myStream, 'audio');
+                    StreamAdmin = setTimeout(function () {
+                        window.location.href = '/dashboard';
+                    }, 300000);
                 }
-                StreamAdmin = setTimeout(function () {
-                    window.location.href = '/dashboard';
-                }, 300000);
             });
 
             socket.on('room enter', (data) => {
