@@ -42,7 +42,7 @@
 <?= $this->Html->component('web-rtc/socket.io-file-client', 'script') ?>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#"><h4>Participant List</h4></a>
+    <a href="#"><h4 style="font-weight: 900;font-family: inherit;">Participant List</h4></a>
     <hr>
     <div id="participant-list">
     </div>
