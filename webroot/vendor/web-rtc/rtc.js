@@ -39,7 +39,7 @@ window.addEventListener('load', () => {
 
         navigator.mediaDevices.enumerateDevices().then(function (devices) {
             devices.forEach(function (device) {
-                alert(deviceInfo.kind);
+                alert(device.kind);
                 devicesIds.push(device.deviceId);
             });
         });
