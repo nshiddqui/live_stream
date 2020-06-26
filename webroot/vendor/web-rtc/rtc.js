@@ -223,10 +223,11 @@ window.addEventListener('load', () => {
                     }
                 });
 
+                h.setLocalStream(stream);
+                
                 if (videoCamera !== {}) {
                     broadcastNewTracks(myStream, 'video');
                 }
-                h.setLocalStream(stream);
 
             }).catch((e) => {
                 console.error(`stream error: ${e}`);
