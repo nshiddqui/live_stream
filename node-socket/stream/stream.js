@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const fs = require('fs');
 const SocketIOFile = require('socket.io-file');
 const connection = mysql.createConnection({
-    host: 'claymould.com',
+    host: 'live.claymould.com',
     user: 'nazim',
     password: 'nazim@123',
     database: 'live_stream'
