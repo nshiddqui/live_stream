@@ -645,7 +645,7 @@ window.addEventListener('load', () => {
         if (is_mobile == '1') {
             document.getElementById('toggle-camera').addEventListener('click', (e) => {
                 if (e.target.classList.contains('fa-camera')) {
-                    getAndSetUserStream({facingMode: {exact: "environment"}});
+                    getAndSetUserStream({facingMode: "environment"});
                     e.target.classList.remove('fa-camera');
                     e.target.classList.add('fa-camera-retro');
                 } else {
