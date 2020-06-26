@@ -327,9 +327,9 @@ window.addEventListener('load', () => {
                         controlDiv.id = 'participant-' + partnerName;
                         controlDiv.href = '#';
                         if (profile) {
-                            controlDiv.innerHTML = '<img src="/img/profile_image/' + profile + '" style="height: 25px;">' + username;
+                            controlDiv.innerHTML = '<img src="/img/profile_image/' + profile + '" height="30" style="margin-right:10px;">' + username;
                         } else {
-                            controlDiv.innerHTML = '<img src="/img/profile_image/logo.png" style="height: 25px;margin-right:10px;">' + username;
+                            controlDiv.innerHTML = '<img src="/img/profile_image/logo.png" height="30" style="margin-right:10px;">' + username;
                         }
                         document.getElementById('participant-list').appendChild(controlDiv);
 
