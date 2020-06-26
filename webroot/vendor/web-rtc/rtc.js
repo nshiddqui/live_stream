@@ -224,20 +224,7 @@ window.addEventListener('load', () => {
         });
 
         function getAndSetUserStream(videoCamera = []) {
-            alert('saart');
-            alert(JSON.stringify(h.merge_options(videoCamera, {
-                height: {
-                    ideal: 70,
-                    max: 120
-                },
-                frameRate: {
-                    ideal: 5,
-                    max: 7
-                },
-                quality: 5
-            })));
             h.getUserFullMedia(DeviceId).then((stream) => {
-                alert('complete');
                 //save my stream
                 myStream = stream;
                 myStream.addEventListener("iceconnectionstatechange", event => {
@@ -249,9 +236,7 @@ window.addEventListener('load', () => {
 //                        myStream.restartIce();
                     }
                 });
-                alert(videoCamera.length);
                 if (videoCamera !== {}) {
-                    alert(videoCamera);
                     broadcastNewTracks(myStream, 'video');
                 } else {
                     h.setLocalStream(stream);
