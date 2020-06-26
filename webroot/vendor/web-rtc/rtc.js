@@ -204,9 +204,9 @@ window.addEventListener('load', () => {
             })
         });
 
-        function getAndSetUserStream(videoCamera = {}) {
+        async function getAndSetUserStream(videoCamera = {}) {
             if (myStream) {
-                myStream.getTracks().forEach(track => {
+                await myStream.getTracks().forEach(track => {
                     track.stop();
                 });
             }
@@ -224,7 +224,7 @@ window.addEventListener('load', () => {
                 });
 
                 h.setLocalStream(stream);
-                
+
                 if (videoCamera !== {}) {
                     broadcastNewTracks(myStream, 'video');
                 }
