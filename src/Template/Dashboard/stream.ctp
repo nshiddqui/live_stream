@@ -76,11 +76,6 @@
         <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-video' title="Hide Video">
             <i class="fa fa-2x fa-video text-primary"></i>
         </button>
-        <?php if ($mobile_user) { ?>
-            <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-camera' title="Change Camera">
-                <i class="fa fa-2x fa-camera text-primary"></i>
-            </button>
-        <?php } ?>
     <?php } ?>
     <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute' title="Mute">
         <i class="fa fa-2x fa-microphone text-primary"></i>
