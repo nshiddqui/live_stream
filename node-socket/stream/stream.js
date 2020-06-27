@@ -48,6 +48,9 @@ const stream = (socket) => {
                 profile: data.profile
             };
         }
+        if (data.owner == '1') {
+            initializeData(true);
+        }
         if (streamData[setSocket.room]) {
             if (data.owner != '1' && getAdminJoined()) {
                 socket.emit('admin join', {socketId: data.socketId, username: data.username});
@@ -61,22 +64,10 @@ const stream = (socket) => {
         }
     });
     socket.on('subscribe', (data) => {
-        let sql = "UPDATE `streams` SET `is_active` = 1 WHERE `streams`.`request_token` = ?";
-        let updateData = [data.room];
-        // execute the UPDATE statement
-
-        connection.query(sql, updateData);
-
-        //Inform other members in the room of new user's arrival
-        console.log('new user start');
-        if (data.owner != '1') {
-            if (getScreenSetting() && getScreenSetting() == 'on') {
-                socket.emit('screen sharing on', {socketId: data.socketId});
-            }
-        } else {
-            initializeData(true);
-        }
         socket.to(data.room).emit('new user', {socketId: data.socketId, username: data.username, profile: data.profile});
+        if (getScreenSetting() && getScreenSetting() == 'on') {
+            socket.emit('screen sharing on', {socketId: data.socketId});
+        }
     });
 
 
