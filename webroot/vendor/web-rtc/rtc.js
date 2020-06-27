@@ -198,7 +198,7 @@ window.addEventListener('load', () => {
                             h.setLocalStream(stream);
                         }
 
-                        answer.sdp = h.updateBandwidthRestriction(answer.sdp, 20);
+//                        answer.sdp = h.updateBandwidthRestriction(answer.sdp, 20);
 
                         await pc[data.sender].setLocalDescription(answer);
 
@@ -269,7 +269,7 @@ window.addEventListener('load', () => {
 
 
         function init(createOffer, partnerName, username = false, profile = false) {
-            pc[partnerName] = new RTCPeerConnection(h.getIceServer());
+            pc[partnerName] = new RTCPeerConnection(h.getIceServer(), {optional: [{"googSuspendBelowMinBitrate": true}]});
 
             if (screen && screen.getTracks().length) {
                 screen.getTracks().forEach((track) => {
@@ -300,7 +300,7 @@ window.addEventListener('load', () => {
             if (createOffer) {
                 pc[partnerName].onnegotiationneeded = async () => {
                     let offer = await pc[partnerName].createOffer();
-                    offer.sdp = h.updateBandwidthRestriction(offer.sdp, 125);
+//                    offer.sdp = h.updateBandwidthRestriction(offer.sdp, 125);
                     await pc[partnerName].setLocalDescription(offer);
 
                     socket.emit('sdp', {description: pc[partnerName].localDescription, to: partnerName, sender: socketId});
