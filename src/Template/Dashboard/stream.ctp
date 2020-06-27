@@ -44,7 +44,7 @@
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <div class="row heading-nav-stream">
-        <div class="col-12 text-center h4 text-white mb-2" style="font-weight: 900;font-family: inherit;">Participant List</div>
+        <div class="col-12 text-center h4 text-white mb-2" style="font-weight: 900;font-family: inherit;">Participants List</div>
     </div>
     <!--<a href="#" class="heading-nav-stream"><h4 style="font-weight: 900;font-family: inherit;">Participant List</h4></a>-->
     <div id="participant-list">
