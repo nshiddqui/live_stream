@@ -44,7 +44,7 @@ window.addEventListener('load', () => {
                     devicesIds.push(device.deviceId);
                 }
             });
-            if (is_mobile == '1') {
+            if (is_mobile == '1' && video == '1') {
                 var comfirm = confirm("Would you want to use rear camera?");
                 if (comfirm) {
                     DeviceId = devicesIds[1];
