@@ -309,7 +309,7 @@ class UsersController extends AppController {
         $userDetails->token = null;
         $userDetails->token_expire = null;
         if ($this->Users->save($userDetails)) {
-            $this->Flash->success(__('Your account is activate, please login.'));
+            $this->Flash->success(__('Your account has been activated. Please login with your credential.'));
         } else {
             $this->Flash->error(__('Unable to activate your account, please try again later.'));
         }
