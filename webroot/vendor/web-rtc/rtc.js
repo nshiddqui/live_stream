@@ -56,174 +56,177 @@ window.addEventListener('load', () => {
                 //Get user video by default
                 getAndSetUserStream(DeviceId);
             }
-        });
 
 
-        uploader.on('complete', function (fileInfo) {
-            sendMsg('<a href="' + serverUrl + '/assets/' + fileInfo.name + '" target="_BLANK" style="margin-top:10px;" download><i class="fa fa-download fa-lg"></i>Download File</a>')
-        });
-
-        socket.on('connect', () => {
-            //set socketId
-            socketId = socket.io.engine.id;
-
-            socket.emit('initial', {
-                room: room,
-                socketId: socketId,
-                owner: owner,
-                username: username,
-                profile: profile
+            uploader.on('complete', function (fileInfo) {
+                sendMsg('<a href="' + serverUrl + '/assets/' + fileInfo.name + '" target="_BLANK" style="margin-top:10px;" download><i class="fa fa-download fa-lg"></i>Download File</a>')
             });
-            if (owner == '1') {
-                var limitTimeOut = (Math.floor(Math.random() * 800) + 1100);
-                console.log(limitTimeOut);
-                setTimeout(function () {
-                    socket.emit('subscribe', {
-                        room: room,
-                        socketId: socketId,
-                        owner: owner,
-                        username: username,
-                        profile: profile
-                    });
-                }, (limitTimeOut));
-            } else {
-                waitingDialog.show('Please wait for admin to start meating.');
-                socket.on('admin join', (data) => {
-                    if (onceTry) {
-                        onceTry = false;
-                        initialised = true;
-                        var limitTimeOut = (Math.floor(Math.random() * 1100) + 1800);
-                        console.log(limitTimeOut);
-                        setTimeout(function () {
+
+            socket.on('connect', () => {
+                //set socketId
+                socketId = socket.io.engine.id;
+
+                socket.emit('initial', {
+                    room: room,
+                    socketId: socketId,
+                    owner: owner,
+                    username: username,
+                    profile: profile
+                });
+                if (owner == '1') {
+                    var limitTimeOut = (Math.floor(Math.random() * 800) + 1100);
+                    console.log(limitTimeOut);
+                    setTimeout(function () {
+                        socket.emit('subscribe', {
+                            room: room,
+                            socketId: socketId,
+                            owner: owner,
+                            username: username,
+                            profile: profile
+                        });
+                    }, (limitTimeOut));
+                } else {
+                    waitingDialog.show('Please wait for admin to start meating.');
+                    socket.on('admin join', (data) => {
+                        if (onceTry) {
+                            onceTry = false;
+                            initialised = true;
                             //Get user video by default
                             getAndSetUserStream(DeviceId);
 
-                            waitingDialog.hide();
+                            var limitTimeOut = (Math.floor(Math.random() * 1100) + 1800);
+                            console.log(limitTimeOut);
+                            setTimeout(function () {
+
+                                waitingDialog.hide();
 
 
-                            socket.emit('subscribe', {
-                                room: room,
-                                socketId: socketId,
-                                owner: owner,
-                                username: username,
-                                profile: profile
-                            });
-                        }, (limitTimeOut));
+                                socket.emit('subscribe', {
+                                    room: room,
+                                    socketId: socketId,
+                                    owner: owner,
+                                    username: username,
+                                    profile: profile
+                                });
+                            }, (limitTimeOut));
+                        }
+                    });
+                }
+
+
+                socket.on('new user', (data) => {
+                    console.log(data);
+                    socket.emit('newUserStart', {to: data.socketId, sender: socketId});
+                    pc.push(data.socketId);
+                    init(true, data.socketId, data.username, data.profile);
+                });
+
+                socket.on('room close', (data) => {
+                    if (owner != '1') {
+                        waitingDialog.show('Host is logged out. He will be back in 5 minutes else the meeting will automatically end.');
+                        setTimeout(function () {
+                            h.pauseStream();
+                        }, 300);
+                        if (myStream) {
+                            if (video == '1') {
+                                lastStateVideo = myStream.getVideoTracks()[0].enabled;
+                                myStream.getVideoTracks()[0].enabled = false;
+                                broadcastNewTracks(myStream, 'video');
+                            }
+                            lastStateAudio = myStream.getAudioTracks()[0].enabled;
+                            myStream.getAudioTracks()[0].enabled = false;
+                            broadcastNewTracks(myStream, 'audio');
+                        }
+                        StreamAdmin = setTimeout(function () {
+                            window.location.href = '/dashboard';
+                        }, 300000);
                     }
                 });
-            }
 
-
-            socket.on('new user', (data) => {
-                console.log(data);
-                socket.emit('newUserStart', {to: data.socketId, sender: socketId});
-                pc.push(data.socketId);
-                init(true, data.socketId, data.username, data.profile);
-            });
-
-            socket.on('room close', (data) => {
-                if (owner != '1') {
-                    waitingDialog.show('Host is logged out. He will be back in 5 minutes else the meeting will automatically end.');
-                    setTimeout(function () {
-                        h.pauseStream();
-                    }, 300);
-                    if (myStream) {
-                        if (video == '1') {
-                            lastStateVideo = myStream.getVideoTracks()[0].enabled;
-                            myStream.getVideoTracks()[0].enabled = false;
-                            broadcastNewTracks(myStream, 'video');
+                socket.on('room enter', (data) => {
+                    if (owner != '1' && initialised) {
+                        waitingDialog.hide();
+                        h.continueStream();
+                        if (myStream) {
+                            if (video == '1') {
+                                myStream.getVideoTracks()[0].enabled = lastStateVideo ? lastStateVideo : false;
+                                broadcastNewTracks(myStream, 'video');
+                            }
+                            myStream.getAudioTracks()[0].enabled = lastStateAudio ? lastStateAudio : false;
+                            broadcastNewTracks(myStream, 'audio');
                         }
-                        lastStateAudio = myStream.getAudioTracks()[0].enabled;
-                        myStream.getAudioTracks()[0].enabled = false;
-                        broadcastNewTracks(myStream, 'audio');
+                        clearTimeout(StreamAdmin);
                     }
-                    StreamAdmin = setTimeout(function () {
-                        window.location.href = '/dashboard';
-                    }, 300000);
-                }
-            });
+                });
 
-            socket.on('room enter', (data) => {
-                if (owner != '1' && initialised) {
-                    waitingDialog.hide();
-                    h.continueStream();
-                    if (myStream) {
-                        if (video == '1') {
-                            myStream.getVideoTracks()[0].enabled = lastStateVideo ? lastStateVideo : false;
-                            broadcastNewTracks(myStream, 'video');
-                        }
-                        myStream.getAudioTracks()[0].enabled = lastStateAudio ? lastStateAudio : false;
-                        broadcastNewTracks(myStream, 'audio');
+                socket.on('screen sharing off', (data) => {
+                    console.log('screen close');
+                    if (data.socketId !== socketId) {
+                        screenSharing = true;
+                        document.getElementById('share-screen').disabled = false;
                     }
-                    clearTimeout(StreamAdmin);
-                }
-            });
+                });
 
-            socket.on('screen sharing off', (data) => {
-                console.log('screen close');
-                if (data.socketId !== socketId) {
-                    screenSharing = true;
-                    document.getElementById('share-screen').disabled = false;
-                }
-            });
-
-            socket.on('screen sharing on', (data) => {
-                console.log('screen on');
-                if (data.socketId !== socketId) {
-                    screenSharing = false;
-                    document.getElementById('share-screen').disabled = true;
-                }
-            });
+                socket.on('screen sharing on', (data) => {
+                    console.log('screen on');
+                    if (data.socketId !== socketId) {
+                        screenSharing = false;
+                        document.getElementById('share-screen').disabled = true;
+                    }
+                });
 
 
-            socket.on('newUserStart', (data) => {
-                pc.push(data.sender);
-                init(false, data.sender, data.username, data.profile);
-            });
+                socket.on('newUserStart', (data) => {
+                    pc.push(data.sender);
+                    init(false, data.sender, data.username, data.profile);
+                });
 
 
-            socket.on('ice candidates', async (data) => {
-                data.candidate ? await pc[data.sender].addIceCandidate(new RTCIceCandidate(data.candidate)) : '';
-            });
+                socket.on('ice candidates', async (data) => {
+                    data.candidate ? await pc[data.sender].addIceCandidate(new RTCIceCandidate(data.candidate)) : '';
+                });
 
 
-            socket.on('sdp', async (data) => {
-                if (data.description.type === 'offer') {
-                    data.description ? await pc[data.sender].setRemoteDescription(new RTCSessionDescription(data.description)) : '';
+                socket.on('sdp', async (data) => {
+                    if (data.description.type === 'offer') {
+                        data.description ? await pc[data.sender].setRemoteDescription(new RTCSessionDescription(data.description)) : '';
 
-                    let answer = await pc[data.sender].createAnswer();
+                        let answer = await pc[data.sender].createAnswer();
 
-                    h.getUserFullMedia().then(async (stream) => {
-                        if (!document.getElementById('local').srcObject) {
-                            h.setLocalStream(stream);
-                        }
+                        h.getUserFullMedia().then(async (stream) => {
+                            if (!document.getElementById('local').srcObject) {
+                                h.setLocalStream(stream);
+                            }
 
 //                        answer.sdp = h.updateBandwidthRestriction(answer.sdp, 20);
 
-                        await pc[data.sender].setLocalDescription(answer);
+                            await pc[data.sender].setLocalDescription(answer);
 
-                        socket.emit('sdp', {description: pc[data.sender].localDescription, to: data.sender, sender: socketId});
+                            socket.emit('sdp', {description: pc[data.sender].localDescription, to: data.sender, sender: socketId});
 
 
-                        //save my stream
-                        myStream = stream;
+                            //save my stream
+                            myStream = stream;
 
-                        stream.getTracks().forEach((track) => {
-                            pc[data.sender].addTrack(track, stream);
+                            stream.getTracks().forEach((track) => {
+                                pc[data.sender].addTrack(track, stream);
+                            });
+
+                        }).catch((e) => {
+                            console.error(e);
                         });
+                    } else if (data.description.type === 'answer') {
+                        await pc[data.sender].setRemoteDescription(new RTCSessionDescription(data.description));
+                    }
+                });
 
-                    }).catch((e) => {
-                        console.error(e);
-                    });
-                } else if (data.description.type === 'answer') {
-                    await pc[data.sender].setRemoteDescription(new RTCSessionDescription(data.description));
-                }
+
+                socket.on('chat', (data) => {
+                    h.addChat(data, 'remote');
+                })
             });
 
 
-            socket.on('chat', (data) => {
-                h.addChat(data, 'remote');
-            })
         });
 
         function getAndSetUserStream(DeviceId = []) {
