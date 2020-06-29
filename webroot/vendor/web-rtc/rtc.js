@@ -302,7 +302,7 @@ window.addEventListener('load', () => {
             //create offer
             if (createOffer) {
                 pc[partnerName].onnegotiationneeded = async () => {
-                    let offer = await pc[partnerName].createOffer();
+                    let offer = await pc[partnerName].createOffer({"iceRestart": true});
 //                    offer.sdp = h.updateBandwidthRestriction(offer.sdp, 125);
                     await pc[partnerName].setLocalDescription(offer);
 
