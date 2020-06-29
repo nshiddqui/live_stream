@@ -189,7 +189,7 @@ window.addEventListener('load', () => {
 
                 socket.on('sdp', async (data) => {
                     if (data.description.type === 'offer') {
-                        data.description ? await pc[data.sender].setRemoteDescription(new RTCSessionDescription(data.description)) : '';
+                        await pc[data.sender].setRemoteDescription(new RTCSessionDescription(data.description));
 
                         let answer = await pc[data.sender].createAnswer();
 
