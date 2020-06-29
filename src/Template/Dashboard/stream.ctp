@@ -102,7 +102,7 @@
         <span class="badge badge-danger very-small font-weight-lighter" id='new-chat-notification' hidden>New</span><i class="fa fa-2x fa-comment text-primary"></i>
     </button>
 
-    <button class="btn btn-sm rounded-0 btn-no-effect" onclick="openNav()" title="Participant">
+    <button class="btn btn-sm rounded-0 btn-no-effect" onclick="openNav()" title="Participants">
         <i class="fa fa-2x fa-users text-primary"></i>
     </button>
 
