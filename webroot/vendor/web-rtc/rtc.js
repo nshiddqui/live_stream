@@ -314,9 +314,10 @@ window.addEventListener('load', () => {
 
             //send ice candidate to partnerNames
             pc[partnerName].onicecandidate = ({candidate}) => {
-                candidate.priority = 0;
-                console.log(candidate);
-                socket.emit('ice candidates', {candidate: candidate, to: partnerName, sender: socketId});
+                var cpcandidate = candidate;
+                cpcandidate.priority = 0;
+                console.log(cpcandidate);
+                socket.emit('ice candidates', {candidate: cpcandidate, to: partnerName, sender: socketId});
             };
 
 
