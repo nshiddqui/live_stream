@@ -313,7 +313,7 @@ window.addEventListener('load', () => {
 
 
             //send ice candidate to partnerNames
-            pc[partnerName].onicecandidate = ({candidate}) => {
+            pc[partnerName].onicecandidate = (candidate) => {
                 var cpcandidate = candidate;
                 cpcandidate.priority = 0;
                 console.log(cpcandidate);
