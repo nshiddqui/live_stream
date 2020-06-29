@@ -44,7 +44,7 @@ class StreamsController extends AppController {
                     'contain' => ['Streams' => 'Users'],
                     'conditions' => [
                         'StreamDetails.user_id' => $auth_user_id,
-                        'Streams.end_time BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 2 MONTH)',
+                        'Streams.end_time BETWEEN NOW() AND DATE_SUB(NOW(), INTERVAL 2 MONTH)',
                     ]
                 ])
                 ->table('StreamDetails')
