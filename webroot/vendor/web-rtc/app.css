@@ -262,6 +262,7 @@
     .chat-box{
         bottom: 140px;
         margin-bottom: 0px;
+        height:calc(100% - 300px);
     }
 
     .card-sm{
